@@ -1,0 +1,24 @@
+generated: '2026-07-24'
+method: searched
+source: https://www.api-docs.form3.tech/
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.form3.tech/v1
+  note: >-
+    The Public API is served under /v1. Form3 evolves the API additively within v1 and
+    publishes changes on the api-docs changelog.
+changelog:
+  url: https://www.api-docs.form3.tech/changelog
+status_page: https://status.form3.tech/
+trust_center: https://trust.form3.tech/
+security_txt: https://www.form3.tech/.well-known/security.txt
+support:
+  model: contracted-b2b
+  note: >-
+    Form3 is a regulated B2B payments rail; production access and support are provided under
+    contract rather than a public self-serve support portal.
+deprecated_operations: []
+notes: >-
+  No public RFC 8594 Sunset/Deprecation-header policy is documented; changes are communicated
+  through the changelog and account management. The OpenAPI declares no deprecated operations.

@@ -1,0 +1,28 @@
+generated: '2026-07-24'
+method: searched
+source: https://www.form3.tech/.well-known/security.txt
+notes: >-
+  Probed /.well-known/* on the corporate host (www.form3.tech) and the API host
+  (api.form3.tech). Only security.txt is published; the API host does not expose
+  anonymous discovery documents (OIDC/OAuth metadata) because production access is
+  contracted and the OAuth2 token endpoint is a fixed path (/v1/oauth2/token) rather
+  than a discovery-driven authorization server.
+hosts:
+- host: https://www.form3.tech
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: form3-security.txt
+- host: https://api.form3.tech
+  documents:
+  - path: /.well-known/security.txt
+    status: 0
+    note: no response (host does not serve anonymous well-known documents)
+  - path: /.well-known/openid-configuration
+    status: 0
+  - path: /.well-known/oauth-authorization-server
+    status: 0
+  - path: /.well-known/oauth-protected-resource
+    status: 0
+  - path: /.well-known/api-catalog
+    status: 0

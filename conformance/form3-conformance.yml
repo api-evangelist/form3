@@ -1,0 +1,48 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/form3-payments.yml
+compliance_page: https://trust.form3.tech/
+standards:
+- id: json-api
+  conforms: true
+  evidence: >-
+    Resources use the json:api envelope (data/type/id/attributes/relationships/links);
+    media type application/vnd.api+json; pagination via page[number]/page[size]/page[after]
+    and filtering via filter[<attr>].
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: securityDefinitions declares OAuth2 with the application (client-credentials) flow;
+    tokenUrl https://api.form3.tech/v1/oauth2/token.
+- id: http-message-signatures
+  conforms: true
+  evidence: >-
+    Requests are signed per the HTTP Message Signatures RFC; Form3 publishes reference
+    implementations (go-http-message-signatures, http-message-signing-proxy).
+- id: mutual-tls
+  conforms: true
+  evidence: mTLS is used in some environments per the developer documentation.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Error envelope is a flat { error_code, error_message } object (ApiError), not
+    application/problem+json.
+- id: psd2
+  conforms: true
+  evidence: >-
+    Form3 operates regulated UK/EU payment schemes (Faster Payments, Bacs, CHAPS, SEPA)
+    within the PSD2 regulatory regime as a payments-technology provider to banks and fintechs.
+- id: iso20022
+  conforms: true
+  evidence: >-
+    Payment scheme messaging (SEPA, CHAPS and modern Faster Payments) is ISO 20022 based;
+    the platform maps its json:api resources to scheme ISO 20022 messages.
+- id: soc2
+  conforms: true
+  evidence: SOC 2 attested per trust.form3.tech.
+- id: iso27001
+  conforms: true
+  evidence: ISO/IEC 27001 (plus 27017 and 27018) certified per trust.form3.tech.
+certifications:
+- SOC 2
+- ISO 27001
+- ISO 27017
+- ISO 27018

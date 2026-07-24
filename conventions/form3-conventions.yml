@@ -1,0 +1,86 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/form3-payments.yml
+notes: >-
+  Cross-cutting request/response semantics for the Form3 Public API, derived from the
+  Swagger 2.0 definition (host api.form3.tech, basePath /v1) and Form3's json:api model.
+  The API follows the json:api specification for resource envelopes, pagination and errors.
+media_type:
+  request: application/vnd.api+json
+  response: application/vnd.api+json
+  also_accepts: application/json
+authentication:
+  style: oauth2-client-credentials
+  token_endpoint: https://api.form3.tech/v1/oauth2/token
+  request_signing:
+    scheme: HTTP Message Signatures
+    note: >-
+      Requests are signed per the HTTP Message Signatures RFC; reference implementations
+      are published at form3tech-oss/go-http-message-signatures and http-message-signing-proxy.
+      Mutual TLS is used in some environments. See authentication/form3-authentication.yml.
+idempotency:
+  supported: true
+  mechanism: client-generated-resource-id
+  detail: >-
+    Form3 does not use an Idempotency-Key header. Instead every resource is created with a
+    client-supplied UUID `id` (and `organisation_id`). Re-submitting a create with an id that
+    already exists is a safe no-op that returns HTTP 409 Conflict carrying the already-stored
+    resource (schema ApiErrorWithActualResource.actual_resource), so retries after a network
+    failure never double-book a payment. This client-side-id pattern is the API's idempotency
+    contract for all POST creates.
+  conflict_response: '409'
+  conflict_schema: ApiErrorWithActualResource
+concurrency:
+  style: optimistic
+  field: version
+  detail: >-
+    Mutable resources carry an integer `version`; updates (PATCH) supply the expected version
+    for optimistic-concurrency control.
+pagination:
+  style: json:api
+  params:
+  - page[number]
+  - page[size]
+  - page[after]
+  default_page_size: 100
+  cursor_param: page[after]
+  response_fields:
+  - links.self
+  - links.first
+  - links.next
+  - links.last
+filtering:
+  style: json:api
+  pattern: filter[<attribute>]
+  examples:
+  - filter[organisation_id]
+  - filter[payment_scheme]
+  - filter[submission.status]
+  - filter[admission.status]
+  - filter[processing_date_from]
+  - filter[processing_date_to]
+resource_envelope:
+  request: '{ "data": { "type": "<resource>", "id": "<uuid>", "organisation_id": "<uuid>", "attributes": { ... } } }'
+  response: '{ "data": { ... }, "links": { ... } }'
+error_envelope:
+  format: form3-json
+  fields:
+  - error_code (uuid)
+  - error_message (string)
+  schema: ApiError
+  note: Not RFC 9457. See errors/form3-problem-types.yml.
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.form3.tech/v1
+events:
+  surface: webhooks
+  detail: >-
+    Asynchronous processing results (admissions/submissions) are delivered via event
+    notification subscriptions. See asyncapi/form3-notifications-webhooks.yml.
+cross_links:
+  authentication: authentication/form3-authentication.yml
+  errors: errors/form3-problem-types.yml
+  lifecycle: lifecycle/form3-lifecycle.yml
+  webhooks: asyncapi/form3-notifications-webhooks.yml
+  data_model: data-model/form3-data-model.yml

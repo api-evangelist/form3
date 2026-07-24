@@ -1,0 +1,57 @@
+generated: '2026-07-24'
+method: derived
+status: candidate
+source: openapi/form3-payments.yml
+notes: >-
+  Form3 does not publish an official hosted MCP server. This is a candidate tool surface
+  derived from the marquee Form3 Public API operations, one tool per operationId, that could
+  back an MCP server. Each tool inherits its input contract from the referenced OpenAPI
+  operation's parameters and requestBody. Auth (OAuth2 client-credentials + HTTP Message
+  Signatures) would be handled by the server, not exposed as tool inputs.
+server:
+  name: form3
+  transport: http
+  url: null
+tools:
+- name: list_payments
+  description: List payments, filterable by organisation and scheme.
+  source_operation: openapi/form3-payments.yml#ListPayments
+- name: create_payment
+  description: Create a payment resource (client-supplied UUID id makes creates idempotent).
+  source_operation: openapi/form3-payments.yml#CreatePayment
+- name: get_payment
+  description: Fetch a payment by id.
+  source_operation: openapi/form3-payments.yml#GetPayment
+- name: create_payment_submission
+  description: Submit a created payment to its scheme.
+  source_operation: openapi/form3-payments.yml#CreatePaymentSubmission
+- name: get_payment_submission
+  description: Fetch the submission status of a payment.
+  source_operation: openapi/form3-payments.yml#GetPaymentSubmission
+- name: create_payment_return
+  description: Return a received payment.
+  source_operation: openapi/form3-payments.yml#CreatePaymentReturn
+- name: create_payment_reversal
+  description: Reverse a payment.
+  source_operation: openapi/form3-payments.yml#CreatePaymentReversal
+- name: create_name_verification
+  description: Run a Confirmation of Payee / Verification of Payee name check.
+  source_operation: openapi/form3-payments.yml#CreateNameVerification
+- name: get_name_verification
+  description: Fetch a name verification result.
+  source_operation: openapi/form3-payments.yml#GetNameVerification
+- name: list_accounts
+  description: List scheme-addressable accounts.
+  source_operation: openapi/form3-payments.yml#ListAccounts
+- name: create_account
+  description: Create a scheme-addressable account.
+  source_operation: openapi/form3-payments.yml#CreateAccount
+- name: create_subscription
+  description: Create an event-notification (webhook) subscription.
+  source_operation: openapi/form3-payments.yml#CreateSubscription
+- name: list_subscriptions
+  description: List event-notification subscriptions.
+  source_operation: openapi/form3-payments.yml#ListSubscriptions
+- name: delete_subscription
+  description: Delete an event-notification subscription.
+  source_operation: openapi/form3-payments.yml#DeleteSubscription

@@ -1,0 +1,43 @@
+# Form3
+
+> Form3 is a cloud-native, Payments-as-a-Service platform offering account-to-account payment processing to banks and fintechs through a single, unified REST API built on the json:api specification. It connects customers to UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer, SEPA Instant and SEPA Direct Debit, and US instant rails, with Confirmation of Payee / Verification of Payee, direct debit mandate management, scheme-addressable account identification, event notifications (webhooks) and full audit trails. Access is contracted (regulated B2B), authenticated with OAuth2 client-credentials plus HTTP Message Signatures request signing and, in some environments, mutual TLS.
+
+## API
+
+- [Form3 Public API (Swagger 2.0)](https://raw.githubusercontent.com/api-evangelist/form3/refs/heads/main/openapi/form3-payments.yml): One REST API, host api.form3.tech, basePath /v1, 163 paths / 186 operations, media type application/vnd.api+json.
+- Base URL: https://api.form3.tech/v1
+- Token endpoint: https://api.form3.tech/v1/oauth2/token (OAuth2 client-credentials)
+
+## Docs
+
+- [API Documentation](https://www.api-docs.form3.tech/)
+- [API Reference](https://api-docs.form3.tech/api.html)
+- [Getting Started](https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction)
+- [Send a Payment](https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment)
+- [Confirmation of Payee tutorial](https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial)
+- [Event Notifications (subscriptions)](https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications)
+- [Verify Event Notifications](https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications)
+- [Changelog](https://www.api-docs.form3.tech/changelog)
+
+## Conventions
+
+- json:api resource envelopes: `{ "data": { "type", "id", "organisation_id", "attributes" } }`.
+- Idempotency: creates use a client-supplied UUID `id`; a duplicate returns HTTP 409 with the stored resource (no Idempotency-Key header).
+- Optimistic concurrency via an integer `version` field.
+- Pagination: `page[number]`, `page[size]`, `page[after]` (cursor), default page size 100.
+- Filtering: `filter[<attribute>]`.
+- Errors: flat `{ error_code (uuid), error_message }` envelope (not RFC 9457).
+
+## SDKs & Tooling
+
+- [go-form3](https://github.com/form3tech-oss/go-form3): official Go client library.
+- [go-http-message-signatures](https://github.com/form3tech-oss/go-http-message-signatures): HTTP Message Signatures request signing.
+- [http-message-signing-proxy](https://github.com/form3tech-oss/http-message-signing-proxy): signing proxy for the Form3 API.
+- [Postman collection](https://documenter.getpostman.com/view/5561717/TWDTNzaD)
+
+## Operations & Trust
+
+- [Status page](https://status.form3.tech/)
+- [Trust center](https://trust.form3.tech/) — SOC 2, ISO 27001 / 27017 / 27018
+- [security.txt](https://www.form3.tech/.well-known/security.txt)
+- [GitHub org](https://github.com/form3tech-oss)

@@ -1,0 +1,16 @@
+generated: '2026-07-24'
+method: generated
+source: openapi/form3-payments.yml
+skills:
+- file: form3-send-a-payment.md
+  name: Send a payment with Form3
+  api: openapi/form3-payments.yml
+  operations: [CreatePayment, CreatePaymentSubmission, GetPaymentSubmission, GetPayment]
+- file: form3-confirmation-of-payee.md
+  name: Run a Confirmation of Payee check with Form3
+  api: openapi/form3-payments.yml
+  operations: [CreateNameVerification, GetNameVerification, GetNameVerificationAdmission]
+- file: form3-event-notifications.md
+  name: Receive Form3 event notifications (webhooks)
+  api: openapi/form3-payments.yml
+  operations: [CreateSubscription, ListSubscriptions, FetchSubscription, PatchSubscription, DeleteSubscription]

@@ -1,0 +1,68 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/form3-payments.yml
+format: form3-json
+envelope:
+  schema: ApiError
+  fields:
+  - name: error_code
+    type: string
+    format: uuid
+    description: A stable UUID identifying the specific error condition.
+  - name: error_message
+    type: string
+    description: Human-readable description of the error.
+  conflict_variant:
+    schema: ApiErrorWithActualResource
+    extra_field: actual_resource
+    description: >-
+      On a duplicate create (client-supplied id already exists) the 409 response also
+      returns the already-stored resource under actual_resource, enabling safe retries.
+notes: >-
+  Form3 uses a json:api-style API but its error envelope is a flat { error_code, error_message }
+  object (ApiError), not RFC 9457 problem+json. The status classes below are derived from the
+  OpenAPI responses across all 186 operations; per-code error_code UUIDs are assigned by the
+  platform at runtime and are not enumerated in the spec.
+problems:
+- status: 400
+  title: Bad Request
+  meaning: The request was malformed or failed validation (invalid attributes, bad json:api envelope).
+  schema: ApiError
+  occurrences: 96
+- status: 401
+  title: Unauthorized
+  meaning: Missing, expired or invalid OAuth2 bearer token, or an invalid HTTP Message Signature.
+  schema: ApiError
+  occurrences: 23
+- status: 403
+  title: Forbidden
+  meaning: The authenticated principal lacks the role/ACE permission for the resource or action.
+  schema: ApiError
+  occurrences: 53
+- status: 404
+  title: Not Found
+  meaning: The requested resource id does not exist within the caller's organisation scope.
+  schema: ApiError
+  occurrences: 94
+- status: 406
+  title: Not Acceptable
+  meaning: The requested representation/Accept media type is not supported.
+  schema: ApiError
+  occurrences: 2
+- status: 409
+  title: Conflict
+  meaning: >-
+    Duplicate resource id (idempotent create replay) or a version/optimistic-concurrency
+    conflict. Duplicate creates return the already-stored resource via ApiErrorWithActualResource.
+  schema: ApiErrorWithActualResource
+  occurrences: 42
+- status: 500
+  title: Internal Server Error
+  meaning: An unexpected error occurred on the Form3 platform.
+  schema: ApiError
+  occurrences: 31
+- status: 502
+  title: Bad Gateway
+  meaning: An upstream scheme or dependency returned an invalid response.
+  schema: ApiError
+  occurrences: 7

@@ -1,0 +1,11 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/form3-payments.yml
+schemes:
+- name: OAuth2
+  source: openapi/form3-payments.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+scopes: []

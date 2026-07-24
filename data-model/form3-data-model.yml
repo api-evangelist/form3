@@ -1,0 +1,130 @@
+generated: '2026-07-24'
+method: derived
+source: openapi/form3-payments.yml
+notes: >-
+  Entity-relationship graph derived from the Form3 Public API json:api resources and their
+  URL nesting / relationship fields. Every resource carries a client-supplied UUID `id`, an
+  `organisation_id`, a `type`, an integer `version`, and an `attributes` object. Payment-type
+  resources share a common exception lifecycle (submission -> admission, plus returns,
+  reversals, recalls, claims).
+id_convention:
+  format: uuid
+  client_generated: true
+  scoping_field: organisation_id
+entities:
+- name: organisation
+  path: /organisation/units
+  domain: organisation
+- name: account
+  path: /organisation/accounts
+  domain: organisation
+- name: account_identification
+  path: /organisation/accounts/{account_id}/identifications
+  domain: organisation
+- name: branch
+  path: /organisation/branches
+  domain: organisation
+- name: name_verification
+  path: /organisation/nameverifications
+  domain: confirmation-of-payee
+- name: payment
+  path: /transaction/payments
+  domain: payments
+- name: direct_debit
+  path: /transaction/directdebits
+  domain: direct-debits
+- name: mandate
+  path: /transaction/mandates
+  domain: mandates
+- name: claim
+  path: /transaction/claims
+  domain: direct-debits
+- name: submission
+  path: /transaction/payments/{id}/submissions
+  domain: lifecycle
+- name: admission
+  path: /transaction/payments/{id}/admissions/{admissionId}
+  domain: lifecycle
+- name: return
+  path: /transaction/payments/{id}/returns
+  domain: exceptions
+- name: reversal
+  path: /transaction/payments/{id}/reversals
+  domain: exceptions
+- name: recall
+  path: /transaction/payments/{id}/recalls
+  domain: exceptions
+- name: subscription
+  path: /notification/subscriptions
+  domain: event-notifications
+- name: transaction_file
+  path: /files/transactions
+  domain: files
+- name: scheme_file
+  path: /files/schemefiles
+  domain: files
+- name: user
+  path: /security/users
+  domain: security
+- name: role
+  path: /security/roles
+  domain: security
+- name: ace
+  path: /security/roles/{role_id}/aces
+  domain: security
+- name: audit_entry
+  path: /audit/entries/{record_type}
+  domain: audit
+relationships:
+- from: account
+  to: organisation
+  kind: belongs_to
+  via: organisation_id
+- from: account_identification
+  to: account
+  kind: belongs_to
+  via: account_id
+- from: branch
+  to: organisation
+  kind: belongs_to
+  via: organisation_id
+- from: payment
+  to: submission
+  kind: has_many
+  via: nested /submissions
+- from: payment
+  to: admission
+  kind: has_many
+  via: nested /admissions
+- from: payment
+  to: return
+  kind: has_many
+  via: nested /returns
+- from: payment
+  to: reversal
+  kind: has_many
+  via: nested /reversals
+- from: payment
+  to: recall
+  kind: has_many
+  via: nested /recalls
+- from: direct_debit
+  to: mandate
+  kind: belongs_to
+  via: mandate reference
+- from: direct_debit
+  to: claim
+  kind: has_many
+  via: nested /claims
+- from: user
+  to: role
+  kind: has_many
+  via: /security/users/{user_id}/roles
+- from: role
+  to: ace
+  kind: has_many
+  via: /security/roles/{role_id}/aces
+- from: subscription
+  to: payment
+  kind: references
+  via: subscribed record types

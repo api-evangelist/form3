@@ -1,0 +1,35 @@
+generated: '2026-07-24'
+method: searched
+source: https://github.com/form3tech-oss
+notes: >-
+  Form3 publishes first-party Go tooling under the form3tech-oss GitHub organisation.
+  go-form3 is the official Go client library for the Form3 REST API; the two
+  http-message-signing libraries are the reference implementations of the request-signing
+  scheme the API requires. No first-party npm/PyPI/Maven/NuGet SDK is published — Go is
+  the supported client language.
+packages:
+- language: go
+  registry: github
+  name: form3tech-oss/go-form3
+  url: https://github.com/form3tech-oss/go-form3
+  install: go get github.com/form3tech-oss/go-form3
+  description: Official Go client library for the Form3 REST APIs, generated from the
+    Swagger 2.0 definition with custom operation names, automatic (re)authentication
+    from environment variables, and a fluent request API.
+  official: true
+- language: go
+  registry: github
+  name: form3tech-oss/go-http-message-signatures
+  url: https://github.com/form3tech-oss/go-http-message-signatures
+  install: go get github.com/form3tech-oss/go-http-message-signatures
+  description: Go implementation of the HTTP Message Signatures RFC, used to sign
+    requests to the Form3 API.
+  official: true
+- language: go
+  registry: github
+  name: form3tech-oss/http-message-signing-proxy
+  url: https://github.com/form3tech-oss/http-message-signing-proxy
+  install: git clone https://github.com/form3tech-oss/http-message-signing-proxy
+  description: An HTTP proxy intended for use with the Form3 API that signs outbound
+    requests with HTTP Message Signatures so unmodified clients can call the API.
+  official: true

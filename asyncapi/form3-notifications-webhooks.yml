@@ -1,0 +1,41 @@
+generated: '2026-07-24'
+method: searched
+source: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+spec_type: Webhooks
+notes: >-
+  Form3 delivers asynchronous processing results and lifecycle events through Event
+  Notifications. A consumer creates a subscription describing which record types/events to
+  receive and a destination; Form3 then POSTs signed notifications to that destination.
+  Form3 does not publish an AsyncAPI document, so this captures the webhook surface derived
+  from the Event Notifications API operations and tutorials.
+delivery:
+  transport: https-webhook
+  signing: >-
+    Notifications are signed and must be verified by the consumer (see the "verify event
+    notifications" tutorial) using the HTTP Message Signatures scheme.
+  format: application/vnd.api+json (json:api envelope)
+management:
+  subscribe: openapi/form3-payments.yml#CreateSubscription
+  list: openapi/form3-payments.yml#ListSubscriptions
+  fetch: openapi/form3-payments.yml#FetchSubscription
+  update: openapi/form3-payments.yml#PatchSubscription
+  unsubscribe: openapi/form3-payments.yml#DeleteSubscription
+  path: /notification/subscriptions
+events:
+  note: >-
+    Subscriptions target platform record types and their lifecycle transitions. The
+    concrete event set is configured per subscription against payment/transaction record
+    types (payments, direct debits, returns, reversals, recalls, admissions, submissions)
+    and their status changes.
+  record_types_observed:
+  - payment
+  - directdebit
+  - mandate
+  - return
+  - reversal
+  - recall
+  - admission
+  - submission
+docs:
+- https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+- https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
