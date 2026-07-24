@@ -1,0 +1,208 @@
+aid: form3
+url: https://raw.githubusercontent.com/api-evangelist/form3/refs/heads/main/apis.yml
+name: Form3
+kind: company
+description: Form3 is a United Kingdom-headquartered, cloud-native payments technology
+  company offering account-to-account payment processing as a single, unified REST
+  API to banks and fintechs. Founded in 2016 and headquartered in London, Form3 runs
+  a fully managed, Payments-as-a-Service platform that connects customers to domestic
+  and cross-border schemes - UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer,
+  SEPA Instant and SEPA Direct Debit, and US instant rails - alongside Confirmation
+  of Payee / Verification of Payee name-checking, direct debit mandate management,
+  scheme-addressable account identification, event notifications (webhooks), and full
+  audit trails. Its public API is REST built on the json:api specification, documented
+  at api-docs.form3.tech with a downloadable Swagger 2.0 definition, and authenticated
+  with OAuth2 client-credentials plus HTTP Message Signatures request signing and,
+  in some environments, mutual TLS. Form3 is API-native and developer-facing but is
+  a regulated B2B rail rather than an open self-serve signup product; production access
+  is contracted.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Payments
+- United Kingdom
+- Payment Processing
+- Account-to-Account
+- Real-Time Payments
+- Faster Payments
+- Bacs
+- SEPA
+- Direct Debit
+- Confirmation of Payee
+- Cross-Border
+- Banking-as-a-Service
+- Embedded Payments
+created: '2026-07-24'
+modified: '2026-07-24'
+specificationVersion: '0.19'
+apis:
+- aid: form3:form3-public-api
+  name: Form3 Public API
+  description: The unified Form3 Public API - a single REST API built on the json:api
+    specification that connects banks and fintechs to domestic and cross-border payment
+    schemes, covering payments, direct debits, mandates, accounts, files, notifications,
+    security and audit. Swagger 2.0, 163 documented paths, host api.form3.tech, basePath
+    /v1, OAuth2 client-credentials with HTTP Message Signatures request signing.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Payments
+  - REST
+  - json:api
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+- aid: form3:form3-payments-api
+  name: Form3 Payments API
+  description: Send and receive account-to-account payments across supported schemes
+    - UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer, SEPA Instant, and US
+    instant rails - and handle payment exceptions such as rejections, returns, reversals
+    and recalls. Represented by the PaymentReads and PaymentWrites operations under
+    /transaction/payments in the Form3 Public API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Payments
+  - Faster Payments
+  - SEPA
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+- aid: form3:form3-direct-debits-mandates-api
+  name: Form3 Direct Debits & Mandates API
+  description: Originate and receive Bacs and SEPA direct debits, manage direct debit
+    mandates, and process indemnity claims. Represented by the DirectDebits, DirectDebitsReads
+    and Mandates operations under /transaction/directdebits and /transaction/mandates
+    in the Form3 Public API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/bacs/direct-debit-instructions-for-originators
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Direct Debit
+  - Bacs
+  - Mandates
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+- aid: form3:form3-account-verification-api
+  name: Form3 Account Identification & Verification API
+  description: Generate and manage scheme-addressable customer account numbers, validate
+    UK sort code / account number combinations, and run Confirmation of Payee (UK)
+    and Verification of Payee name-checking. Represented by the AccountIdentification,
+    AccountValidation, BranchIdentification and Name Verification operations under
+    /transaction and /validations in the Form3 Public API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Confirmation of Payee
+  - Account Validation
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+- aid: form3:form3-files-api
+  name: Form3 Files API
+  description: Submit and receive bulk payment instructions and scheme messages as
+    files. Represented by the Transaction File API and Scheme File API operations under
+    /files in the Form3 Public API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Files
+  - Bulk
+  - Bacs
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+- aid: form3:form3-event-notifications-api
+  name: Form3 Event Notifications API
+  description: Subscribe to and receive event notifications (webhooks) for payment
+    and platform lifecycle events, and verify their signatures. Represented by the
+    Subscriptions and notification operations under /notification in the Form3 Public
+    API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Webhooks
+  - Event Notifications
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+- aid: form3:form3-security-access-api
+  name: Form3 Security & Access API
+  description: Manage users, roles, access-control entries and public keys under a
+    flexible security and approval model, and read full audit trails and platform
+    metrics. Represented by the Users, Roles, ACE, Public Keys, Audit and Metrics
+    operations under /security, /audit and /metrics in the Form3 Public API.
+  humanURL: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Security
+  - Access Control
+  - Audit
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-payments.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+common:
+- type: Website
+  url: https://www.form3.tech/
+- type: DeveloperPortal
+  url: https://www.api-docs.form3.tech/
+- type: Documentation
+  url: https://www.api-docs.form3.tech/
+- type: APIReference
+  url: https://api-docs.form3.tech/api.html
+- type: GettingStarted
+  url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+- type: OpenAPI
+  url: openapi/form3-payments.yml
+- type: GitHubOrganization
+  url: https://github.com/form3tech-oss
+- type: Postman
+  url: https://documenter.getpostman.com/view/5561717/TWDTNzaD
+- type: StatusPage
+  url: https://status.form3.tech/
+- type: Blog
+  url: https://www.form3.tech/news
+- type: LinkedIn
+  url: https://www.linkedin.com/company/form3
+- type: TermsOfService
+  url: https://www.form3.tech/legal/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.form3.tech/legal/data-privacy-statement
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

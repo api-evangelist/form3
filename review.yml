@@ -1,0 +1,134 @@
+aid: form3
+name: Form3
+review:
+  question: Does Form3 publish a real public developer portal with a downloadable
+    OpenAPI/Swagger definition, and what is its API posture?
+  answer: true
+  date: '2026-07-24'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    Form3 is a United Kingdom-based, cloud-native Payments-as-a-Service
+    company that exposes a genuine, API-native developer surface. The public
+    developer portal is a single-page docs application at
+    https://www.api-docs.form3.tech/ (HTTP 200), with an HTML API reference
+    at https://api-docs.form3.tech/api.html (HTTP 200). Form3 publishes ONE
+    downloadable, machine-readable definition: a Swagger 2.0 (OpenAPI 2.0)
+    document titled "Form3 Public API" served at
+    https://www.api-docs.form3.tech/assets/swagger/form3-swagger.yaml
+    (HTTP 200, ~756 KB, 163 paths). It was discovered via the Makefile of
+    Form3's own open-source go-form3 client
+    (github.com/form3tech-oss/go-form3), which downloads exactly this URL to
+    generate its client. The spec was harvested VERBATIM to
+    openapi/form3-payments.yml and parses as Swagger 2.0. Common spec paths
+    on the docs host (/openapi.json, /swagger.json) return the SPA HTML
+    shell, not a spec, and were rejected. The API is REST built on the
+    json:api specification; host api.form3.tech, basePath /v1, https only.
+    The API host itself (https://api.form3.tech/...) returns no anonymous
+    response (curl exit / HTTP 000) - it is a contracted, non-public
+    production rail, not open self-serve. Auth: OAuth2 client-credentials
+    (application flow, tokenUrl https://api.form3.tech/v1/oauth2/token) plus
+    HTTP Message Signatures request signing (RFC), with mutual TLS supported
+    in some environments; a legacy Basic scheme is also defined. Webhooks
+    exist as first-class "Event Notifications" via subscriptions
+    (/notification paths; verify-event-notifications tutorial). A public
+    Postman collection is published via Postman documenter
+    (documenter.getpostman.com/view/5561717/TWDTNzaD). Home market is the
+    United Kingdom; the rail is scheme-oriented (Faster Payments, Bacs,
+    CHAPS, SEPA CT/Instant/Direct Debit, US instant) with Confirmation of
+    Payee / Verification of Payee name-checking.
+  developerPortal:
+    url: https://www.api-docs.form3.tech/
+    httpStatus: 200
+    confirmed: true
+  apiReference:
+    url: https://api-docs.form3.tech/api.html
+    httpStatus: 200
+  downloadableSpecs:
+    count: 1
+    specs:
+      - path: openapi/form3-payments.yml
+        format: Swagger 2.0
+        title: Form3 Public API
+        paths: 163
+        sourceURL: https://www.api-docs.form3.tech/assets/swagger/form3-swagger.yaml
+        httpStatus: 200
+        provenance: |
+          Discovered in the download-swagger target of the Makefile in
+          Form3's open-source client github.com/form3tech-oss/go-form3.
+          Fetched 2026-07-24 verbatim; parses as Swagger 2.0.
+  authModel:
+    primary: OAuth2 client-credentials (application flow)
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+    requestSigning: HTTP Message Signatures (RFC) - see form3tech-oss/http-message-signing-proxy
+    mtls: supported in some environments
+    legacy: Basic (defined in securityDefinitions; client id/secret usage deprecated)
+    wellKnown:
+      openidConfiguration:
+        url: https://api.form3.tech/.well-known/openid-configuration
+        httpStatus: 000
+        note: API host returns no anonymous response; contracted access only.
+  webhooks:
+    present: true
+    note: |
+      First-class "Event Notifications" delivered via subscriptions under the
+      /notification paths (Subscriptions operations). Tutorials cover creating
+      subscriptions and verifying event notification signatures. No AsyncAPI
+      document is published; no fabrication.
+  postman:
+    present: true
+    url: https://documenter.getpostman.com/view/5561717/TWDTNzaD
+  graphql:
+    present: false
+  homeMarket: United Kingdom
+  schemePosture:
+    style: REST over json:api; scheme-addressable payments rail
+    schemes:
+      - UK Faster Payments (FPS)
+      - Bacs
+      - CHAPS
+      - SEPA Credit Transfer
+      - SEPA Instant
+      - SEPA Direct Debit
+      - US instant
+    isoNote: |
+      Form3 is a scheme-connected rail (Pay.UK Faster Payments/Bacs, SEPA).
+      The public API is json:api REST; it abstracts underlying scheme message
+      formats. No standalone ISO 20022 message schema bundle is published in
+      the public docs, so none was harvested (no fabrication).
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.form3.tech/v1
+      documented: true
+      note: json:api specification; single unified Form3 Public API.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Event Notifications via subscriptions (/notification); signed and verifiable.
+    - protocol: GraphQL
+      documented: false
+    - protocol: WebSocket
+      documented: false
+sources:
+  - url: https://www.api-docs.form3.tech/
+    type: DeveloperPortal
+    note: Single-page docs application (HTTP 200). SPA fallback returns HTML for unknown paths.
+  - url: https://api-docs.form3.tech/api.html
+    type: APIReference
+    note: HTML API reference (HTTP 200).
+  - url: https://www.api-docs.form3.tech/assets/swagger/form3-swagger.yaml
+    type: OpenAPI
+    note: Swagger 2.0 definition, HTTP 200, ~756 KB, 163 paths. Harvested verbatim.
+  - url: https://github.com/form3tech-oss/go-form3
+    type: SourceCode
+    note: Official Go client; its Makefile download-swagger target pointed to the spec URL above.
+  - url: https://documenter.getpostman.com/view/5561717/TWDTNzaD
+    type: Postman
+    note: Public Postman documenter collection (HTTP 200).
+  - url: https://status.form3.tech/
+    type: StatusPage
+    note: Form3 Status page (HTTP 200).
+  - url: https://www.form3.tech/
+    type: Website
+    note: Corporate site; London-headquartered UK payments platform.
