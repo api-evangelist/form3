@@ -2,12 +2,11 @@ generated: '2026-07-24'
 method: derived
 status: candidate
 source: openapi/form3-payments.yml
-notes: >-
-  Form3 does not publish an official hosted MCP server. This is a candidate tool surface
-  derived from the marquee Form3 Public API operations, one tool per operationId, that could
-  back an MCP server. Each tool inherits its input contract from the referenced OpenAPI
-  operation's parameters and requestBody. Auth (OAuth2 client-credentials + HTTP Message
-  Signatures) would be handled by the server, not exposed as tool inputs.
+notes: Form3 does not publish an official hosted MCP server. This is a candidate tool surface derived
+  from the marquee Form3 Public API operations, one tool per operationId, that could back an MCP server.
+  Each tool inherits its input contract from the referenced OpenAPI operation's parameters and requestBody.
+  Auth (OAuth2 client-credentials + HTTP Message Signatures) would be handled by the server, not exposed
+  as tool inputs.
 server:
   name: form3
   transport: http
@@ -55,3 +54,9 @@ tools:
 - name: delete_subscription
   description: Delete an event-notification subscription.
   source_operation: openapi/form3-payments.yml#DeleteSubscription
+deployment:
+  mode: none
+  verified: derived
+  tools: 14
+  checked: '2026-08-12'
+  source: catalog MCP census
