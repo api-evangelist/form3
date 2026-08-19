@@ -33,7 +33,7 @@ tags:
 - Embedded Payments
 created: '2026-07-24'
 modified: '2026-07-24'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: form3:form3-public-api
   name: Form3 Public API
