@@ -29,6 +29,20 @@ tags:
 - Direct Debit
 - Confirmation of Payee
 - Cross-Border
+- Banking as a Service
+- Embedded Payments
+tags_raw:
+- Payments
+- United Kingdom
+- Payment Processing
+- Account-to-Account
+- Real-Time Payments
+- Faster Payments
+- Bacs
+- SEPA
+- Direct Debit
+- Confirmation of Payee
+- Cross-Border
 - Banking-as-a-Service
 - Embedded Payments
 created: '2026-07-24'
@@ -45,6 +59,10 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Payments
+  - REST
+  - JSON:API
+  tags_raw:
   - Payments
   - REST
   - json:api
@@ -126,6 +144,10 @@ apis:
   humanURL: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   baseURL: https://api.form3.tech/v1
   tags:
+  - File
+  - Bulk
+  - Bacs
+  tags_raw:
   - Files
   - Bulk
   - Bacs
@@ -145,6 +167,10 @@ apis:
   humanURL: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   baseURL: https://api.form3.tech/v1
   tags:
+  - Webhook
+  - Event Notifications
+  - Subscription
+  tags_raw:
   - Webhooks
   - Event Notifications
   - Subscriptions
