@@ -49,159 +49,958 @@ created: '2026-07-24'
 modified: '2026-07-24'
 specificationVersion: '0.23'
 apis:
-- aid: form3:form3-public-api
-  name: Form3 Public API
-  description: The unified Form3 Public API - a single REST API built on the json:api
-    specification that connects banks and fintechs to domestic and cross-border payment
-    schemes, covering payments, direct debits, mandates, accounts, files, notifications,
-    security and audit. Swagger 2.0, 163 documented paths, host api.form3.tech, basePath
-    /v1, OAuth2 client-credentials with HTTP Message Signatures request signing.
+- aid: form3:form3-accountidentification-api
+  name: Form3 Account Identification API
+  description: The AccountIdentification API from Form3 — 2 operation(s) for accountidentification.
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
-  - Payments
-  - REST
-  - JSON:API
-  tags_raw:
-  - Payments
-  - REST
-  - json:api
+  - AccountIdentification
   properties:
   - type: OpenAPI
-    url: openapi/form3-payments.yml
+    url: openapi/form3-accountidentification-api-openapi.yml
   - type: Documentation
     url: https://www.api-docs.form3.tech/
   - type: APIReference
     url: https://api-docs.form3.tech/api.html
   - type: GettingStarted
     url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
-- aid: form3:form3-payments-api
-  name: Form3 Payments API
-  description: Send and receive account-to-account payments across supported schemes
-    - UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer, SEPA Instant, and US
-    instant rails - and handle payment exceptions such as rejections, returns, reversals
-    and recalls. Represented by the PaymentReads and PaymentWrites operations under
-    /transaction/payments in the Form3 Public API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - Payments
-  - Faster Payments
-  - SEPA
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-payments.yml
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-- aid: form3:form3-direct-debits-mandates-api
-  name: Form3 Direct Debits & Mandates API
-  description: Originate and receive Bacs and SEPA direct debits, manage direct debit
-    mandates, and process indemnity claims. Represented by the DirectDebits, DirectDebitsReads
-    and Mandates operations under /transaction/directdebits and /transaction/mandates
-    in the Form3 Public API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/bacs/direct-debit-instructions-for-originators
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - Direct Debit
-  - Bacs
-  - Mandates
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-payments.yml
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-- aid: form3:form3-account-verification-api
-  name: Form3 Account Identification & Verification API
-  description: Generate and manage scheme-addressable customer account numbers, validate
-    UK sort code / account number combinations, and run Confirmation of Payee (UK)
-    and Verification of Payee name-checking. Represented by the AccountIdentification,
-    AccountValidation, BranchIdentification and Name Verification operations under
-    /transaction and /validations in the Form3 Public API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - Confirmation of Payee
-  - Account Validation
-  - Identity
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-payments.yml
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-- aid: form3:form3-files-api
-  name: Form3 Files API
-  description: Submit and receive bulk payment instructions and scheme messages as
-    files. Represented by the Transaction File API and Scheme File API operations under
-    /files in the Form3 Public API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - File
-  - Bulk
-  - Bacs
-  tags_raw:
-  - Files
-  - Bulk
-  - Bacs
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-payments.yml
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-- aid: form3:form3-event-notifications-api
-  name: Form3 Event Notifications API
-  description: Subscribe to and receive event notifications (webhooks) for payment
-    and platform lifecycle events, and verify their signatures. Represented by the
-    Subscriptions and notification operations under /notification in the Form3 Public
-    API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-accounts-api
+  name: Form3 Accounts API
+  description: The Accounts API from Form3 — 3 operation(s) for accounts.
+  humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
-  - Webhook
-  - Event Notifications
-  - Subscription
-  tags_raw:
-  - Webhooks
-  - Event Notifications
-  - Subscriptions
+  - Accounts
   properties:
   - type: OpenAPI
-    url: openapi/form3-payments.yml
+    url: openapi/form3-accounts-api-openapi.yml
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: https://www.api-docs.form3.tech/
   - type: APIReference
     url: https://api-docs.form3.tech/api.html
-- aid: form3:form3-security-access-api
-  name: Form3 Security & Access API
-  description: Manage users, roles, access-control entries and public keys under a
-    flexible security and approval model, and read full audit trails and platform
-    metrics. Represented by the Users, Roles, ACE, Public Keys, Audit and Metrics
-    operations under /security, /audit and /metrics in the Form3 Public API.
-  humanURL: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-accountvalidation-api
+  name: Form3 Account Validation API
+  description: The AccountValidation API from Form3 — 2 operation(s) for accountvalidation.
+  humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
-  - Security
-  - Access Control
+  - AccountValidation
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-accountvalidation-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-ace-api
+  name: Form3 ACE API
+  description: The ACE API from Form3 — 2 operation(s) for ace.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - ACE
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-ace-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-audit-api
+  name: Form3 Audit API
+  description: The Audit API from Form3 — 2 operation(s) for audit.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
   - Audit
   properties:
   - type: OpenAPI
-    url: openapi/form3-payments.yml
+    url: openapi/form3-audit-api-openapi.yml
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+    url: https://www.api-docs.form3.tech/
   - type: APIReference
     url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-branches-api
+  name: Form3 Branches API
+  description: The Branches API from Form3 — 2 operation(s) for branches.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Branches
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-branches-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-branchidentification-api
+  name: Form3 Branch Identification API
+  description: The BranchIdentification API from Form3 — 2 operation(s) for branchidentification.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - BranchIdentification
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-branchidentification-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-claims-api
+  name: Form3 Claims API
+  description: The Claims API from Form3 — 8 operation(s) for claims.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Claims
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-claims-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-directdebits-api
+  name: Form3 Direct Debits API
+  description: The DirectDebits API from Form3 — 26 operation(s) for directdebits.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - DirectDebits
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-directdebits-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-directdebitsreads-api
+  name: Form3 Direct Debits Reads API
+  description: The DirectDebitsReads API from Form3 — 1 operation(s) for directdebitsreads.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - DirectDebitsReads
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-directdebitsreads-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-mandates-api
+  name: Form3 Mandates API
+  description: The Mandates API from Form3 — 9 operation(s) for mandates.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Mandates
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-mandates-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-metrics-api-api
+  name: Form3 Metrics API
+  description: The Metrics API API from Form3 — 3 operation(s) for metrics api.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Metrics API
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-metrics-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-name-verification-api-api
+  name: Form3 Name Verification API
+  description: The Name Verification API API from Form3 — 3 operation(s) for name verification api.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Name Verification API
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-name-verification-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-oauth2-api
+  name: Form3 Oauth2 API
+  description: The Oauth2 API from Form3 — 1 operation(s) for oauth2.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Oauth2
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-oauth2-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-organisations-api
+  name: Form3 Organisations API
+  description: The Organisations API from Form3 — 2 operation(s) for organisations.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Organisations
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-organisations-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-paymentreads-api
+  name: Form3 Payment Reads API
+  description: The PaymentReads API from Form3 — 31 operation(s) for paymentreads.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - PaymentReads
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-paymentreads-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-paymentwrites-api
+  name: Form3 Payment Writes API
+  description: The PaymentWrites API from Form3 — 18 operation(s) for paymentwrites.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - PaymentWrites
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-paymentwrites-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-platformsecurityapi-api
+  name: Form3 Platformsecurityapi API
+  description: The platformsecurityapi API from Form3 — 2 operation(s) for platformsecurityapi.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - platformsecurityapi
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-platformsecurityapi-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-public-keys-api
+  name: Form3 Public Keys API
+  description: The Public Keys API from Form3 — 4 operation(s) for public keys.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Public Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-public-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-qualifiedtransactions-api
+  name: Form3 Qualified Transactions API
+  description: The QualifiedTransactions API from Form3 — 2 operation(s) for qualifiedtransactions.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - QualifiedTransactions
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-qualifiedtransactions-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-query-api-api
+  name: Form3 Query API
+  description: The query_api API from Form3 — 10 operation(s) for query_api.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - query_api
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-query-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-reports-api
+  name: Form3 Reports API
+  description: The Reports API from Form3 — 4 operation(s) for reports.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-reports-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-roles-api
+  name: Form3 Roles API
+  description: The Roles API from Form3 — 2 operation(s) for roles.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-roles-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-scheme-file-api-api
+  name: Form3 Scheme File API
+  description: The Scheme File API API from Form3 — 6 operation(s) for scheme file api.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Scheme File API
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-scheme-file-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-schememessages-api
+  name: Form3 Scheme Messages API
+  description: The SchemeMessages API from Form3 — 3 operation(s) for schememessages.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - SchemeMessages
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-schememessages-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-subscriptions-api
+  name: Form3 Subscriptions API
+  description: The Subscriptions API from Form3 — 2 operation(s) for subscriptions.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-transaction-file-api-api
+  name: Form3 Transaction File API
+  description: The Transaction File API API from Form3 — 7 operation(s) for transaction file api.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Transaction File API
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-transaction-file-api-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-users-api
+  name: Form3 Users API
+  description: The Users API from Form3 — 11 operation(s) for users.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 common:
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/form3/overview
