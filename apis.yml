@@ -16,6 +16,18 @@ description: Form3 is a United Kingdom-headquartered, cloud-native payments tech
   in some environments, mutual TLS. Form3 is API-native and developer-facing but is
   a regulated B2B rail rather than an open self-serve signup product; production access
   is contracted.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Payments
