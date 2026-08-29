@@ -1,0 +1,104 @@
+slug: form3
+provider: Form3
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 9
+edges:
+- tag: Users
+  spec_file: form3-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: POST /security/users  CreateUser; GET /security/users/{user_id}/aces  Fetch access control
+    list for user; POST /security/users/{user_id}/authn/public_keys  Create a new public key for user
+  reason: User accounts, roles, access control lists and authentication keys under /security — Identity
+    & Access Management, not banking customer management.
+- tag: Roles
+  spec_file: form3-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: GET /security/roles  ListAllRoles  List all roles; POST /security/roles  CreateRole  Create
+    role
+  reason: Security role definition and lifecycle under /security/roles is access control administration,
+    i.e. Identity & Access Management, not a banking business capability.
+- tag: ACE
+  spec_file: form3-ace-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /security/roles/{role_id}/aces  CreateAccessControlEntry  Create Access Control Entry
+  reason: Access control entries attached to security roles are role-based authorisation administration,
+    i.e. identity & access management, not a payments capability.
+- tag: PaymentReads
+  spec_file: form3-paymentreads-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.8
+  evidence: GET /transaction/payments "List payments", GET /transaction/payments/{id}/admissions/{admissionId}
+    "Fetch admission", GetPaymentRecallDecision
+  reason: Read surface over payment instructions and their scheme admissions, submissions, recalls and
+    returns — payment processing status and routing lifecycle.
+- tag: DirectDebits
+  spec_file: form3-directdebits-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.78
+  evidence: POST /transaction/directdebits "Create Direct debit", "Create direct debit decision submission",
+    schemas DirectDebitReturn, DirectDebitRecall, Settlement
+  reason: Creation, decisioning, recall, return and submission of direct debit instructions into schemes
+    (Bacs/SEPA DD) is payment processing and routing to scheme rails.
+- tag: PaymentWrites
+  spec_file: form3-paymentwrites-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.75
+  evidence: POST /transaction/payments "Create payment", CreatePaymentRecall, CreatePaymentReturnSubmission
+  reason: Write surface that captures and submits payment instructions plus recalls, returns and reversals
+    — payment instruction capture, validation and authorisation onto scheme rails.
+- tag: Public Keys
+  spec_file: form3-public-keys-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: POST /security/users/{user_id}/authn/public_keys "Create a new public key for user", "Schedule
+    key deletion"
+  reason: Lifecycle of per-user authentication credentials (public keys) under /security/.../authn — identity
+    and access credential management, an IT security capability rather than a banking one.
+- tag: DirectDebitsReads
+  spec_file: form3-directdebitsreads-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.7
+  evidence: GET /transaction/directdebits "List direct debits", schemas DirectDebitSubmissionStatus, DirectDebitMandate,
+    DirectDebitReversal
+  reason: Read-side of the same direct debit processing surface — listing direct debit instructions and
+    their submission/return states; still payment processing rather than a distinct capability.
+- tag: Scheme File API
+  spec_file: form3-scheme-file-api-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.7
+  evidence: POST /files/schemefiles  CreateSchemeFile  Creates a Scheme File; POST /files/schemefiles/{scheme_file_id}/submissions  Creates
+    a Scheme File Submission
+  reason: Files created and submitted to payment schemes on a payments-as-a-service platform connecting
+    to Bacs/SEPA/FPS; clearly within Payments & Card Management, but the evidence does not distinguish
+    processing/formatting from clearing & settlement, so L1 only.
