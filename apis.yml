@@ -41,7 +41,7 @@ tags:
 - Direct Debit
 - Confirmation of Payee
 - Cross-Border
-- Banking as a Service
+- Banking-as-a-Service
 - Embedded Payments
 tags_raw:
 - Payments
@@ -67,6 +67,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Account Identification
+  tags_raw:
   - AccountIdentification
   properties:
   - type: OpenAPI
@@ -101,6 +103,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -135,6 +139,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Account Validation
+  tags_raw:
   - AccountValidation
   properties:
   - type: OpenAPI
@@ -339,6 +345,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Direct Debits
+  tags_raw:
   - DirectDebits
   properties:
   - type: OpenAPI
@@ -509,6 +517,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Authentication
+  tags_raw:
   - Oauth2
   properties:
   - type: OpenAPI
@@ -679,6 +689,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - PublicKeys
+  tags_raw:
   - Public Keys
   properties:
   - type: OpenAPI
@@ -747,6 +759,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Query API
+  tags_raw:
   - query_api
   properties:
   - type: OpenAPI
@@ -917,6 +931,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -985,6 +1001,8 @@ apis:
   humanURL: https://www.api-docs.form3.tech/
   baseURL: https://api.form3.tech/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
