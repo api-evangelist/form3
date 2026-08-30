@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Platformsecurityapi API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: platformsecurityapi
+paths:
+  /platform/security/signing_keys:
+    get:
+      operationId: ListSigningKeys
+      responses:
+        200:
+          description: keys returned
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SigningKeysListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeysListResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        502:
+          description: Bad gateway
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        default:
+          description: Default response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get a list of Signing Keys
+      tags:
+      - platformsecurityapi
+      x-access:
+      - Public
+  /platform/security/signing_keys/{signingkey_id}:
+    get:
+      operationId: GetSigningKey
+      parameters:
+      - description: Signing Key ID
+        in: path
+        name: signingkey_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: signing key response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SigningKeysResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SigningKeysResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        502:
+          description: Bad gateway
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        default:
+          description: Default response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch a Signing Key
+      tags:
+      - platformsecurityapi
+      x-access:
+      - Public
+components:
+  schemas:
+    SigningKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SigningKeysResponseData'
+          type: array
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SigningKeysAttributes:
+      properties:
+        certificate:
+          type:
+          - string
+          - 'null'
+          x-order: 2
+        expiration_datetime:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          x-order: 4
+        public_key:
+          type: string
+          x-order: 1
+        revocation_datetime:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          x-order: 5
+        status:
+          enum:
+          - pending_activation
+          - active
+          - expired
+          - revoked
+          type:
+          - string
+          - 'null'
+          x-order: 3
+      required:
+      - public_key
+      type: object
+      x-access:
+      - Public
+    SigningKeysResponseData:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SigningKeysAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        type:
+          $ref: '#/components/schemas/SigningKeysResourceType'
+          x-order: 1
+        version:
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    SigningKeysResourceType:
+      enum:
+      - signing_keys
+      type: string
+      x-access:
+      - Public
+    SigningKeysResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SigningKeysResponseData'
+          x-order: 1
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

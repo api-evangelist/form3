@@ -1,0 +1,1003 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Claims API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Claims
+paths:
+  /transaction/claims:
+    get:
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - in: query
+        name: filter[payment_scheme]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[clearing_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[reference]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[reason_code]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[contact_name]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[debtor_party.account_number]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[debtor_party.bank_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[beneficiary_party.account_number]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[beneficiary_party.bank_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[original_instruction.reference]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[submission.status]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[submission.submission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[submission.submission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[reversal.status]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[reversal.submission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[reversal.submission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: List of claims details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsListResponse'
+      summary: List claims
+      tags:
+      - Claims
+      x-access:
+      - Public
+    post:
+      responses:
+        201:
+          description: Claim creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsResponse'
+        400:
+          description: Claim creation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Claim
+      tags:
+      - Claims
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ClaimCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimCreation'
+  /transaction/claims/{id}:
+    get:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Claim details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch claim
+      tags:
+      - Claims
+      x-access:
+      - Public
+  /transaction/claims/{id}/reversals:
+    post:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Claim Reversal creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Claim Reversal
+      tags:
+      - Claims
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ClaimReversalCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimReversalCreation'
+  /transaction/claims/{id}/reversals/{reversalId}:
+    get:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Claim Reversal Id
+        in: path
+        name: reversalId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Claim Reversal details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Claim Reversal
+      tags:
+      - Claims
+      x-access:
+      - Public
+  /transaction/claims/{id}/reversals/{reversalId}/submissions:
+    post:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Claim Reversal Id
+        in: path
+        name: reversalId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Claim Reversal Submission creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalSubmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Claim Reversal Submission
+      tags:
+      - Claims
+      x-access: Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ClaimReversalSubmissionCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimReversalSubmissionCreation'
+  /transaction/claims/{id}/reversals/{reversalId}/submissions/{submissionId}:
+    get:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Claim Reversal Id
+        in: path
+        name: reversalId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Claim Reversal Submission Id
+        in: path
+        name: submissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Claim Reversal Submission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimReversalSubmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Claim Reversal Submission
+      tags:
+      - Claims
+      x-access:
+      - Public
+  /transaction/claims/{id}/submissions:
+    post:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Claim Submission creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimSubmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Claim Submission
+      tags:
+      - Claims
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ClaimSubmissionCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimSubmissionCreation'
+  /transaction/claims/{id}/submissions/{submissionId}:
+    get:
+      parameters:
+      - description: Claim Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Claim Submission Id
+        in: path
+        name: submissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Claim Submission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ClaimSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimSubmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Claim Submission
+      tags:
+      - Claims
+      x-access:
+      - Public
+components:
+  schemas:
+    ClaimReversalSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmission:
+      properties:
+        attributes:
+          properties:
+            status:
+              $ref: '#/components/schemas/ClaimSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimReversalSubmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    DisputedTransaction:
+      properties:
+        amount:
+          pattern: ^[0-9.]{0,20}$
+          type: string
+        date:
+          format: date
+          type: string
+      required:
+      - date
+      - amount
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversal'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimReversal:
+      properties:
+        attributes:
+          properties:
+            original_instruction_id:
+              minLength: 1
+              type: string
+          required:
+          - original_instruction_id
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimReversalRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ClaimReversalCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimAttributes:
+      properties:
+        beneficiary_party:
+          properties:
+            account_number:
+              pattern: ^[A-Z0-9]{6,34}$
+              type: string
+            bank_id:
+              type: string
+          required:
+          - account_number
+          - bank_id
+          type: object
+        clearing_id:
+          pattern: ^[0-9]{6}$
+          type: string
+        contact_name:
+          type: string
+        debtor_party:
+          properties:
+            account_name:
+              type: string
+              x-omitempty: false
+            account_number:
+              pattern: ^[A-Z0-9]{6,34}$
+              type: string
+            bank_id:
+              type: string
+          required:
+          - account_name
+          - account_number
+          - bank_id
+          type: object
+        disputed_transactions:
+          items:
+            $ref: '#/components/schemas/DisputedTransaction'
+          type: array
+        number_of_claims:
+          type: integer
+        original_instruction:
+          properties:
+            clearing_id:
+              pattern: ^[0-9]{6}$
+              type: string
+            reference:
+              type: string
+          required:
+          - clearing_id
+          - reference
+          type: object
+        payment_scheme:
+          type: string
+        processing_date:
+          format: date
+          type: string
+        reason_code:
+          pattern: ^[1-9]$
+          type: string
+        reference:
+          type: string
+        request_date:
+          format: date
+          type: string
+      required:
+      - payment_scheme
+      - clearing_id
+      - reference
+      - reason_code
+      - beneficiary_party
+      - debtor_party
+      - original_instruction
+      - number_of_claims
+      - disputed_transactions
+      type: object
+      x-access:
+      - Public
+    ClaimDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Claim'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversalSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Claim'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionStatus:
+      enum:
+      - accepted
+      - validation_failed
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - queued_for_delivery
+      - delivery_confirmed
+      - delivery_failed
+      type: string
+      x-access:
+      - Public
+    ClaimReversalSubmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimRelationships:
+      properties:
+        claim_reversal:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversal'
+              type: array
+          type: object
+        claim_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Claim'
+      type: object
+      x-access:
+      - Public
+    Claim:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ClaimAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ClaimReversalDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimSubmission:
+      properties:
+        attributes:
+          properties:
+            scheme_message_id:
+              type: string
+            status:
+              $ref: '#/components/schemas/ClaimSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimSubmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

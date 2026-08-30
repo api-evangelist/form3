@@ -1,0 +1,228 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Audit API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Audit
+paths:
+  /audit/entries/{record_type}:
+    get:
+      parameters:
+      - description: Record Type
+        in: path
+        name: record_type
+        required: true
+        schema:
+          type: string
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 10000
+          minimum: 0
+      - description: Cursor for next page (this is a base64-encoded UUID continuation token returned from the application and should not be manually generated)
+        in: query
+        name: page[after]
+        required: false
+        schema:
+          type: string
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - in: query
+        name: filter[action_time_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[action_time_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: Audit details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AuditEntryListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditEntryListResponse'
+      summary: List audit entries for this record type
+      tags:
+      - Audit
+      x-access:
+      - Public
+  /audit/entries/{record_type}/{id}:
+    get:
+      parameters:
+      - description: Record Type
+        in: path
+        name: record_type
+        required: true
+        schema:
+          type: string
+      - description: Record Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Audit details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AuditEntryListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditEntryListResponse'
+      summary: Fetch audit entry list for this record type/id
+      tags:
+      - Audit
+      x-access:
+      - Public
+components:
+  schemas:
+    AuditEntry:
+      properties:
+        attributes:
+          properties:
+            action_time:
+              description: Timestamp when the change was requested
+              example: '2017-03-20T17:13:41.308Z'
+              format: date-time
+              type: string
+            actioned_by:
+              description: User ID of the user who requested the change
+              example: 9a120694-2308-4044-9a6b-b667a9fc3e48
+              format: uuid
+              type: string
+            after_data:
+              description: Snapshot of what the data would be after the change (empty if the request was to DELETE a record)
+              type: object
+            before_data:
+              description: Snapshot of the data before the change (empty if the request was to CREATE a new record)
+              type: object
+            description:
+              description: Textual description of the change being made
+              example: Record insert request - pending approval
+              pattern: ^[A-Za-z0-9 .,@:]*$
+              type: string
+            record_id:
+              description: ID of the resource that is being changed
+              example: e90c3385-e299-4d1c-95f3-fc1075e047a4
+              format: uuid
+              type: string
+            record_type:
+              description: Type of the resource that is being changed
+              example: User
+              pattern: ^[A-Za-z]*$
+              type: string
+          type: object
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: auditentry
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    AuditEntryListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AuditEntry'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

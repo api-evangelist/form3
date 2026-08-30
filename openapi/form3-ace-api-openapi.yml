@@ -1,0 +1,340 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public ACE API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: ACE
+paths:
+  /security/roles/{role_id}/aces:
+    get:
+      operationId: ListAllAccessControlsForRole
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: List of ACE details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List all Access Controls for role
+      tags:
+      - ACE
+      x-access:
+      - Public
+    post:
+      operationId: CreateAccessControlEntry
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: ACE creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AceCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AceCreationResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Access Control Entry
+      tags:
+      - ACE
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AceCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AceCreation'
+  /security/roles/{role_id}/aces/{ace_id}:
+    delete:
+      operationId: DeleteAccessControlEntry
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Ace Id
+        in: path
+        name: ace_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        204:
+          description: ACE deleted OK
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Delete Access Control Entry
+      tags:
+      - ACE
+      x-access:
+      - Public
+    get:
+      operationId: FetchAccessControlEntry
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Ace Id
+        in: path
+        name: ace_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: ACE details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Access Control Entry
+      tags:
+      - ACE
+      x-access:
+      - Public
+components:
+  schemas:
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    AceDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AceCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Ace:
+      properties:
+        attributes:
+          properties:
+            action:
+              description: Action that this ACE controls
+              example: CREATE
+              type: string
+            filter:
+              type: string
+            record_type:
+              description: Type of record that this ACE gives access to
+              example: User
+              type: string
+            role_id:
+              description: Role ID of the role that this ACE belongs to
+              example: 813e371b-c16c-4b86-adbf-82bcda159b27
+              format: uuid
+              type: string
+          type: object
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: ace
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    AceDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Ace'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AceCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

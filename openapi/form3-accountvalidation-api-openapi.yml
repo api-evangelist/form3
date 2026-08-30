@@ -1,0 +1,271 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Account Validation API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: AccountValidation
+paths:
+  /validations/gbdsc/sortcodes/{sortcode}:
+    get:
+      parameters:
+      - description: Sort code
+        in: path
+        name: sortcode
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Sort code details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SortCodeDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SortCodeDetailsResponse'
+        400:
+          description: Validation failed
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Validation failed
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch sort code details
+      tags:
+      - AccountValidation
+      x-access:
+      - Public
+  /validations/gbdsc/sortcodes/{sortcode}/accountnumbers/{accountnumber}:
+    get:
+      parameters:
+      - description: Sort code
+        in: path
+        name: sortcode
+        required: true
+        schema:
+          type: string
+      - description: Account number
+        in: path
+        name: accountnumber
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Sort code and account number details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountNumberDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountNumberDetailsResponse'
+        400:
+          description: Validation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Validation failed
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Validate sortcode and account number details
+      tags:
+      - AccountValidation
+      x-access:
+      - Public
+components:
+  schemas:
+    AccountNumber:
+      properties:
+        id:
+          type: string
+        relationships:
+          properties:
+            sort_code:
+              $ref: '#/components/schemas/SortCode'
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+      type: object
+      x-access:
+      - Public
+    SortCode:
+      properties:
+        attributes:
+          properties:
+            bank_code:
+              type: string
+            bank_name:
+              type: string
+            bank_office_title:
+              type: string
+            supported_schemes:
+              properties:
+                BACS:
+                  properties:
+                    accepts_payments:
+                      default: false
+                      type: boolean
+                    account_switching:
+                      enum:
+                      - full
+                      - partial
+                      - ineligible
+                      type: string
+                    allowed_transactions:
+                      items:
+                        $ref: '#/components/schemas/TransactionGroupCode'
+                      type: array
+                    service_status:
+                      type: string
+                  type: object
+                CCC:
+                  properties:
+                    accepts_payments:
+                      default: false
+                      type: boolean
+                    service_status:
+                      type: string
+                  type: object
+                CHAPS:
+                  properties:
+                    accepts_payments:
+                      default: false
+                      type: boolean
+                    service_status:
+                      type: string
+                  type: object
+                FPS:
+                  properties:
+                    accepts_payments:
+                      default: false
+                      type: boolean
+                    handling_bank_code:
+                      type: string
+                    handling_bank_connection:
+                      type: string
+                    service_status:
+                      type: string
+                  type: object
+              type: object
+          type: object
+        id:
+          type: string
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    TransactionGroupCode:
+      enum:
+      - DR
+      - CR
+      - CU
+      - BS
+      - DV
+      - AU
+      type: string
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountNumberDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountNumber'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    SortCodeDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SortCode'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

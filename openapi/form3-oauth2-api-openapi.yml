@@ -1,0 +1,72 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Oauth2 API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Oauth2
+paths:
+  /oauth2/token:
+    post:
+      responses:
+        200:
+          description: Authorisation token (Bearer)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        403:
+          description: Authentication failed
+      security:
+      - Basic: []
+      summary: Request Access Token
+      tags:
+      - Oauth2
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  description: Value MUST be set to "client_credentials" as per RFC
+              required:
+              - grant_type
+components:
+  schemas:
+    Token:
+      properties:
+        access_token:
+          description: The access token to be used for all future API calls until `expires_in`
+          type: string
+        expires_in:
+          description: The lifetime of this token in seconds
+          format: int32
+          type: integer
+        token_type:
+          description: The type of the token. Is always set to `Bearer`.
+          enum:
+          - Bearer
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

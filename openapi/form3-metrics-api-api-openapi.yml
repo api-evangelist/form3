@@ -1,0 +1,324 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Metrics API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Metrics API
+paths:
+  /metrics/prometheus/api/v1/query:
+    get:
+      parameters:
+      - description: Query to Execute
+        in: query
+        name: query
+        required: true
+        schema:
+          type: string
+      - description: RFC3339 or unix_timestamp
+        in: query
+        name: time
+        required: false
+        schema:
+          type: string
+      - description: See https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations
+        in: query
+        name: timeout
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: See Prometheus api https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+      summary: Query Endpoint for metrics
+      tags:
+      - Metrics API
+      x-access:
+      - Public
+    post:
+      responses:
+        200:
+          description: See Prometheus api https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+      summary: Query Endpoint for metrics
+      tags:
+      - Metrics API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Query to Execute
+                time:
+                  type: string
+                  description: RFC3339 or unix_timestamp
+                timeout:
+                  type: string
+                  description: See https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations
+              required:
+              - query
+  /metrics/prometheus/api/v1/query_range:
+    get:
+      parameters:
+      - description: Query to Execute
+        in: query
+        name: query
+        required: true
+        schema:
+          type: string
+      - description: RFC3339 or unix_timestamp
+        in: query
+        name: time
+        required: false
+        schema:
+          type: string
+      - description: See https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations
+        in: query
+        name: timeout
+        required: false
+        schema:
+          type: string
+      - description: RFC3339 or unix_timestamp
+        in: query
+        name: start
+        required: false
+        schema:
+          type: string
+      - description: RFC3339 or unix_timestamp
+        in: query
+        name: end
+        required: false
+        schema:
+          type: string
+      - description: duration or float
+        in: query
+        name: step
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: See Prometheus api https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+      summary: Query Range Endpoint for metrics
+      tags:
+      - Metrics API
+      x-access:
+      - Public
+    post:
+      responses:
+        200:
+          description: See Prometheus api https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+      summary: Query Range Endpoint for metrics
+      tags:
+      - Metrics API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Query to Execute
+                time:
+                  type: string
+                  description: RFC3339 or unix_timestamp
+                timeout:
+                  type: string
+                  description: See https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations
+                start:
+                  type: string
+                  description: RFC3339 or unix_timestamp
+                end:
+                  type: string
+                  description: RFC3339 or unix_timestamp
+                step:
+                  type: string
+                  description: duration or float
+              required:
+              - query
+  /metrics/prometheus/federate:
+    get:
+      parameters:
+      - description: See https://prometheus.io/docs/prometheus/latest/querying/basics/#instant-vector-selectors
+        in: query
+        name: match[]
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: See Prometheus api https://prometheus.io/docs/prometheus/latest/querying/api/#instant-queries
+          content:
+            text/plain:
+              schema:
+                type: string
+        400:
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MetricsQueryResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+      summary: Federate Endpoint for metrics
+      tags:
+      - Metrics API
+      x-access:
+      - Public
+components:
+  schemas:
+    prometheusResultItem:
+      properties:
+        metric:
+          $ref: '#/components/schemas/prometheusMetric'
+        value:
+          items: {}
+          type: array
+      type: object
+      x-access:
+      - Public
+    prometheusResult:
+      items:
+        $ref: '#/components/schemas/prometheusResultItem'
+      type: array
+      x-access:
+      - Public
+    MetricsQueryResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/prometheusMetricData'
+        error:
+          type: string
+        errorType:
+          type: string
+        status:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+      x-access:
+      - Public
+    prometheusMetricData:
+      properties:
+        result:
+          $ref: '#/components/schemas/prometheusResult'
+        resultType:
+          type: string
+      type: object
+      x-access:
+      - Public
+    prometheusMetric:
+      additionalProperties:
+        type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

@@ -1,0 +1,1198 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Users API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Users
+paths:
+  /security/users:
+    get:
+      operationId: ListAllUsers
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      responses:
+        200:
+          description: List of user details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsListResponse'
+      summary: List all users
+      tags:
+      - Users
+      x-access:
+      - Public
+    post:
+      operationId: CreateUser
+      responses:
+        201:
+          description: User creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreationResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create user
+      tags:
+      - Users
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreation'
+  /security/users/{user_id}:
+    delete:
+      operationId: DeleteUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: User deleted
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Delete user
+      tags:
+      - Users
+      x-access:
+      - Public
+    get:
+      operationId: FetchUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: User details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch user
+      tags:
+      - Users
+      x-access:
+      - Public
+    patch:
+      operationId: UpdateUserDetails
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: User details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update user details
+      tags:
+      - Users
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreation'
+  /security/users/{user_id}/aces:
+    get:
+      operationId: FetchAccessControlListForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Record type
+        in: query
+        name: filter[record_type]
+        required: false
+        schema:
+          type: string
+      - description: Access action
+        in: query
+        name: filter[action]
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of access control entries for this user
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AceDetailsListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch access control list for user
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/authn/public_keys:
+    get:
+      operationId: ListPublicKeysForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: List of all public keys for given user
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeysListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeysListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List all public keys associated with the user
+      tags:
+      - Users
+      x-access:
+      - Public
+    post:
+      operationId: CreatePublicKeyForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Public key creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyCreationResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create a new public key for user
+      tags:
+      - Users
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PublicKeyCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicKeyCreation'
+  /security/users/{user_id}/authn/public_keys/{public_key_id}:
+    get:
+      operationId: FetchPublicKeyForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Public key
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch public key for user
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/authn/public_keys/{public_key_id}/cancel_deletion:
+    post:
+      operationId: CancelPublicKeyDeletion
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Deletion cancelled successfully
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Cancel key deletion
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/authn/public_keys/{public_key_id}/schedule_deletion:
+    post:
+      operationId: SchedulePublicKeyDeletion
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: Deletion scheduled successfully
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ScheduleDeletionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleDeletionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Schedule key deletion
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/credentials:
+    get:
+      operationId: FetchCredentialsForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: List of credentials for user
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserCredentialListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentialListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch credentials for user
+      tags:
+      - Users
+      x-access:
+      - Public
+    post:
+      operationId: CreateNewCredentialsForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Credential creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/CredentialCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialCreationResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create new credentials for user
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/credentials/{client_id}:
+    delete:
+      operationId: DeleteCredentialsForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: client id
+        in: path
+        name: client_id
+        required: true
+        schema:
+          type: string
+      responses:
+        204:
+          description: Credential deleted
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Delete credentials for user
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/roles:
+    get:
+      operationId: FetchAllRolesForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: List of roles for user
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserRoleListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch all roles for user
+      tags:
+      - Users
+      x-access:
+      - Public
+  /security/users/{user_id}/roles/{role_id}:
+    delete:
+      operationId: RemoveRoleFromUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        204:
+          description: User role deleted OK
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Remove role from user
+      tags:
+      - Users
+      x-access:
+      - Public
+    post:
+      operationId: AddRoleToUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Role set OK
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Add role to user
+      tags:
+      - Users
+      x-access:
+      - Public
+components:
+  schemas:
+    UserCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Ace:
+      properties:
+        attributes:
+          properties:
+            action:
+              description: Action that this ACE controls
+              example: CREATE
+              type: string
+            filter:
+              type: string
+            record_type:
+              description: Type of record that this ACE gives access to
+              example: User
+              type: string
+            role_id:
+              description: Role ID of the role that this ACE belongs to
+              example: 813e371b-c16c-4b86-adbf-82bcda159b27
+              format: uuid
+              type: string
+          type: object
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: ace
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    UserCredentialListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Credential'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKey:
+      properties:
+        attributes:
+          properties:
+            deletion_date:
+              description: When in pending_deletion state, indicates the date of permanent deletion
+              format: date-time
+              type: string
+              x-omitempty: true
+            expires_on:
+              format: date-time
+              type: string
+            fingerprint:
+              description: Key fingerprint
+              type: string
+            key_state:
+              $ref: '#/components/schemas/KeyState'
+            public_key:
+              type: string
+            user_id:
+              description: The user identifier
+              format: uuid
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_by:
+          format: uuid
+          type:
+          - string
+          - 'null'
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: PublicKey
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    PublicKeyResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Credential:
+      properties:
+        client_id:
+          type: string
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    Role:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/RoleAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: role
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    User:
+      properties:
+        attributes:
+          properties:
+            client_credential_ids:
+              items:
+                type: string
+              type: array
+              x-omitempty: true
+            email:
+              description: Email address
+              example: viewer.testbank@form3.tech
+              type: string
+            public_key_ids:
+              items:
+                format: uuid
+                type: string
+              type: array
+              x-omitempty: true
+            role_ids:
+              description: List of roles that this user belongs to
+              example:
+              - 1081014a-37a8-45c9-a40d-59c028a565d8
+              items:
+                format: uuid
+                type: string
+              type: array
+            username:
+              description: User name
+              example: viewer.testbank
+              type: string
+          type: object
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: User
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    UserRoleListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    UserCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    CredentialSecret:
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      type: object
+      x-access:
+      - Public
+    UserDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AceDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Ace'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    CredentialCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/CredentialSecret'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleAttributes:
+      properties:
+        name:
+          description: Name of the role
+          example: Read-only Role
+          type: string
+        parent_role_id:
+          description: Unique resource ID of the parent Role
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    ScheduleDeletionResponse:
+      properties:
+        deletion_date:
+          description: The scheduled date of permanent deletion
+          format: date-time
+          type: string
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    UserDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

@@ -1,0 +1,1248 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Accounts API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Accounts
+paths:
+  /organisation/accounts:
+    get:
+      operationId: ListAccounts
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+      - description: Cursor value for getting previous page
+        in: query
+        name: page[before]
+        required: false
+        schema:
+          type: string
+      - description: Cursor value for getting next page
+        in: query
+        name: page[after]
+        required: false
+        schema:
+          type: string
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 10000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Filter by type of bank id e.g. "GBDSC"
+        in: query
+        name: filter[bank_id_code]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by bank id e.g. sort code or bic
+        in: query
+        name: filter[bank_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by account number
+        in: query
+        name: filter[account_number]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by country e.g. FR,GB
+        in: query
+        name: filter[country]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by customer_id
+        in: query
+        name: filter[customer_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by IBAN
+        in: query
+        name: filter[iban]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by account type
+        in: query
+        name: filter[type]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: List of account details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsListResponse'
+      summary: List accounts
+      tags:
+      - Accounts
+      x-access:
+      - Public
+    post:
+      operationId: CreateAccount
+      responses:
+        201:
+          description: Account creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountCreationResponse'
+      summary: Create account
+      tags:
+      - Accounts
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AccountCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreation'
+  /organisation/accounts/{id}:
+    delete:
+      operationId: DeleteAccount
+      parameters:
+      - description: Account Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Account deleted
+      summary: Delete account
+      tags:
+      - Accounts
+      x-access:
+      - Public
+    get:
+      operationId: GetAccount
+      parameters:
+      - description: Account Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Account details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+      summary: Fetch account
+      tags:
+      - Accounts
+      x-access:
+      - Public
+    patch:
+      operationId: PatchAccount
+      parameters:
+      - description: Account Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Account updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponse'
+      summary: Amend account
+      tags:
+      - Accounts
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AccountAmendment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountAmendment'
+  /organisation/accounts/{id}/events:
+    get:
+      operationId: GetAccountEvents
+      parameters:
+      - description: Account Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      responses:
+        200:
+          description: Account event list
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountEventListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountEventListResponse'
+      summary: Fetch account events
+      tags:
+      - Accounts
+      x-access:
+      - Public
+components:
+  schemas:
+    AcceptanceQualifier:
+      description: All accepted payments will receive the matching qualifier code
+      enum:
+      - some_other_time
+      - same_day
+      - next_calendar_day
+      - next_working_day
+      - after_next_working_day
+      - none
+      type: string
+      x-access:
+      - Public
+    ValidationType:
+      description: optional validation to apply to the account
+      enum:
+      - card
+      - mandatory_reference
+      - none
+      type: string
+      x-access:
+      - Public
+    AccountEventListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AccountEvent'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountAttributesOrganisationIdentificationActor:
+      properties:
+        birth_date:
+          example: '2017-07-23'
+          format: date
+          type:
+          - string
+          - 'null'
+        name:
+          description: Actor names (for example title, first name, last name). Used for Confirmation of Payee matching.
+          items:
+            maxLength: 255
+            minLength: 1
+            type: string
+          maxItems: 4
+          type:
+          - array
+          - 'null'
+        residency:
+          description: ISO 3166-1 code used to identify the domicile of the actor
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        role:
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountUpdate'
+      type: object
+      x-access:
+      - Public
+    AccountCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountEventRelationships:
+      properties:
+        account:
+          $ref: '#/components/schemas/RelationshipAccount'
+          description: Account this event relates to
+      type: object
+      x-access:
+      - Public
+    Account:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountRelationships'
+        type:
+          description: Name of the resource type
+          example: accounts
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    RelationshipLinks:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipData'
+          type: array
+      type: object
+      x-access:
+      - Public
+    AccountWithBankId:
+      properties:
+        bank_id:
+          description: Other ID of agent
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 30
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Other ID of agent
+          x-length: 11
+          x-omitempty: true
+        bank_id_code:
+          description: Code for the type of other ID for agent
+          example: LEI
+          maxLength: 5
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID for agent
+          x-length: 5
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    BankIdCode:
+      enum:
+      - SWBIC
+      - GBDSC
+      - BE
+      - FR
+      - DEBLZ
+      - GRBIC
+      - ITNCC
+      - PLKNR
+      - PTNCC
+      - ESNCC
+      - CHBCC
+      type: string
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    AccountAttributesPrivateIdentification:
+      properties:
+        address:
+          items:
+            maxLength: 140
+            minLength: 1
+            type: string
+          type: array
+        birth_country:
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        birth_date:
+          description: Customer birth date
+          example: '2017-07-23'
+          format: date
+          type:
+          - string
+          - 'null'
+        city:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        identification:
+          example: L-123456789
+          maxLength: 140
+          minLength: 1
+          type: string
+        identification_issuer:
+          minLength: 1
+          type: string
+        identification_scheme:
+          maxLength: 35
+          minLength: 1
+          type: string
+        identification_scheme_code:
+          maxLength: 35
+          minLength: 1
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountRelationships:
+      properties:
+        account_events:
+          $ref: '#/components/schemas/RelationshipLinks'
+          description: Events related to the lifecycle of this account
+        master_account:
+          $ref: '#/components/schemas/RelationshipLinks'
+          description: ID of the master account related to this account
+      type: object
+      x-access:
+      - Public
+    AccountCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AccountAttributes:
+      properties:
+        acceptance_qualifier:
+          $ref: '#/components/schemas/AcceptanceQualifier'
+        account_classification:
+          default: Personal
+          description: Is the account business or personal?
+          enum:
+          - Personal
+          - Business
+          type: string
+        account_matching_opt_out:
+          default: false
+          description: '- deprecated - Is the account opted out of account matching, e.g. CoP?'
+          type: boolean
+        account_number:
+          description: Account number of the account. A unique number will automatically be generated if not provided.
+          example: '41426819'
+          pattern: ^[A-Z0-9]{0,64}$
+          type: string
+        alternative_bank_account_names:
+          description: '- deprecated - Alternative account names. Used for Confirmation of Payee matching.'
+          items:
+            maxLength: 140
+            minLength: 1
+            type: string
+          maxItems: 3
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+        alternative_names:
+          description: Alternative names. Used for Confirmation of Payee matching.
+          items:
+            maxLength: 140
+            minLength: 1
+            type: string
+          maxItems: 3
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+        bank_account_name:
+          description: '- deprecated - Primary account name. Used for Confirmation of Payee matching. Required if confirmation_of_payee_enabled is true for the organisation.'
+          maxLength: 140
+          minLength: 1
+          type: string
+        bank_id:
+          description: Local country bank identifier. In the UK this is the sort code.
+          example: '400300'
+          pattern: ^[A-Z0-9]{0,16}$
+          type: string
+        bank_id_code:
+          description: ISO 20022 code used to identify the type of bank ID being used
+          example: GBDSC
+          pattern: ^[A-Z]{0,16}$
+          type: string
+        base_currency:
+          description: ISO 4217 code used to identify the base currency of the account
+          example: GBP
+          pattern: ^[A-Z]{3}$
+          type: string
+        bic:
+          description: SWIFT BIC in either 8 or 11 character format
+          example: NWBKGB22
+          pattern: ^([A-Z]{6}[A-Z0-9]{2}|[A-Z]{6}[A-Z0-9]{5})$
+          type: string
+        country:
+          description: ISO 3166-1 code used to identify the domicile of the account
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        customer_id:
+          description: A free-format reference that can be used to link this account to an external system
+          example: '12345'
+          pattern: ^[a-zA-Z0-9-$@., ]{0,256}$
+          type: string
+        first_name:
+          description: '- deprecated - Customer first name.'
+          maxLength: 40
+          minLength: 1
+          type: string
+        iban:
+          description: IBAN of the account. Will be calculated from other fields if not supplied.
+          example: GB11NWBK40030041426819
+          pattern: ^[A-Z]{2}[0-9]{2}[A-Z0-9]{0,64}$
+          type: string
+        joint_account:
+          default: false
+          description: Is the account joint?
+          type: boolean
+        name:
+          description: Account holder names (for example title, first name, last name). Used for Confirmation of Payee matching.
+          items:
+            maxLength: 256
+            minLength: 1
+            type: string
+          maxItems: 4
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+        name_matching_status:
+          default: supported
+          description: Describes the status of the account for name matching via CoP. The value determines the code with which Form3 responds to matched CoP requests to this account.
+          enum:
+          - supported
+          - switched
+          - opted_out
+          - not_supported
+          type: string
+        organisation_identification:
+          $ref: '#/components/schemas/AccountAttributesOrganisationIdentification'
+        private_identification:
+          $ref: '#/components/schemas/AccountAttributesPrivateIdentification'
+        processing_service:
+          description: '- deprecated - Accounting system or service. It will be added to each payment received to an account.'
+          maxLength: 35
+          type:
+          - string
+          - 'null'
+        reference_mask:
+          description: When set will apply a validation mask on the payment reference to each payment received to an account.
+          example: 4929############
+          maxLength: 35
+          type:
+          - string
+          - 'null'
+        secondary_identification:
+          description: Secondary identification, e.g. building society roll number. Used for Confirmation of Payee.
+          maxLength: 140
+          minLength: 1
+          type: string
+        status:
+          description: Current status of the account
+          enum:
+          - pending
+          - failed
+          - confirmed
+          - closed
+          type: string
+        status_reason:
+          $ref: '#/components/schemas/StatusReason'
+        switched:
+          default: false
+          description: '- deprecated - Indicates whether the account has been switched using the Current Account Switch Service.'
+          type: boolean
+        switched_account_details:
+          $ref: '#/components/schemas/SwitchedAccountDetails'
+        title:
+          description: '- deprecated - Customer title.'
+          example: Ms
+          maxLength: 40
+          minLength: 1
+          type: string
+        type:
+          description: Account type
+          maxLength: 35
+          type: string
+        user_defined_data:
+          description: All purpose list of key-value pairs to store specific data for the associated account. It will be added to each payment received to an account.
+          items:
+            $ref: '#/components/schemas/UserDefinedData'
+          maxItems: 5
+          type: array
+          x-omitempty: true
+        user_defined_information:
+          description: '- deprecated - All purpose field to store specific data for the associated account. It will be added to each payment received to an account.'
+          maxLength: 35
+          type:
+          - string
+          - 'null'
+        validation_type:
+          $ref: '#/components/schemas/ValidationType'
+      required:
+      - country
+      type: object
+      x-access:
+      - Public
+    AccountEvent:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountEventAttributes'
+        id:
+          description: Unique resource ID
+          example: 6d4f9916-3af9-416e-a347-2d8df90fc4ab
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: cfc09fb8-bbca-40bd-a518-6e58d8a9c7f4
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountEventRelationships'
+        type:
+          description: Name of the resource type
+          example: account_events
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - type
+      - id
+      - version
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    AccountEventAttributes:
+      properties:
+        account_id:
+          description: ID of the account this event relates to
+          example: cfc09fb8-bbca-40bd-a518-6e58d8a9c7f4
+          format: uuid
+          type: string
+        date_time:
+          format: date-time
+          type: string
+        description:
+          description: Contains the event description
+          enum:
+          - pending
+          - failed
+          - confirmed
+          example: confirmed
+          type: string
+        reason:
+          description: Failure reason. Should only be present when description is failed
+          example: Invalid BIC
+          type: string
+        routing_status:
+          description: Contains the routing status
+          enum:
+          - unroutable
+          - routable
+          - deleted
+          example: routable
+          type: string
+        status:
+          description: Contains the event status
+          enum:
+          - pending
+          - failed
+          - confirmed
+          example: confirmed
+          type: string
+      required:
+      - status
+      - routing_status
+      - date_time
+      - account_id
+      type: object
+      x-access:
+      - Public
+    SwitchedAccountDetails:
+      description: Alternate Account details to use in case the account has been switched away from this organisation.
+      properties:
+        account_number:
+          description: Switched account number. Must be a UK account number, maximum length 8 characters.
+          example: '41426819'
+          pattern: ^[0-9]{8}$
+          type: string
+        account_number_code:
+          description: ISO 20022 code used to identify the type of account number being used
+          enum:
+          - BBAN
+          type: string
+        account_type:
+          default: 0
+          description: The type of the account provided in account_number. Only required if requested by the beneficiary party.
+          maximum: 9
+          minimum: 0
+          type: integer
+        account_with:
+          $ref: '#/components/schemas/AccountHoldingEntity'
+        switched_effective_date:
+          description: Starting date for the account to be effectively switched
+          example: '2017-07-23'
+          format: date
+          type:
+          - string
+          - 'null'
+      required:
+      - switched_effective_date
+      - account_number
+      - account_number_code
+      - account_with
+      type: object
+      x-access:
+      - Public
+    StatusReason:
+      description: Used to determine appropriate scheme or internal payment reject code. Account status field must be set to closed to use this functionality.
+      enum:
+      - closed
+      - stopped
+      - currency
+      - transferred
+      - deceased
+      - business_reasons
+      - beneficiary_sensitivities
+      - terms_and_conditions
+      - none
+      example: transferred
+      type: string
+      x-access:
+      - Public
+    RelationshipAccount:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Account'
+          type: array
+      type: object
+      x-access:
+      - Public
+    AccountDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountUpdate:
+      properties:
+        attributes:
+          properties:
+            acceptance_qualifier:
+              $ref: '#/components/schemas/AcceptanceQualifier'
+            account_classification:
+              description: Is the account business or personal?
+              enum:
+              - Personal
+              - Business
+              type: string
+            account_matching_opt_out:
+              description: '- deprecated - Is the account opted out of account matching, e.g. CoP?'
+              type:
+              - boolean
+              - 'null'
+            account_number:
+              description: Account number of the account. A unique number will automatically be generated if not provided.
+              example: '41426819'
+              pattern: ^[A-Z0-9]{0,64}$
+              type: string
+            alternative_bank_account_names:
+              description: '- deprecated - Alternative account names. Used for Confirmation of Payee matching.'
+              items:
+                maxLength: 140
+                minLength: 1
+                type: string
+              maxItems: 3
+              type:
+              - array
+              - 'null'
+            alternative_names:
+              description: Alternative names. Used for Confirmation of Payee matching.
+              items:
+                maxLength: 140
+                minLength: 1
+                type: string
+              maxItems: 3
+              type:
+              - array
+              - 'null'
+            bank_account_name:
+              description: '- deprecated - Primary account name. Used for Confirmation of Payee matching. Required if confirmation_of_payee_enabled is true for the organisation.'
+              maxLength: 140
+              minLength: 1
+              type: string
+            bank_id:
+              description: Local country bank identifier. In the UK this is the sort code.
+              example: '400300'
+              pattern: ^[A-Z0-9]{0,16}$
+              type: string
+            bank_id_code:
+              description: ISO 20022 code used to identify the type of bank ID being used
+              example: GBDSC
+              pattern: ^[A-Z]{0,16}$
+              type: string
+            base_currency:
+              description: ISO 4217 code used to identify the base currency of the account
+              example: GBP
+              pattern: ^[A-Z]{3}$
+              type: string
+            bic:
+              description: SWIFT BIC in either 8 or 11 character format
+              example: NWBKGB22
+              pattern: ^([A-Z]{6}[A-Z0-9]{2}|[A-Z]{6}[A-Z0-9]{5})$
+              type: string
+            country:
+              description: ISO 3166-1 code used to identify the domicile of the account
+              example: GB
+              pattern: ^[A-Z]{2}$
+              type: string
+            customer_id:
+              description: A free-format reference that can be used to link this account to an external system
+              example: '12345'
+              pattern: ^[a-zA-Z0-9-$@., ]{0,256}$
+              type: string
+            first_name:
+              description: '- deprecated - Customer first name.'
+              maxLength: 40
+              minLength: 1
+              type: string
+            iban:
+              description: IBAN of the account. Will be calculated from other fields if not supplied.
+              example: GB11NWBK40030041426819
+              pattern: ^[A-Z]{2}[0-9]{2}[A-Z0-9]{0,64}$
+              type: string
+            joint_account:
+              description: Is the account joint?
+              type:
+              - boolean
+              - 'null'
+            name:
+              description: Account holder names (for example title, first name, last name). Used for Confirmation of Payee matching.
+              items:
+                maxLength: 256
+                minLength: 1
+                type: string
+              maxItems: 4
+              type:
+              - array
+              - 'null'
+            name_matching_status:
+              description: Describes the status of the account for name matching via CoP. The value determines the code with which Form3 responds to matched CoP requests to this account.
+              enum:
+              - supported
+              - switched
+              - opted_out
+              - not_supported
+              type: string
+            organisation_identification:
+              $ref: '#/components/schemas/AccountAttributesOrganisationIdentification'
+            private_identification:
+              $ref: '#/components/schemas/AccountAttributesPrivateIdentification'
+            processing_service:
+              description: '- deprecated - Accounting system or service. It will be added to each payment received to an account.'
+              maxLength: 35
+              type:
+              - string
+              - 'null'
+            reference_mask:
+              description: When set will apply a validation mask on the payment reference to each payment received to an account.
+              example: 4929############
+              maxLength: 35
+              type:
+              - string
+              - 'null'
+            secondary_identification:
+              description: Secondary identification, e.g. building society roll number. Used for Confirmation of Payee.
+              maxLength: 140
+              minLength: 1
+              type: string
+            status:
+              description: Current status of the account
+              enum:
+              - pending
+              - failed
+              - confirmed
+              - closed
+              type: string
+            status_reason:
+              $ref: '#/components/schemas/StatusReason'
+            switched:
+              description: '- deprecated - Indicates whether the account has been switched using the Current Account Switch Service.'
+              type:
+              - boolean
+              - 'null'
+            switched_account_details:
+              $ref: '#/components/schemas/SwitchedAccountDetails'
+            title:
+              description: '- deprecated - Customer title.'
+              example: Ms
+              maxLength: 40
+              minLength: 1
+              type: string
+            type:
+              description: Account type
+              maxLength: 35
+              type:
+              - string
+              - 'null'
+            user_defined_data:
+              description: All purpose list of key-value pairs to store specific data for the associated account. It will be added to each payment received to an account.
+              items:
+                $ref: '#/components/schemas/UserDefinedData'
+              maxItems: 5
+              type: array
+              x-omitempty: true
+            user_defined_information:
+              description: '- deprecated - All purpose field to store specific data for the associated account. It will be added to each payment received to an account.'
+              maxLength: 35
+              type:
+              - string
+              - 'null'
+            validation_type:
+              $ref: '#/components/schemas/ValidationType'
+          type: object
+          x-access:
+          - Public
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountRelationships'
+        type:
+          description: Name of the resource type
+          example: accounts
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - version
+      - attributes
+      type: object
+      x-access:
+      - Public
+    UserDefinedData:
+      properties:
+        key:
+          description: Key of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+        value:
+          description: Value of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+      required:
+      - key
+      - value
+      type: object
+      x-access:
+      - Public
+    AccountDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Account'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountHoldingEntity:
+      description: Information about the financial institution servicing the account.
+      properties:
+        bank_address:
+          description: Financial institution address
+          example:
+          - Liverpool Customer Service Centre
+          - Stevenson Way
+          - Wavertree
+          - L13 1NW
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        bank_id:
+          pattern: ^[A-Z0-9]{0,16}$
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          example: GBDSC
+          type: string
+          x-length: 5
+        bank_ids:
+          description: Array for additional ID(s) for agent
+          items:
+            $ref: '#/components/schemas/AccountWithBankId'
+          type: array
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for agent
+          x-omitempty: true
+        bank_name:
+          description: Financial institution name
+          example: NATIONAL WESTMINSTER BANK PLC
+          type: string
+        bank_party_id:
+          description: Identifier of the financial institution which services the account
+          example: //AT12345
+          type: string
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountAttributesOrganisationIdentification:
+      properties:
+        actors:
+          items:
+            $ref: '#/components/schemas/AccountAttributesOrganisationIdentificationActor'
+          type: array
+        address:
+          items:
+            maxLength: 140
+            minLength: 1
+            type: string
+          type: array
+        city:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        identification:
+          maxLength: 140
+          minLength: 1
+          type: string
+        identification_issuer:
+          type: string
+        identification_scheme:
+          maxLength: 35
+          minLength: 1
+          type: string
+        identification_scheme_code:
+          maxLength: 35
+          minLength: 1
+          type: string
+        registration_number:
+          type: string
+        tax_residency:
+          description: ISO 3166-1 code used to identify the domicile of the account
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

@@ -1,0 +1,809 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Reports API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Reports
+paths:
+  /notification/reports:
+    get:
+      operationId: ListReports
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^(first|last|[\d]{1,4})$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation Ids
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Filter by ReportType
+        in: query
+        name: filter[report_type]
+        required: false
+        schema:
+          type: string
+      - description: Filter by Report Type Description
+        in: query
+        name: filter[report_type_description]
+        required: false
+        schema:
+          type: string
+      - description: Filter by Report Source
+        in: query
+        name: filter[report_source]
+        required: false
+        schema:
+          type: string
+      - description: Request reports created after specific date time
+        in: query
+        name: filter[created_on_after]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Request reports created after specific date time
+        in: query
+        name: filter[created_on_before]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Request reports modified after specific date time
+        in: query
+        name: filter[modified_on_after]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Request reports modified before specific date time
+        in: query
+        name: filter[modified_on_before]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Request reports with processing date from specific date (inclusive)
+        in: query
+        name: filter[processing_date_from]
+        required: false
+        schema:
+          type: string
+          format: date
+      - description: Request reports with processing date to specific date (inclusive)
+        in: query
+        name: filter[processing_date_to]
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        200:
+          description: List of reports
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailsListResponse'
+        400:
+          description: Reports bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List reports
+      tags:
+      - Reports
+      x-access:
+      - Public
+  /notification/reports/{id}:
+    get:
+      operationId: GetReport
+      parameters:
+      - description: Report ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Acceptable Format
+        in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Report details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Report Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        406:
+          description: Report not available in acceptable format
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get report by ID
+      tags:
+      - Reports
+      x-access:
+      - Public
+  /notification/reports/{id}/admissions/{admissionId}:
+    get:
+      operationId: GetReportAdmissionByID
+      parameters:
+      - description: Report Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Report Admission ID
+        in: path
+        name: admissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Get report admission by Id
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReportAdmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportAdmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get Report Admission by ID
+      tags:
+      - Reports
+      x-access:
+      - Public
+  /notification/reports/{id}/content:
+    get:
+      operationId: GetReportContent
+      parameters:
+      - description: Report ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Acceptable Format (required only when multiple formats exist)
+        in: header
+        name: Accept
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Report content
+          content:
+            application/vnd.api+json:
+              schema:
+                format: binary
+                type: string
+            application/json:
+              schema:
+                format: binary
+                type: string
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Report Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        406:
+          description: Report not available in acceptable format
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get report content by ID
+      tags:
+      - Reports
+      x-access:
+      - Public
+components:
+  schemas:
+    ReportRequestAttributes:
+      properties:
+        filter:
+          $ref: '#/components/schemas/ReportRequestFilter'
+        payment_scheme:
+          type: string
+        report_type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportRequestStatus'
+      required:
+      - report_type
+      - payment_scheme
+      - filter
+      - status
+      type: object
+      x-access:
+      - Public
+    ReportRequestSubmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportRequestSubmissionAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportRequestSubmissionRelationships'
+        type:
+          enum:
+          - report_admissions
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - type
+      - version
+      - attributes
+      - relationships
+      type: object
+      x-access:
+      - Public
+    ReportUsers:
+      description: Users or organisations this report was generated for
+      items:
+        $ref: '#/components/schemas/ReportUser'
+      type: array
+      x-access:
+      - Public
+    ReportRequestSubmissionRelationships:
+      properties:
+        report_request:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportRequest'
+              type: array
+          required:
+          - data
+          type: object
+      type: object
+      x-access:
+      - Public
+    ReportAttributes:
+      properties:
+        formats:
+          items:
+            type: string
+          readOnly: true
+          type: array
+        generation_time:
+          format: date-time
+          type: string
+        processing_date:
+          format: date
+          type:
+          - string
+          - 'null'
+        report_source:
+          type: string
+        report_type:
+          description: Type of report.
+          type: string
+        report_type_description:
+          type: string
+        report_users:
+          $ref: '#/components/schemas/ReportUsers'
+      type: object
+      x-access:
+      - Public
+    Report:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportRelationships'
+        type:
+          enum:
+          - reports
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ReportLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/ReportLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/ReportLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionRelationships:
+      properties:
+        report:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Report'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ReportRequest:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportRequestAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportRequestRelationships'
+        type:
+          enum:
+          - report_requests
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ReportRequestRelationships:
+      properties:
+        report:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Report'
+              type: array
+          type: object
+        report_request_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportRequestSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ReportRequestSubmissionStatus:
+      enum:
+      - delivery_confirmed
+      - delivery_failed
+      - pending
+      type: string
+      x-access:
+      - Public
+    ReportLink:
+      properties:
+        href:
+          format: uri
+          type: string
+        meta:
+          properties:
+            content-type:
+              type: string
+          type: object
+      required:
+      - href
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionStatus:
+      enum:
+      - delivery_confirmed
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    ReportUser:
+      properties:
+        user_id:
+          description: Identifies a user or organization
+          example: '123456'
+          type: string
+        user_id_code:
+          description: Type of identifier for the user or organization
+          example: SUN
+          type: string
+      type: object
+      x-access:
+      - Public
+    ReportRequestStatus:
+      enum:
+      - pending
+      - closed
+      type: string
+      x-access:
+      - Public
+    ReportRequestSubmissionAttributes:
+      properties:
+        scheme_status_code:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportRequestSubmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    ReportDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Report'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ReportRequestFilter:
+      properties:
+        date_from:
+          format: date
+          type:
+          - string
+          - 'null'
+        date_to:
+          format: date
+          type:
+          - string
+          - 'null'
+        report_users:
+          items:
+            $ref: '#/components/schemas/ReportUser'
+          type: array
+      required:
+      - report_users
+      type: object
+      x-access:
+      - Public
+    ReportAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportAdmissionAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportAdmissionRelationships'
+        type:
+          enum:
+          - report_admissions
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    ReportDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Report'
+        links:
+          $ref: '#/components/schemas/ReportLinks'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ThinRelationship:
+      properties:
+        data:
+          description: A relationship which just contains id and type of the related resource
+          items:
+            properties:
+              id:
+                description: ID of the referenced resource
+                format: uuid
+                type: string
+              type:
+                description: Name of the referenced resource type
+                type: string
+            type: object
+          type: array
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionAttributes:
+      properties:
+        admission_datetime:
+          format: date-time
+          type: string
+        scheme_status_code:
+          type: string
+        scheme_status_code_description:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportAdmissionStatus'
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    ReportRelationships:
+      properties:
+        report_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportAdmission'
+              type: array
+          type: object
+        report_request:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportRequest'
+              type: array
+          type: object
+        transaction_file:
+          $ref: '#/components/schemas/ThinRelationship'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

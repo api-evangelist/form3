@@ -1,0 +1,574 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Subscriptions API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Subscriptions
+paths:
+  /notification/subscriptions:
+    get:
+      operationId: ListSubscriptions
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^[A-z0-9]{4}$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by event type
+        in: query
+        name: filter[event_type]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by record type
+        in: query
+        name: filter[record_type]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Filter by deactivated
+        in: query
+        name: filter[deactivated]
+        required: false
+        schema:
+          type: boolean
+      - description: Filter by callback_transport
+        in: query
+        name: filter[callback_transport]
+        required: false
+        schema:
+          type: string
+      - description: Filter on callback_uri containing a search term
+        in: query
+        name: filter[callback_uri_search_term]
+        required: false
+        schema:
+          type: string
+      - description: Filter by existence of notification filters
+        in: query
+        name: filter[notification_filter]
+        required: false
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: List of subscription details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsListResponse'
+      summary: List all subscriptions
+      tags:
+      - Subscriptions
+      x-access:
+      - Public
+    post:
+      operationId: CreateSubscription
+      responses:
+        201:
+          description: Subscription creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCreationResponse'
+      summary: Create subscription
+      tags:
+      - Subscriptions
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreation'
+        required: true
+  /notification/subscriptions/{id}:
+    delete:
+      operationId: DeleteSubscription
+      parameters:
+      - description: Subscription Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Subscription deleted OK. No body content will be returned
+      summary: Deletes a subscription
+      tags:
+      - Subscriptions
+      x-access:
+      - Public
+    get:
+      operationId: FetchSubscription
+      parameters:
+      - description: Subscription Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Subscription details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+      summary: Fetch subscription
+      tags:
+      - Subscriptions
+      x-access:
+      - Public
+    patch:
+      operationId: PatchSubscription
+      parameters:
+      - description: Subscription Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Subscription details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update subscription details
+      tags:
+      - Subscriptions
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionAmendment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionAmendment'
+components:
+  schemas:
+    SubscriptionAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/SubscriptionUpdate'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SubscriptionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SubscriptionCreate'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SubscriptionDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Subscription'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    CallbackURI:
+      properties:
+        callback_transport:
+          $ref: '#/components/schemas/CallbackTransport'
+          description: 'Type of transport: queue, public http or private http for specific cloud'
+        callback_uri:
+          description: URI that will be called with the notification
+          pattern: ^[A-Za-z0-9 .,@:\&\?=\/\-_]*$
+          type: string
+      required:
+      - callback_transport
+      - callback_uri
+      type: object
+      x-access:
+      - Public
+    CallbackTransport:
+      enum:
+      - queue
+      - http
+      - http_aws_private
+      - http_gcp_private
+      - http_azure_private
+      type: string
+      x-access:
+      - Public
+    SubscriptionUpdateAttributes:
+      properties:
+        callback_transport:
+          $ref: '#/components/schemas/CallbackTransport'
+          description: Deprecated. Please use callback_uris instead
+        callback_uri:
+          description: Deprecated. Please use callback_uris instead
+          pattern: ^[A-Za-z0-9 .,@:\&\?=\/\-_]*$
+          type: string
+        callback_uris:
+          items:
+            $ref: '#/components/schemas/CallbackURI'
+          type: array
+        deactivated:
+          type:
+          - boolean
+          - 'null'
+        event_type:
+          pattern: ^[A-Za-z_-]*$
+          type: string
+        filter:
+          type: string
+        record_type:
+          pattern: ^[A-Za-z_-]*$
+          type: string
+        user_defined_data:
+          description: All purpose list of key-value pairs to store specific data for the associated subscription.
+          items:
+            $ref: '#/components/schemas/SubscriptionUserDefinedData'
+          maxItems: 5
+          type: array
+          x-omitempty: true
+        user_id:
+          format: uuid
+          readOnly: true
+          type: string
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SubscriptionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Subscription'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    SubscriptionUpdate:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SubscriptionUpdateAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: subscriptions
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    Subscription:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SubscriptionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: subscriptions
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SubscriptionCreate:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SubscriptionAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: subscriptions
+          pattern: ^[A-Za-z]*$
+          type: string
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SubscriptionAttributes:
+      properties:
+        callback_transport:
+          $ref: '#/components/schemas/CallbackTransport'
+          description: Deprecated. Please use callback_uris instead
+        callback_uri:
+          description: Deprecated. Please use callback_uris instead
+          pattern: ^[A-Za-z0-9 .,@:\&\?=\/\-_]*$
+          type: string
+        callback_uris:
+          items:
+            $ref: '#/components/schemas/CallbackURI'
+          type: array
+        deactivated:
+          type:
+          - boolean
+          - 'null'
+        event_type:
+          pattern: ^[A-Za-z_-]*$
+          type: string
+        filter:
+          type: string
+        record_type:
+          pattern: ^[A-Za-z_-]*$
+          type: string
+        user_defined_data:
+          description: All purpose list of key-value pairs to store specific data for the associated subscription.
+          items:
+            $ref: '#/components/schemas/SubscriptionUserDefinedData'
+          maxItems: 5
+          type: array
+          x-omitempty: true
+        user_id:
+          format: uuid
+          readOnly: true
+          type: string
+      required:
+      - record_type
+      - event_type
+      type: object
+      x-access:
+      - Public
+    SubscriptionCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Subscription'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    SubscriptionUserDefinedData:
+      properties:
+        key:
+          description: A user-defined key, up to 45 characters. An entry always contains both `key` and `value` fields.
+          maxLength: 45
+          minLength: 1
+          type: string
+        value:
+          description: A user-defined value, up to 45 characters. An entry always contains both `key` and `value` fields.
+          maxLength: 45
+          minLength: 1
+          type: string
+      required:
+      - key
+      - value
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

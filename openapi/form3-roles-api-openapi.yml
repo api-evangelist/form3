@@ -1,0 +1,310 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Roles API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Roles
+paths:
+  /security/roles:
+    get:
+      operationId: ListAllRoles
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      responses:
+        200:
+          description: List of role details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailsListResponse'
+      summary: List all roles
+      tags:
+      - Roles
+      x-access:
+      - Public
+    post:
+      operationId: CreateRole
+      responses:
+        201:
+          description: Role creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RoleCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleCreationResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create role
+      tags:
+      - Roles
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/RoleCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleCreation'
+  /security/roles/{role_id}:
+    delete:
+      operationId: DeleteRole
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Role deleted
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Delete role
+      tags:
+      - Roles
+      x-access:
+      - Public
+    get:
+      operationId: FetchRole
+      parameters:
+      - description: Role Id
+        in: path
+        name: role_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Role details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailsResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch role
+      tags:
+      - Roles
+      x-access:
+      - Public
+components:
+  schemas:
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    Role:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/RoleAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: role
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    RoleAttributes:
+      properties:
+        name:
+          description: Name of the role
+          example: Read-only Role
+          type: string
+        parent_role_id:
+          description: Unique resource ID of the parent Role
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    RoleCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    RoleDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

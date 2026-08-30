@@ -1,0 +1,941 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Name Verification API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Name Verification API
+paths:
+  /organisation/nameverifications:
+    post:
+      operationId: CreateNameVerification
+      responses:
+        201:
+          description: created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationCreationResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Name verification creation request
+      tags:
+      - Name Verification API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/NameVerificationCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NameVerificationCreation'
+    get:
+      operationId: ListNameVerifications
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - description: Filter by account classification
+        in: query
+        name: filter[account_classification]
+        required: false
+        schema:
+          type: string
+      - description: Filter by account number
+        in: query
+        name: filter[account_number]
+        required: false
+        schema:
+          type: string
+          pattern: ^[A-Z0-9]{6,34}$
+      - description: Filter by bank id
+        in: query
+        name: filter[bank_id]
+        required: false
+        schema:
+          type: string
+      - description: Filter by bank id code
+        in: query
+        name: filter[bank_id_code]
+        required: false
+        schema:
+          type: string
+      - description: Filter by name
+        in: query
+        name: filter[name]
+        required: false
+        schema:
+          type: array
+          items:
+            maxLength: 256
+            minLength: 1
+            type: string
+      - description: Filter by secondary identification
+        in: query
+        name: filter[secondary_identification]
+        required: false
+        schema:
+          type: string
+      - description: Filter by created date from
+        in: query
+        name: filter[created_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by created date to
+        in: query
+        name: filter[created_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by modified date from
+        in: query
+        name: filter[modified_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by modified date to
+        in: query
+        name: filter[modified_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission created date from
+        in: query
+        name: filter[admission.created_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission created date to
+        in: query
+        name: filter[admission.created_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission modified date from
+        in: query
+        name: filter[admission.modified_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission modified date to
+        in: query
+        name: filter[admission.modified_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission status
+        in: query
+        name: filter[admission.status]
+        required: false
+        schema:
+          type: string
+      - description: Filter by admission answer
+        in: query
+        name: filter[admission.answer]
+        required: false
+        schema:
+          type: string
+      - description: Filter by admission actual name
+        in: query
+        name: filter[admission.actual_name]
+        required: false
+        schema:
+          type: string
+      - description: Filter by admission reason
+        in: query
+        name: filter[admission.reason]
+        required: false
+        schema:
+          type: string
+      - description: Filter by admission reason code
+        in: query
+        name: filter[admission.reason_code]
+        required: false
+        schema:
+          type: string
+      - description: Filter by submission created date from
+        in: query
+        name: filter[submission.created_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by submission created date to
+        in: query
+        name: filter[submission.created_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by submission modified date from
+        in: query
+        name: filter[submission.modified_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by submission modified date to
+        in: query
+        name: filter[submission.modified_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by submission status
+        in: query
+        name: filter[submission.status]
+        required: false
+        schema:
+          type: string
+      - description: Filter by submission answer
+        in: query
+        name: filter[submission.answer]
+        required: false
+        schema:
+          type: string
+      - description: Filter by submission actual name
+        in: query
+        name: filter[submission.actual_name]
+        required: false
+        schema:
+          type: string
+      - description: Filter by submission reason
+        in: query
+        name: filter[submission.reason]
+        required: false
+        schema:
+          type: string
+      - description: Filter by submission reason code
+        in: query
+        name: filter[submission.reason_code]
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of name verification details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationDetailsListResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List name verifications
+      tags:
+      - Name Verification API
+      x-access:
+      - Public
+  /organisation/nameverifications/{id}:
+    get:
+      operationId: GetNameVerification
+      parameters:
+      - description: Name Verification ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Name verification details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch name verification resource
+      tags:
+      - Name Verification API
+      x-access:
+      - Public
+  /organisation/nameverifications/{name_verification_id}/admissions/{id}:
+    get:
+      operationId: GetNameVerificationAdmission
+      parameters:
+      - in: path
+        name: name_verification_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Name verification admission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationAdmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameVerificationAdmissionDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Name verification admission fetch request
+      tags:
+      - Name Verification API
+      x-access:
+      - Public
+components:
+  schemas:
+    NameVerificationAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/NameVerificationAdmission'
+      type: object
+      x-access:
+      - Public
+    NameVerificationRelationships:
+      properties:
+        name_verification_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerificationAdmission'
+              maxItems: 1
+              minItems: 0
+              type: array
+          type: object
+        name_verification_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerificationSubmission'
+              maxItems: 1
+              minItems: 0
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionAnswer:
+      enum:
+      - confirmed
+      - rejected
+      type: string
+      x-access:
+      - Public
+    NameVerificationSubmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/NameVerificationSubmissionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/NameVerificationSubmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionStatus:
+      enum:
+      - delivery_confirmed
+      - delivery_failed
+      type: string
+      x-access:
+      - Public
+    VerificationScheme:
+      default: CoP
+      enum:
+      - CoP
+      - VoP
+      type: string
+      x-access:
+      - Public
+    NameVerificationAdmissionRelationships:
+      properties:
+        name_verification:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerification'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    NameVerification:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/NameVerificationAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/NameVerificationRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    NameVerificationAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    NameVerificationAdmissionAnswer:
+      enum:
+      - confirmed
+      - rejected
+      type: string
+      x-access:
+      - Public
+    NameVerificationAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/NameVerificationAdmissionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/NameVerificationAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    AccountClassification:
+      enum:
+      - personal
+      - business
+      type: string
+      x-access:
+      - Public
+    Requester:
+      properties:
+        bank_id:
+          maxLength: 11
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIDCode'
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    NameVerificationAttributes:
+      properties:
+        account_classification:
+          $ref: '#/components/schemas/AccountClassification'
+        account_number:
+          pattern: ^[A-Z0-9]{6,34}$
+          type: string
+        account_number_code:
+          $ref: '#/components/schemas/AccountNumberCode'
+        bank_id:
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIDCode'
+        id_code_type:
+          maxLength: 36
+          minLength: 0
+          type: string
+        name:
+          description: Account holder names (for example title, first name, last name). Used for Confirmation of Payee matching.
+          items:
+            maxLength: 256
+            minLength: 1
+            type: string
+          type: array
+        psp_request_id:
+          maxLength: 36
+          type: string
+        request_datetime:
+          format: date-time
+        requester:
+          $ref: '#/components/schemas/Requester'
+        secondary_identification:
+          type: string
+        verification_scheme:
+          $ref: '#/components/schemas/VerificationScheme'
+      required:
+      - account_number
+      - account_number_code
+      - bank_id
+      - bank_id_code
+      - name
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionRelationships:
+      properties:
+        name_verification:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerification'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    NameVerificationDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/NameVerification'
+      type: object
+      x-access:
+      - Public
+    NameVerificationCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NameVerification'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    NameVerificationAdmissionReasonCode:
+      enum:
+      - AC01
+      - ACNS
+      - ANNM
+      - BAMM
+      - BANM
+      - CASS
+      - CMTC
+      - IVCR
+      - MBAM
+      - NMTC
+      - NOAP
+      - OPTO
+      - PAMM
+      - PANM
+      - SCNS
+      type: string
+      x-access:
+      - Public
+    NameVerificationCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/NameVerification'
+      type: object
+      x-access:
+      - Public
+    DebtorParty:
+      properties:
+        account_with:
+          properties:
+            bank_name:
+              description: Financial institution name
+              type: string
+          type: object
+      type: object
+      x-access:
+      - Public
+      x-omitempty: true
+    NameVerificationSubmissionAttributes:
+      properties:
+        actual_name:
+          type: string
+        additional_messages:
+          items:
+            $ref: '#/components/schemas/NameVerificationSubmissionAdditionalMessage'
+          maxItems: 1
+          type: array
+        answer:
+          $ref: '#/components/schemas/NameVerificationSubmissionAnswer'
+        reason:
+          type: string
+        reason_code:
+          $ref: '#/components/schemas/NameVerificationSubmissionReasonCode'
+        status:
+          $ref: '#/components/schemas/NameVerificationSubmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionReasonCode:
+      enum:
+      - AC01
+      - ACNS
+      - ANNM
+      - BAMM
+      - BANM
+      - CASS
+      - CMTC
+      - IVCR
+      - MBAM
+      - NMTC
+      - NOAP
+      - OPTO
+      - PAMM
+      - PANM
+      - SCNS
+      type: string
+      x-access:
+      - Public
+    AccountNumberCode:
+      description: The type of identification given at `account_number` attribute
+      enum:
+      - BBAN
+      - IBAN
+      example: IBAN
+      maxLength: 4
+      type: string
+      x-access:
+      - Public
+    NameVerificationSubmissionAdditionalMessage:
+      properties:
+        message_code:
+          maxLength: 20
+          type: string
+        message_text:
+          maxLength: 500
+          type: string
+        message_type:
+          maxLength: 70
+          type: string
+      type: object
+      x-access:
+      - Public
+    NameVerificationAdmissionAttributes:
+      properties:
+        actual_name:
+          type: string
+        answer:
+          $ref: '#/components/schemas/NameVerificationAdmissionAnswer'
+        debtor_party:
+          $ref: '#/components/schemas/DebtorParty'
+        reason:
+          type: string
+        reason_code:
+          $ref: '#/components/schemas/NameVerificationAdmissionReasonCode'
+        status:
+          $ref: '#/components/schemas/NameVerificationAdmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    BankIDCode:
+      enum:
+      - GBDSC
+      - SWBIC
+      type: string
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    NameVerificationDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/NameVerification'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

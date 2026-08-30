@@ -1,0 +1,722 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Qualified Transactions API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: QualifiedTransactions
+paths:
+  /transaction/qualified_transactions:
+    get:
+      operationId: ListQualifiedTransactions
+      parameters:
+      - description: Returns transaction qualifications belonging to a single organisation. This filter is required.
+        in: query
+        name: filter[organisation_id]
+        required: true
+        schema:
+          type: string
+      - description: 'Returns transaction qualifications by their current qualification status.
+
+
+          processed – The transaction has been processed fully.
+
+          unprocessed – The transaction has not yet been fully processed qualified and may still be waiting for additional processing or intervention.
+
+          '
+        in: query
+        name: filter[status]
+        required: false
+        schema:
+          type: string
+          enum:
+          - processed
+          - unprocessed
+      - description: 'Returns transaction qualifications associated with a specific transaction grouping ID.
+
+
+          A transaction grouping ID is the stable identifier for a logical transaction qualification.
+
+
+          It is derived from the transaction attributes that uniquely define a qualification.
+
+          Unlike transaction.id, which may appear in multiple qualifications when the debtor and beneficiary belong to different Form3 organisations, a transaction grouping ID uniquely identifies a single organisation-scoped qualification.
+
+          The transaction grouping ID remains consistent across all qualifications generated for that logical transaction, making it useful for retrieving its complete qualification history.
+
+          '
+        in: query
+        name: filter[transaction_grouping_id]
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - description: Returns transaction qualifications for a specific product.
+        in: query
+        name: filter[transaction.product]
+        required: false
+        schema:
+          type: string
+      - description: Returns transaction qualifications associated with a specific transaction identifier.
+        in: query
+        name: filter[transaction.id]
+        required: false
+        schema:
+          type: string
+      - description: Returns transaction qualifications denominated in a specific currency.
+        in: query
+        name: filter[transaction.currency]
+        required: false
+        schema:
+          type: string
+      - description: Returns transaction qualifications of a particular transaction type.
+        in: query
+        name: filter[transaction.type]
+        required: false
+        schema:
+          type: string
+      - description: 'Returns transaction qualifications whose current qualification deadline is waiting on a specific responsible party.
+
+
+          This identifies which party is currently expected to perform the next action before the transaction can be qualified.
+
+          '
+        in: query
+        name: filter[current_deadline.responsibility_with]
+        required: false
+        schema:
+          type: string
+          enum:
+          - form3
+          - customer
+      - description: 'Returns transaction qualifications based on whether their current qualification deadline has been exceeded:
+
+
+          true – The active qualification deadline has expired without the expected events occurring. These transactions have exhausted the current waiting period and typically require investigation or operational intervention.
+
+          false – The current qualification deadline has not yet expired. The transaction is still within its allowed qualification window and may still complete successfully without intervention.
+
+          '
+        in: query
+        name: filter[current_deadline.exceeded]
+        required: false
+        schema:
+          type: boolean
+      - description: 'Returns transaction qualifications that have one or more of the specified tags.
+
+
+          Tags are used used to categorise and identify specific classifications of transactions.
+
+          '
+        in: query
+        name: filter[tags]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Returns transaction qualifications of a particular transaction direction.
+        in: query
+        name: filter[transaction.direction]
+        required: false
+        schema:
+          type: string
+          enum:
+          - inbound
+          - outbound
+      - description: Returns transaction qualifications created on or after the specified date and time.
+        in: query
+        name: filter[created_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Returns transaction qualifications created on or before the specified date and time.
+        in: query
+        name: filter[created_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Returns transaction qualifications last modified on or after the specified date and time.
+        in: query
+        name: filter[modified_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Returns transaction qualifications last modified on or before the specified date and time.
+        in: query
+        name: filter[modified_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Number of items to select.
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+          minimum: 1
+      - description: Cursor for previous page
+        in: query
+        name: page[before]
+        required: false
+        schema:
+          type: string
+      - description: Cursor for next page
+        in: query
+        name: page[after]
+        required: false
+        schema:
+          type: string
+      - description: Optional grouping fields for aggregate results. Accepts a CSV list of field paths such as `transaction.metadata.currency`. If an aggregate requires implicit grouping, those fields are applied in addition to any explicit `group_by` fields.
+        in: query
+        name: group_by
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Optional aggregate functions to compute for `transaction.metadata.amount`. Results are returned in `meta.aggregations`. This aggregate implicitly groups by `transaction.metadata.currency`.
+        in: query
+        name: aggregate[transaction.metadata.amount]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - sum
+            type: string
+      - description: Optional aggregate functions to compute for `transaction.id`. Results are returned in `meta.aggregations`.
+        in: query
+        name: aggregate[transaction.id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - count
+            type: string
+      responses:
+        200:
+          description: List of qualified transactions
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/QualifiedTransactionsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualifiedTransactionsListResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      summary: List Qualified Transactions
+      tags:
+      - QualifiedTransactions
+      x-access:
+      - Public
+  /transaction/qualified_transactions/{id}:
+    get:
+      operationId: GetQualifiedTransactionByID
+      parameters:
+      - description: Qualified Transaction ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Qualified Transaction
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/FetchQualifiedTransactionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchQualifiedTransactionResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Not Found
+      summary: Fetch Qualified Transaction by ID
+      tags:
+      - QualifiedTransactions
+      x-access:
+      - Public
+components:
+  schemas:
+    QualifiedTransaction:
+      description: 'Qualified transaction as a resource envelope: identifiers at the top level,
+
+        full qualified transaction payload under `attributes`.
+
+        '
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QualifiedTransactionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource identifier for the qualified transaction.
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Organisation this qualified transaction belongs to.
+          type: string
+        type:
+          description: Name of the resource type
+          example: qualified_transactions
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: 'Version is incremented whenever an updated qualification is emitted.
+
+            It is guaranteed to increase monotonically for the same qualification ID.
+
+            '
+          format: int32
+          minimum: 1
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    LegRef:
+      description: Reference to a leg instance within a transaction.
+      properties:
+        id:
+          description: Unique identifier within the scope of a leg type.
+          minLength: 1
+          type: string
+        type:
+          example: task
+          type: string
+      required:
+      - type
+      - id
+      type: object
+      x-access:
+      - Public
+    LegEvent:
+      description: 'A single event associated with a leg.
+
+
+        A TransactionEvent models a single event, but for historical reasons it can be associated with multiple legs.
+
+        When an event is associated with multiple legs like this, we emit a LegEvent representing the event for each leg.
+
+        The LegEvent contains the event and any associated event fields that are relevant to each specific leg.
+
+
+        For example, Dynamic Deadlines are defined within a TransactionEvent, but are a property of the nested leg object.
+
+        Each leg can specify a unique dynamic deadline, so this can result in multiple LegEvents, one for each leg, each
+
+        with its own dynamic deadlines set.
+
+
+        This is largely for legacy purposes and a TransactionEvent should really be emitted against a single leg.
+
+        '
+      properties:
+        dynamic_deadline:
+          $ref: '#/components/schemas/DynamicDeadline'
+        timestamp:
+          format: date-time
+          type: string
+        type:
+          type: string
+      required:
+      - type
+      - timestamp
+      type: object
+      x-access:
+      - Public
+    QualifiedTransactionsListResponse:
+      description: Paginated list of qualified transactions (list endpoint).
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/QualifiedTransaction'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Deadline:
+      properties:
+        exceeded:
+          type:
+          - boolean
+          - 'null'
+        exceeded_at:
+          format: date-time
+          type: string
+        id:
+          type: string
+        leg:
+          $ref: '#/components/schemas/LegRef'
+        name:
+          type: string
+        relative_ms:
+          format: int64
+          type:
+          - integer
+          - 'null'
+        responsibility_with:
+          $ref: '#/components/schemas/ResponsibleEntity'
+      required:
+      - id
+      - name
+      - exceeded_at
+      - exceeded
+      - leg
+      type: object
+      x-access:
+      - Public
+    ErrorResponse:
+      properties:
+        error:
+          type: string
+      type: object
+      x-access:
+      - Public
+    QualifiedTransactionAttributes:
+      properties:
+        current_deadline:
+          $ref: '#/components/schemas/Deadline'
+        deadlines:
+          items:
+            $ref: '#/components/schemas/Deadline'
+          type: array
+        latencies:
+          items:
+            $ref: '#/components/schemas/Latency'
+          type: array
+        legs:
+          items:
+            $ref: '#/components/schemas/QualifiedLeg'
+          type: array
+        status:
+          $ref: '#/components/schemas/QualificationStatus'
+        tags:
+          items:
+            type: string
+          type: array
+        transaction:
+          $ref: '#/components/schemas/TransactionInfo'
+        transaction_grouping_id:
+          format: uuid
+          type: string
+      required:
+      - transaction
+      - transaction_grouping_id
+      - legs
+      - status
+      - latencies
+      - tags
+      - deadlines
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    Responsibility:
+      description: 'Indicates whether responsibility for a leg sits with Form3 or the customer.
+
+        If unset, the responsibility is assumed to be with Form3.
+
+        '
+      properties:
+        with:
+          $ref: '#/components/schemas/ResponsibleEntity'
+      type: object
+      x-access:
+      - Public
+    ResponsibleEntity:
+      description: 'The entity responsible.
+
+        Either Form3 or the customer.
+
+        '
+      enum:
+      - form3
+      - customer
+      type: string
+      x-access:
+      - Public
+    DynamicDeadline:
+      description: "A deadline that the transaction must be processed by, dynamically set by the service producing the \nTransactionEvent. \nIf a leg needs to be able to change a deadline, a priority can be specified. TIA will apply the deadline with\nthe highest priority value. e.g. A task leg might start with a short deadline of 5m, then when customer input\nis required we might want a larger deadline of 1h if a customer doesn't have to respond quickly, finally once\na customer response is received, we can reduce the deadline back to 5m to ensure the remaining processing within\nour platform happens in the time we expect.\n"
+      properties:
+        absolute:
+          format: date-time
+          type: string
+        priority:
+          format: int64
+          type:
+          - integer
+          - 'null'
+      required:
+      - absolute
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    QualifiedLeg:
+      properties:
+        dynamic_deadline:
+          $ref: '#/components/schemas/DynamicDeadline'
+        events:
+          items:
+            $ref: '#/components/schemas/LegEvent'
+          type: array
+        id:
+          description: 'Identifier for this specific **instance** of the leg.
+
+            The combination of `(type, id)` must be unique within a transaction.
+
+            - For legs that have multiple instances (e.g. `task`), `id` should be the relevant identifier (e.g. a task ID).
+
+            - For legs that are effectively single-instance per transaction (e.g. `fps`), the transaction ID can be safely reused.
+
+            '
+          minLength: 1
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'Optional arbitrary metadata that can be attached to the Leg.
+
+            Any TransactionEvent can add metadata to a leg that it is part of, with the overall Leg metadata being merged.
+
+            Metadata values are not used by TIA itself, but get included in logs, and propagate through the system to be
+
+            included within the QualifiedTransaction. Data not needed for TIA, but useful to systems (or humans)
+
+            interacting with TIA can be stored here.
+
+
+            Note that all metadata gets included in TIA state, please be mindful to only store small values here, i.e.
+
+            don''t JSON encode an object and store it here.
+
+            '
+          example:
+            amount: '13.37'
+            currency: GBP
+          type: object
+        relationships:
+          $ref: '#/components/schemas/QualifiedLegRelationships'
+        responsibility:
+          $ref: '#/components/schemas/Responsibility'
+          description: 'Indicates whether responsibility for an unprocessed leg sits with Form3 or the customer.
+
+            '
+        status:
+          $ref: '#/components/schemas/QualificationStatus'
+        type:
+          description: 'Identifies the type of leg (e.g. `task`, `fps`, `api`).
+
+            Can also be thought of as a name for the part of the transaction that this leg is representing.
+
+            There can be multiple legs with the same type in the same transaction.
+
+            '
+          example: task
+          type: string
+      required:
+      - type
+      - id
+      - events
+      - status
+      - responsibility
+      type: object
+      x-access:
+      - Public
+    QualifiedLegRelationships:
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/QualifiedLegRelationship'
+          type: array
+          x-omitempty: true
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    QualificationStatus:
+      enum:
+      - processed
+      - unprocessed
+      type: string
+      x-access:
+      - Public
+    FetchQualifiedTransactionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/QualifiedTransaction'
+      type: object
+      x-access:
+      - Public
+    QualifiedLegRelationship:
+      description: 'Defines an association from a qualified leg to one of its child legs.
+
+        '
+      properties:
+        dependency:
+          default: false
+          description: 'Whether this relationship indicates a dependency such that the parent will not complete before the child
+
+            (e.g. has a dependency on).
+
+            Omission of this field indicates that no dependency exists.
+
+            '
+          type: boolean
+        leg:
+          $ref: '#/components/schemas/LegRef'
+      required:
+      - leg
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    TransactionInfo:
+      properties:
+        business_line:
+          type: string
+        direction:
+          enum:
+          - inbound
+          - outbound
+          type: string
+        id:
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'Arbitrary metadata attached to the transaction
+
+            '
+          example:
+            amount: '13.37'
+            currency: GBP
+          type: object
+        product:
+          type: string
+        type:
+          type: string
+      required:
+      - business_line
+      - product
+      - id
+      - type
+      - direction
+      type: object
+      x-access:
+      - Public
+    Latency:
+      properties:
+        alias:
+          type: string
+        id:
+          type: string
+        value_ms:
+          format: int64
+          type: integer
+      required:
+      - id
+      - value_ms
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

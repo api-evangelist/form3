@@ -1,0 +1,475 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Scheme Messages API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: SchemeMessages
+paths:
+  /notification/schememessages:
+    get:
+      operationId: ListMessages
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^(first|last|[\d]{1,4})$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+          minimum: 0
+      - description: Filter by Unique SchemeId
+        in: query
+        name: filter[unique_scheme_id]
+        required: false
+        schema:
+          type: string
+      - description: Filter by Scheme Message Type
+        in: query
+        name: filter[scheme_message_type]
+        required: false
+        schema:
+          type: string
+      - description: Filter by Payment Scheme
+        in: query
+        name: filter[payment_scheme]
+        required: false
+        schema:
+          type: string
+      - description: Filter by Admission DateTime
+        in: query
+        name: filter[admission.admission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by Admission DateTime
+        in: query
+        name: filter[admission.admission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: List of scheme messages
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageDetailsListResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List messages
+      tags:
+      - SchemeMessages
+      x-access:
+      - Public
+  /notification/schememessages/{id}:
+    get:
+      operationId: FetchMessage
+      parameters:
+      - description: Scheme Message Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Scheme Message details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageDetailsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Scheme Message Not found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch message
+      tags:
+      - SchemeMessages
+      x-access:
+      - Public
+  /notification/schememessages/{id}/admissions/{admissionId}:
+    get:
+      operationId: GetSchemeMessageAdmissionByAdmissionId
+      parameters:
+      - description: Scheme Message Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Scheme Message Admission Id
+        in: path
+        name: admissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Get scheme message admission by Id
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageAdmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeMessageAdmissionDetailsResponse'
+        400:
+          description: Scheme Message Admission by Id bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Scheme Message Not found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get Scheme Message Admission By AdmissionId
+      tags:
+      - SchemeMessages
+      x-access:
+      - Public
+components:
+  schemas:
+    SchemeMessageAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeMessageAdmissionAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/SchemeMessageAdmissionRelationships'
+        type:
+          enum:
+          - scheme_message_admissions
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    SchemeMessageRelationships:
+      properties:
+        scheme_message_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeMessageAdmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAttributes:
+      properties:
+        date:
+          format: date-time
+          type: string
+        entries:
+          items:
+            $ref: '#/components/schemas/SchemeMessageEntryItem'
+          type: array
+        payment_scheme:
+          $ref: '#/components/schemas/PaymentScheme'
+        scheme_message_type:
+          type: string
+        unique_scheme_id:
+          type:
+          - string
+          - 'null'
+      required:
+      - scheme_message_type
+      - date
+      - payment_scheme
+      - entries
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionStatus:
+      enum:
+      - delivery_confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    SchemeMessageEntryItem:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+          x-omitempty: false
+      required:
+      - key
+      type: object
+      x-access:
+      - Public
+    SchemeMessageDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeMessage'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeMessageAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionRelationships:
+      properties:
+        scheme_message:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeMessage'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    PaymentScheme:
+      enum:
+      - TCH
+      - SEPASCT
+      - FDW
+      - SEPAINSTANT
+      - FPS
+      - FDN
+      - BACS
+      type: string
+      x-access:
+      - Public
+    SchemeMessageDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeMessage'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeMessage:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeMessageAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/SchemeMessageRelationships'
+        type:
+          enum:
+          - scheme_messages
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionAttributes:
+      properties:
+        admission_datetime:
+          format: date-time
+          type: string
+        scheme_status_code:
+          type: string
+        scheme_status_code_description:
+          type: string
+        status:
+          $ref: '#/components/schemas/SchemeMessageAdmissionStatus'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

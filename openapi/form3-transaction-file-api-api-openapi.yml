@@ -1,0 +1,1671 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Transaction File API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Transaction File API
+paths:
+  /files/transactions:
+    get:
+      operationId: ListTransactionFiles
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^(first|last|[\d]{1,4})$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+          minimum: 0
+      - description: Find all File resources with a given organisation ID
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Find File resources by a certain scheme
+        in: query
+        name: filter[payment_scheme]
+        required: false
+        schema:
+          type: string
+      - description: Find File resources by the format of the file
+        in: query
+        name: filter[file_format]
+        required: false
+        schema:
+          type: string
+      - description: Find all File resources created from this date, in format YYYY-MM-DD
+        in: query
+        name: filter[created_on_from]
+        required: false
+        schema:
+          type: string
+          format: date
+      - description: Find all File resources created up to this date, in format YYYY-MM-DD
+        in: query
+        name: filter[created_on_to]
+        required: false
+        schema:
+          type: string
+          format: date
+      - description: Find all File resources with a certain submission status
+        in: query
+        name: filter[submission.status]
+        required: false
+        schema:
+          type: string
+      - description: Find all File resources submitted from and including this date/time
+        in: query
+        name: filter[submission.submission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find all File resources submitted up to and included this date/time
+        in: query
+        name: filter[submission.submission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find File resources the id of the submission to to the scheme
+        in: query
+        name: filter[submission.scheme_references.file_identifier]
+        required: false
+        schema:
+          type: string
+      - description: Find File resources by the id of the file sent to the scheme
+        in: query
+        name: filter[submission.scheme_references.file_number]
+        required: false
+        schema:
+          type: string
+      - description: Find File resources by the Service User Number (SUN) of the payment originator
+        in: query
+        name: filter[submission.scheme_references.clearing_id]
+        required: false
+        schema:
+          type: string
+      - description: Find all File resources with a certain admission status
+        in: query
+        name: filter[admission.status]
+        required: false
+        schema:
+          type: string
+      - description: Find all File resources admitted from and including this date/time
+        in: query
+        name: filter[admission.admission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find all File resources admitted up to and included this date/time
+        in: query
+        name: filter[admission.admission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: List of transaction files
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ListTransactionFilesResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTransactionFilesResponse'
+        400:
+          description: Reports bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List transaction files
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+    post:
+      operationId: CreateTransactionFile
+      responses:
+        201:
+          description: Transaction File Creation Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Transaction File
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionFileCreation'
+  /files/transactions/{transaction_file_id}:
+    get:
+      operationId: GetTransactionFile
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Acceptable Formats, possible values are "application/vnd.api+json", "application/x-ndjson", "application/x.form3.standard18", "application/xml", "application/x.form3.messaging"
+        in: header
+        name: Accept
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Transaction File Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch transaction file
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+    put:
+      operationId: UploadTransactionFile
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Which part of the file we are uploading
+        in: header
+        name: X-Form3-Upload-Part
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Transaction File Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Transaction File Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Transaction File Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Put Transaction file chunk
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+        required: true
+  /files/transactions/{transaction_file_id}/admissions:
+    post:
+      operationId: CreateTransactionFileAdmission
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Transaction File Admission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileAdmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileAdmissionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Transaction File Admission Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Transaction File Admission
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionFileAdmissionCreation'
+  /files/transactions/{transaction_file_id}/admissions/{transaction_file_admission_id}:
+    get:
+      operationId: GetTransactionFileAdmission
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Transaction File Admission Id
+        in: path
+        name: transaction_file_admission_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Transaction File Admission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileAdmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileAdmissionResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch transaction file admission
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+  /files/transactions/{transaction_file_id}/submissions:
+    post:
+      operationId: CreateTransactionFileSubmission
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Transaction File Submission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Transaction File Submission Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionConflictError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionConflictError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Transaction File Submission
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionFileSubmissionCreation'
+  /files/transactions/{transaction_file_id}/submissions/{transaction_file_submission_id}:
+    get:
+      operationId: GetTransactionFileSubmission
+      parameters:
+      - description: Transaction File Id
+        in: path
+        name: transaction_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Transaction File Submission Id
+        in: path
+        name: transaction_file_submission_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Transaction File Submission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch transaction file submission
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+  /files/transactions/{transaction_file_id}/submissions/{transaction_file_submission_id}/tasks/{task_id}:
+    parameters:
+    - description: Transaction File Id
+      in: path
+      name: transaction_file_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - description: Transaction File Submission Id
+      in: path
+      name: transaction_file_submission_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - description: Transaction File Submission Task Id
+      in: path
+      name: task_id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      operationId: GetTransactionFileSubmissionTask
+      responses:
+        200:
+          description: Transaction File Submission Task Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionTaskResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionTaskResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch transaction file submission task
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+    patch:
+      operationId: PatchTransactionFileSubmissionTask
+      responses:
+        200:
+          description: Transaction File Submission Task Updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionTaskResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFileSubmissionTaskResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorWithActualResource'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorWithActualResource'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Amend transaction file submission task
+      tags:
+      - Transaction File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionFileSubmissionTaskAmendment'
+components:
+  schemas:
+    TransactionFileSubmissionTask:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/TransactionFileSubmissionTaskAttributes'
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/TransactionFileSubmissionTaskRelationships'
+          readOnly: true
+        type:
+          enum:
+          - transaction_file_submission_tasks
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskStatus:
+      description: Processing status of the task
+      enum:
+      - pending
+      - on_hold
+      - completed
+      - failed
+      example: pending
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    TransactionFileResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFile'
+        links:
+          $ref: '#/components/schemas/TransactionFileLinks'
+      type: object
+      x-access:
+      - Public
+    TransactionFileAdmission:
+      properties:
+        attributes:
+          properties:
+            admission_datetime:
+              description: Time when the Form3 system begins processing of the admission
+              example: '2019-03-13T14:48:29.699Z'
+              format: date-time
+              readOnly: true
+              type: string
+            status:
+              $ref: '#/components/schemas/TransactionFileAdmissionStatus'
+            status_reason:
+              description: Plain-text description of the status attribute
+              example: accepted
+              readOnly: true
+              type: string
+            transaction_start_datetime:
+              description: Time the admission request was received by Form3. Used to compute the total transaction time
+              example: '2019-03-13T14:48:29.694Z'
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/TransactionFileAdmissionRelationships'
+          readOnly: true
+        type:
+          enum:
+          - transaction_file_admissions
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmission:
+      properties:
+        attributes:
+          properties:
+            scheme_references:
+              description: Summary of scheme-specific references submission to the scheme
+              items:
+                $ref: '#/components/schemas/TransactionFileSubmissionSchemeReference'
+              type: array
+            status:
+              $ref: '#/components/schemas/TransactionFileSubmissionStatus'
+            status_reason:
+              description: Plain-text description of the status attribute
+              example: transaction_files.data.attributes.transaction_count does not match file
+              readOnly: true
+              type: string
+            submission_datetime:
+              description: Time when the Form3 system begins processing of the submission
+              example: '2019-03-13T14:48:29.699Z'
+              format: date-time
+              readOnly: true
+              type: string
+            transaction_start_datetime:
+              description: Time the submission request was received by Form3. Used to compute the total transaction time
+              example: '2019-03-13T14:48:29.694Z'
+              format: date-time
+              readOnly: true
+              type: string
+            transaction_validation_error_handling:
+              description: Determines how a transaction file should be processed when validation errors are present
+              enum:
+              - reject_entire_file
+              - reject_invalid_transactions
+              type: string
+          type: object
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/TransactionFileSubmissionRelationships'
+          readOnly: true
+        type:
+          enum:
+          - transaction_file_submissions
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    NewTransactionFile:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/TransactionFileAttributes'
+          x-order: 4
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        type:
+          enum:
+          - transaction_files
+          type: string
+          x-order: 2
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ListTransactionFilesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/ListTransactionFileItem'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    TransactionFile:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/TransactionFileAttributes'
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/TransactionFileRelationships'
+        type:
+          enum:
+          - transaction_files
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    TransactionFileAttributes:
+      properties:
+        file_format:
+          default: ndjson
+          description: The format of the file that will be submitted/admitted to Form3
+          enum:
+          - ndjson
+          - standard18
+          - messaging
+          - ddica_create
+          - ddica_cancel
+          type: string
+        file_hash:
+          description: Hashed content of the file
+          example: f60071837de834af950f070aa08fc1e0e3e4b1f7014a6251eabf207eba10c817
+          minLength: 1
+          type: string
+        file_size:
+          description: The size of the file to be uploaded - number of bytes. Max size is 1.4 Gigabyte
+          example: 1024
+          maximum: 1400000000
+          type: integer
+        hashing_algorithm:
+          description: The algorithm used to generate the signature
+          enum:
+          - SHA256
+          type: string
+        number_of_parts:
+          description: The count of chunks to be uploaded to the resource
+          example: 1
+          minimum: 1
+          type: integer
+        payment_scheme:
+          description: Scheme/gateway that the file is to be processed by
+          enum:
+          - BACS
+          type: string
+        transaction_count:
+          description: The count of transactions that will be submitted in the file
+          example: 1
+          maximum: 1200000
+          type: integer
+        transaction_data:
+          description: All purpose key-value fields containing file specific data (read only).
+          type: object
+        transaction_sum:
+          description: The sum value of the transactions will be submitted in the file
+          example: '1.00'
+          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+          type: string
+      required:
+      - file_format
+      - file_hash
+      - hashing_algorithm
+      - transaction_count
+      - payment_scheme
+      - file_size
+      - number_of_parts
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ListTransactionFileItem:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/TransactionFileAttributes'
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/ListTransactionFileItemRelationships'
+          x-order: 8
+        type:
+          enum:
+          - transaction_files
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ListTransactionFileItemRelationships:
+      properties:
+        reports:
+          $ref: '#/components/schemas/ThinRelationship'
+        scheme_files:
+          $ref: '#/components/schemas/ThinRelationship'
+        transaction_file_admissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFileAdmission'
+              type: array
+          type: object
+        transaction_file_submissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFileSubmissionShortRelationship'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    TransactionFileRelationships:
+      properties:
+        reports:
+          $ref: '#/components/schemas/ThinRelationship'
+        scheme_files:
+          $ref: '#/components/schemas/ThinRelationship'
+        transaction_file_admissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFileAdmission'
+              type: array
+          type: object
+        transaction_file_submissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFileSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    TransactionFileAdmissionRelationships:
+      properties:
+        transaction_files:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFile'
+              type: array
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileSubmissionTask'
+        links:
+          $ref: '#/components/schemas/TransactionFileLinks'
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionShortRelationship:
+      properties:
+        attributes:
+          properties:
+            status:
+              $ref: '#/components/schemas/TransactionFileSubmissionStatus'
+          type: object
+          x-order: 3
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        type:
+          enum:
+          - transaction_file_submissions
+          type: string
+          x-order: 2
+      required:
+      - id
+      type: object
+      x-access:
+      - Public
+    TransactionFileAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileAdmission'
+        links:
+          $ref: '#/components/schemas/TransactionFileLinks'
+      type: object
+      x-access:
+      - Public
+    ApiErrorWithActualResource:
+      properties:
+        actual_resource:
+          type: object
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskRelationships:
+      description: Thin relationships returned on GET (id and type only)
+      properties:
+        scheme_file:
+          $ref: '#/components/schemas/ThinRelationship'
+        transaction_file:
+          $ref: '#/components/schemas/ThinRelationship'
+        transaction_file_submission:
+          $ref: '#/components/schemas/ThinRelationship'
+      type: object
+      x-access:
+      - Public
+    TransactionFileCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewTransactionFile'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionConflictError:
+      properties:
+        actual_resource:
+          $ref: '#/components/schemas/TransactionFileSubmission'
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    TransactionFileAdmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileAdmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionSchemeReference:
+      properties:
+        clearing_id:
+          description: Service User Number (SUN) of the payment originator
+          example: ABC123
+          pattern: .{6}$
+          type: string
+        file_identifier:
+          description: Submission serial number
+          example: '123456'
+          type: string
+        file_number:
+          description: Number of the file sent to the scheme
+          example: '001'
+          type: string
+        transaction_count:
+          description: The count of transactions submitted in a given scheme file
+          example: 1
+          type: integer
+        transaction_sum:
+          description: The sum of transactions submitted in a given scheme file
+          example: '1000.00'
+          type: string
+      type: object
+      x-access:
+      - Public
+    TransactionFileLink:
+      properties:
+        href:
+          format: uri
+          type: string
+        meta:
+          properties:
+            content-type:
+              type: string
+          type: object
+      required:
+      - href
+      type: object
+      x-access:
+      - Public
+    TransactionFileLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/TransactionFileLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/TransactionFileLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskAttributes:
+      properties:
+        assignee:
+          description: The entity responsible for completing the task
+          enum:
+          - customer
+          - form3
+          example: customer
+          type: string
+        input:
+          description: Key-value pairs containing data to complete the task
+          type: object
+        name:
+          description: Identifies the task to be executed
+          example: bacs_std18_file_approval
+          type: string
+        outcome:
+          $ref: '#/components/schemas/TransactionFileSubmissionTaskOutcome'
+        output:
+          description: Key-value pairs containing the result data of the task
+          type: object
+        status:
+          $ref: '#/components/schemas/TransactionFileSubmissionTaskStatus'
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileSubmission'
+        links:
+          $ref: '#/components/schemas/TransactionFileLinks'
+      type: object
+      x-access:
+      - Public
+    ThinRelationship:
+      properties:
+        data:
+          description: A relationship which just contains id and type of the related resource
+          items:
+            properties:
+              id:
+                description: ID of the referenced resource
+                format: uuid
+                type: string
+              type:
+                description: Name of the referenced resource type
+                type: string
+            type: object
+          type: array
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionStatus:
+      description: Status of the transaction file submission
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - delivery_failed
+      - delivery_confirmed
+      example: accepted
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    TransactionFileSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/TransactionFileSubmissionTaskUpdate'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    TransactionFileAdmissionStatus:
+      description: Status of the transaction file admission
+      enum:
+      - confirmed
+      - failed
+      - pending
+      example: confirmed
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskUpdate:
+      properties:
+        attributes:
+          properties:
+            outcome:
+              $ref: '#/components/schemas/TransactionFileSubmissionTaskOutcome'
+            output:
+              description: Key-value pairs containing the result data of the task
+              type: object
+            status:
+              $ref: '#/components/schemas/TransactionFileSubmissionTaskStatus'
+          type: object
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionTaskOutcome:
+      description: Result of the task when in a terminal state
+      enum:
+      - passed
+      - failed
+      example: passed
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    TransactionFileSubmissionRelationships:
+      properties:
+        transaction_file_submission_tasks:
+          $ref: '#/components/schemas/ThinRelationship'
+        transaction_files:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/TransactionFile'
+              type: array
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

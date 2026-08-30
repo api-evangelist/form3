@@ -1,0 +1,404 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Account Identification API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: AccountIdentification
+paths:
+  /organisation/accounts/{account_id}/identifications:
+    get:
+      operationId: ListAccountIdentificationsByAccount
+      parameters:
+      - description: Account Id to which this identification relates to
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Filter to only include account identifications with specified secondary_identification
+        in: query
+        name: filter[secondary_identification]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: List of account identification
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationListResponse'
+      summary: List Account Identifications by Account
+      tags:
+      - AccountIdentification
+      x-access:
+      - Public
+    post:
+      operationId: CreateAccountIdentification
+      parameters:
+      - description: Account Id to which this identification relates to
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Account Identification creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+        409:
+          description: Account Identification creation error, constraint violation of secondary identification
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create an identification for an existing Account
+      tags:
+      - AccountIdentification
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AccountIdentificationRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountIdentificationRequest'
+  /organisation/accounts/{account_id}/identifications/{identification_id}:
+    delete:
+      operationId: DeleteAccountIdentification
+      parameters:
+      - description: Account Id
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Account Identification Id
+        in: path
+        name: identification_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Account Identification deleted
+        404:
+          description: Account Identification not found
+      summary: Delete account identification
+      tags:
+      - AccountIdentification
+      x-access:
+      - Public
+    get:
+      operationId: GetAccountIdentification
+      parameters:
+      - description: Account Id
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Account Identification Id
+        in: path
+        name: identification_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Account Identification response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+      summary: Get an account identification by id
+      tags:
+      - AccountIdentification
+      x-access:
+      - Public
+    patch:
+      operationId: PatchAccountIdentification
+      parameters:
+      - description: Account Id
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Account Identification Id; Must match id in the payload
+        in: path
+        name: identification_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Account Identification updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdentificationResponse'
+        409:
+          description: Account Identification update error, constraint violation of secondary identification
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Amend Account Identification
+      tags:
+      - AccountIdentification
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AccountIdentificationRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountIdentificationRequest'
+components:
+  schemas:
+    AccountIdentificationData:
+      allOf:
+      - $ref: '#/components/schemas/AccountIdentification'
+      - properties:
+          relationships:
+            $ref: '#/components/schemas/AccountIdentificationRelationships'
+        type: object
+      x-access:
+      - Public
+    AccountIdentificationRelationships:
+      properties:
+        account:
+          $ref: '#/components/schemas/RelationshipLinks'
+      x-access:
+      - Public
+    RelationshipLinks:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipData'
+          type: array
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationRequest:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountIdentification'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AccountIdentification:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountIdentificationAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Type of this resource, always account_identifications
+          example: account_identifications
+          format: ^account_identifications$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - attributes
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountIdentificationData'
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AccountIdentification'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationAttributes:
+      properties:
+        secondary_identification:
+          description: Used to validate where expecting an exact match against payment's reference information.
+          maxLength: 35
+          minLength: 1
+          type: string
+      required:
+      - secondary_identification
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

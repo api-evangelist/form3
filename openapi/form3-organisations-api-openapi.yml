@@ -1,0 +1,321 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Organisations API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Organisations
+paths:
+  /organisation/units:
+    get:
+      operationId: ListAllOrganisations
+      parameters:
+      - description: Child org id
+        in: query
+        name: filter[child_organisation_id]
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - description: Organisation ids
+        in: query
+        name: filter[organisation_ids]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      responses:
+        200:
+          description: List of organisation details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsListResponse'
+      summary: List all organisations
+      tags:
+      - Organisations
+      x-access:
+      - Public
+    post:
+      operationId: CreateOrganisation
+      responses:
+        201:
+          description: Organisation creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganisationCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationCreationResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create organisation
+      tags:
+      - Organisations
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/OrganisationCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganisationCreation'
+  /organisation/units/{id}:
+    get:
+      operationId: FetchOrganisation
+      parameters:
+      - description: Organisation Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Organisation details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch organisation
+      tags:
+      - Organisations
+      x-access:
+      - Public
+    patch:
+      operationId: UpdateOrganisation
+      parameters:
+      - description: Organisation Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Organisation details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationDetailsResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update organisation
+      tags:
+      - Organisations
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/OrganisationUpdate'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganisationUpdate'
+components:
+  schemas:
+    OrganisationDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    OrganisationUpdate:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    OrganisationCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Organisation:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/OrganisationAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: organisations
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    OrganisationDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Organisation'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    OrganisationCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    OrganisationAttributes:
+      properties:
+        name:
+          description: Name of the organisation
+          example: Acme Corporation
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

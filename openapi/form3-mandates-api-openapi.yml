@@ -1,0 +1,1580 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Mandates API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Mandates
+paths:
+  /transaction/mandates:
+    get:
+      operationId: GetMandates
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^[A-z0-9]{4}$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - in: query
+        name: filter[debtor_party.account_number]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[debtor_party.bank_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[beneficiary_party.account_number]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[beneficiary_party.bank_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[currency]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[payment_scheme]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[scheme_payment_type]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[processing_date_from]
+        required: false
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: filter[processing_date_to]
+        required: false
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: filter[scheme_processing_date_from]
+        required: false
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: filter[scheme_processing_date_to]
+        required: false
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: filter[clearing_id]
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: filter[admission.admission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[admission.admission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by admission status
+        in: query
+        name: filter[admission.status]
+        required: false
+        schema:
+          type: string
+      - description: Filter by admission scheme status code
+        in: query
+        name: filter[admission.scheme_status_code]
+        required: false
+        schema:
+          type: string
+      - description: Filter by amount
+        in: query
+        name: filter[amount]
+        required: false
+        schema:
+          type: string
+      - description: Filter by reference
+        in: query
+        name: filter[reference]
+        required: false
+        schema:
+          type: string
+      - description: Filter by unique scheme id
+        in: query
+        name: filter[unique_scheme_id]
+        required: false
+        schema:
+          type: string
+      - description: Include old versions of mandates
+        in: query
+        name: filter[all_versions]
+        required: false
+        schema:
+          type: boolean
+      - in: query
+        name: filter[submission.submission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: filter[submission.submission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Filter by mandate status
+        in: query
+        name: filter[status]
+        required: false
+        schema:
+          type: string
+      - description: Filter by mandate status reason
+        in: query
+        name: filter[status_reason]
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of mandates details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsListResponse'
+      summary: List mandates
+      tags:
+      - Mandates
+      x-access:
+      - Public
+    post:
+      operationId: PostMandates
+      responses:
+        201:
+          description: Mandate creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateCreationResponse'
+        400:
+          description: Mandate creation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Mandate creation conflict Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Mandate
+      tags:
+      - Mandates
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MandateCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MandateCreation'
+  /transaction/mandates/{id}:
+    get:
+      operationId: GetMandatesID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Mandate details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsResponse'
+        404:
+          description: Mandate not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch mandate
+      tags:
+      - Mandates
+      x-access:
+      - Public
+    patch:
+      operationId: PatchMandatesID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Mandate details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateDetailsResponse'
+        400:
+          description: Mandate update error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Mandate not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Mandate conflict error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update mandate
+      tags:
+      - Mandates
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MandateAmendment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MandateAmendment'
+  /transaction/mandates/{id}/admissions/{admissionId}:
+    get:
+      operationId: GetMandatesIDAdmissionsAdmissionID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Mandate Admission Id
+        in: path
+        name: admissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Mandate Admission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateAdmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateAdmissionDetailsResponse'
+        404:
+          description: Mandate Admission not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Mandate Admission
+      tags:
+      - Mandates
+      x-access:
+      - Public
+  /transaction/mandates/{id}/returns:
+    post:
+      operationId: PostMandatesIDReturns
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Return creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnCreationResponse'
+        400:
+          description: Return creation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Mandate not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Mandate Return conflict error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create mandate return
+      tags:
+      - Mandates
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MandateReturnCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MandateReturnCreation'
+  /transaction/mandates/{id}/returns/{returnId}:
+    get:
+      operationId: GetMandatesIDReturnsReturnID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Return Id
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Return details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnDetailsResponse'
+        404:
+          description: Mandate Return not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch mandate return
+      tags:
+      - Mandates
+      x-access:
+      - Public
+  /transaction/mandates/{id}/returns/{returnId}/submissions:
+    post:
+      operationId: PostMandatesIDReturnsReturnIDSubmissions
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Return Id
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Return submission creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnSubmissionCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnSubmissionCreationResponse'
+        400:
+          description: Return submission creation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Mandate Return not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Mandate Return Submission conflict error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create mandate return submission
+      tags:
+      - Mandates
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MandateReturnSubmissionCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MandateReturnSubmissionCreation'
+  /transaction/mandates/{id}/returns/{returnId}/submissions/{submissionId}:
+    get:
+      operationId: GetMandatesIDReturnsReturnIDSubmissionsSubmissionID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Return Id
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Submission Id
+        in: path
+        name: submissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Return submission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateReturnSubmissionDetailsResponse'
+        404:
+          description: Mandate Return Submission not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch return submission
+      tags:
+      - Mandates
+      x-access:
+      - Public
+  /transaction/mandates/{id}/submissions:
+    post:
+      operationId: PostMandatesIDSubmissions
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Mandate Submission creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateSubmissionDetailsResponse'
+        400:
+          description: Mandate Submission creation error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Mandate Submission conflict error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create Mandate Submission
+      tags:
+      - Mandates
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MandateSubmissionCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MandateSubmissionCreation'
+  /transaction/mandates/{id}/submissions/{submissionId}:
+    get:
+      operationId: GetMandatesIDSubmissionsSubmissionID
+      parameters:
+      - description: Mandate Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Mandate Submission Id
+        in: path
+        name: submissionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Mandate Submission details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MandateSubmissionDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandateSubmissionDetailsResponse'
+        400:
+          description: Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Mandate not found error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch Mandate Submission
+      tags:
+      - Mandates
+      x-access:
+      - Public
+components:
+  schemas:
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    MandateAttributesDebtorParty:
+      properties:
+        account_name:
+          type: string
+          x-omitempty: false
+        account_number:
+          pattern: ^[A-Z0-9]{6,34}$
+          type: string
+        account_number_code:
+          $ref: '#/components/schemas/AccountNumberCode'
+        account_with:
+          $ref: '#/components/schemas/AccountHoldingEntity'
+        address:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        country:
+          type: string
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionStatus:
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - queued_for_delivery
+      - submitted
+      - delivery_confirmed
+      - delivery_failed
+      type: string
+      x-access:
+      - Public
+    MandateCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionRelationships:
+      properties:
+        mandate:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Mandate'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateAdmission:
+      properties:
+        attributes:
+          properties:
+            admission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+            scheme_status_code:
+              type: string
+            scheme_status_code_description:
+              type: string
+            status:
+              $ref: '#/components/schemas/MandateAdmissionStatus'
+            status_reason:
+              $ref: '#/components/schemas/MandateAdmissionStatusReason'
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/MandateAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    MandateAttributes:
+      properties:
+        amount:
+          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+          type: string
+        beneficiary_party:
+          $ref: '#/components/schemas/MandateAttributesBeneficiaryParty'
+        clearing_id:
+          type: string
+        currency:
+          type: string
+        debtor_party:
+          $ref: '#/components/schemas/MandateAttributesDebtorParty'
+        frequency:
+          $ref: '#/components/schemas/MandateFrequency'
+        numeric_reference:
+          type: string
+        payment_scheme:
+          type: string
+        processing_date:
+          format: date
+          type:
+          - string
+          - 'null'
+        reference:
+          type: string
+        scheme_payment_type:
+          type: string
+        scheme_processing_date:
+          format: date
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        status:
+          $ref: '#/components/schemas/MandateStatus'
+          x-omitempty: true
+        status_reason:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        unique_scheme_id:
+          type: string
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateReturnSubmissionCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturnSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountWithBankId:
+      properties:
+        bank_id:
+          description: Other ID of agent
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 30
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Other ID of agent
+          x-length: 11
+          x-omitempty: true
+        bank_id_code:
+          description: Code for the type of other ID for agent
+          example: LEI
+          maxLength: 5
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID for agent
+          x-length: 5
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    MandateStatus:
+      enum:
+      - live
+      - invalid
+      - expired
+      - cancelled
+      type:
+      - string
+      - 'null'
+      x-access:
+      - Public
+    BankIdCode:
+      enum:
+      - SWBIC
+      - GBDSC
+      - BE
+      - FR
+      - DEBLZ
+      - GRBIC
+      - ITNCC
+      - PLKNR
+      - PTNCC
+      - ESNCC
+      - CHBCC
+      type: string
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    MandateReturnSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturnSubmission'
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Mandate'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateReturn:
+      properties:
+        attributes:
+          properties:
+            debtor_party:
+              properties:
+                new_bank_details:
+                  properties:
+                    account_number:
+                      type: string
+                    account_number_code:
+                      $ref: '#/components/schemas/AccountNumberCode'
+                    account_with:
+                      $ref: '#/components/schemas/AccountHoldingEntity'
+                  type: object
+              type: object
+            return_code:
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            mandate:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/Mandate'
+                  type: array
+              type: object
+            mandate_return_submission:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/MandateReturnSubmission'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    MandateAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+      type: object
+      x-access:
+      - Public
+    MostRecentCollection:
+      properties:
+        id:
+          format: uuid
+          type: string
+        type:
+          type: string
+      type: object
+      x-access:
+      - Public
+    Mandate:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/MandateAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/MandateRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    PrivateIdentification:
+      properties:
+        identification:
+          description: Private Identification of an debtor/beneficiary or ultimate debtor/beneficiary
+          example: AB12345
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_issuer:
+          description: Issuer of the `identification`
+          example: HM Passport Office
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme:
+          description: Scheme of the `identification`
+          example: BANK
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme_code:
+          description: The code that specifies the type of `identification`
+          example: CCPT
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If `identification` is specified, must be either `ARNU`, `CCPT`, `CUST`, `DRLC`, `EMPL`, `NIDN`, `SOSE`, `TXID` or `Other`
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionCreation:
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                file_identifier:
+                  pattern: ^[0-9a-zA-Z]+$
+                  type:
+                  - string
+                  - 'null'
+                file_number:
+                  pattern: ^[0-9]+$
+                  type:
+                  - string
+                  - 'null'
+                last_payment_date:
+                  format: date
+                  type:
+                  - string
+                  - 'null'
+                status:
+                  $ref: '#/components/schemas/MandateSubmissionStatus'
+                status_reason:
+                  type:
+                  - string
+                  - 'null'
+                submission_datetime:
+                  format: date-time
+                  type:
+                  - string
+                  - 'null'
+                submission_reason:
+                  type: string
+              type: object
+            created_on:
+              format: date-time
+              type:
+              - string
+              - 'null'
+            id:
+              format: uuid
+              type: string
+            modified_on:
+              format: date-time
+              type:
+              - string
+              - 'null'
+            organisation_id:
+              format: uuid
+              type: string
+            type:
+              pattern: ^[A-Za-z_]*$
+              type: string
+            version:
+              minimum: 0
+              type: integer
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateFrequency:
+      enum:
+      - daily
+      - weekly
+      - fortnightly
+      - monthly
+      - bimonthly
+      - quarterly
+      - yearly
+      type: string
+      x-access:
+      - Public
+    MandateReturnSubmission:
+      properties:
+        attributes:
+          properties:
+            auto:
+              default: false
+              description: Indicates if the submission was created automatically by the system (true) or manually (false)
+              type:
+              - boolean
+              - 'null'
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/MandateReturnSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+            transaction_start_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            mandate:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/Mandate'
+                  type: array
+              type: object
+            mandate_return:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/MandateReturn'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionStatusReason:
+      enum:
+      - accepted
+      - invalid_beneficiary_details
+      - bankid_not_provisioned
+      - unknown_accountnumber
+      - mandate_cancelled
+      - mandate_expired
+      - mandate_failed
+      - unknown_instruction
+      - payer_reference_not_unique
+      - invalid_reference
+      - not_eligible_for_reinstatement_by_originator
+      type: string
+      x-access:
+      - Public
+    MandateCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateRelationships:
+      properties:
+        mandate_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateAdmission'
+              type: array
+          type: object
+        mandate_return:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateReturn'
+              type: array
+          type: object
+        mandate_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateSubmission'
+              type: array
+          type: object
+        most_recent_collection:
+          properties:
+            data:
+              $ref: '#/components/schemas/MostRecentCollection'
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateReturnSubmissionStatus:
+      enum:
+      - accepted
+      - released_to_gateway
+      - delivery_confirmed
+      - delivery_failed
+      - submitted
+      - validation_pending
+      - validation_passed
+      - queued_for_delivery
+      type: string
+      x-access:
+      - Public
+    AccountNumberCode:
+      description: The type of identification given at `account_number` attribute
+      enum:
+      - BBAN
+      - IBAN
+      example: IBAN
+      maxLength: 4
+      type: string
+      x-access:
+      - Public
+    MandateReturnDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateReturnSubmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturnSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    MandateReturnCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
+      type: object
+      x-access:
+      - Public
+    MandateReturnCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateSubmission:
+      properties:
+        attributes:
+          properties:
+            file_identifier:
+              pattern: ^[0-9a-zA-Z]+$
+              type:
+              - string
+              - 'null'
+            file_number:
+              pattern: ^[0-9]+$
+              type:
+              - string
+              - 'null'
+            last_payment_date:
+              format: date
+              type:
+              - string
+              - 'null'
+            original_mandate:
+              $ref: '#/components/schemas/MandateAttributes'
+            status:
+              $ref: '#/components/schemas/MandateSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              type: string
+            submission_reason:
+              type: string
+            submitted_mandate:
+              $ref: '#/components/schemas/MandateAttributes'
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/MandateSubmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    AccountHoldingEntity:
+      description: Information about the financial institution servicing the account.
+      properties:
+        bank_address:
+          description: Financial institution address
+          example:
+          - Liverpool Customer Service Centre
+          - Stevenson Way
+          - Wavertree
+          - L13 1NW
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        bank_id:
+          pattern: ^[A-Z0-9]{0,16}$
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          example: GBDSC
+          type: string
+          x-length: 5
+        bank_ids:
+          description: Array for additional ID(s) for agent
+          items:
+            $ref: '#/components/schemas/AccountWithBankId'
+          type: array
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for agent
+          x-omitempty: true
+        bank_name:
+          description: Financial institution name
+          example: NATIONAL WESTMINSTER BANK PLC
+          type: string
+        bank_party_id:
+          description: Identifier of the financial institution which services the account
+          example: //AT12345
+          type: string
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    MandateAttributesBeneficiaryParty:
+      properties:
+        account_name:
+          type: string
+          x-omitempty: false
+        account_number:
+          pattern: ^[A-Z0-9]{6,34}$
+          type: string
+        account_number_code:
+          $ref: '#/components/schemas/AccountNumberCode'
+        account_type:
+          type: integer
+        account_with:
+          $ref: '#/components/schemas/AccountHoldingEntity'
+        address:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        country:
+          type: string
+        private_identification:
+          $ref: '#/components/schemas/PrivateIdentification'
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionRelationships:
+      properties:
+        mandate:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Mandate'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

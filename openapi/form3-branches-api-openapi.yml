@@ -1,0 +1,494 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Branches API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Branches
+paths:
+  /organisation/branches:
+    get:
+      operationId: ListBranches
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 0
+      - description: Filter by organisation id
+        in: query
+        name: filter[organisation_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Filter by bank id e.g. sort code or bic
+        in: query
+        name: filter[bank_id]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by type of bank id e.g. "GBDSC"
+        in: query
+        name: filter[bank_id_code]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by acceptance qualifier
+        in: query
+        name: filter[acceptance_qualifier]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by validation type e.g. card
+        in: query
+        name: filter[validation_type]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - description: Filter by reference mask
+        in: query
+        name: filter[reference_mask]
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: List of branch details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsListResponse'
+      summary: List branches
+      tags:
+      - Branches
+      x-access:
+      - Public
+    post:
+      operationId: CreateBranch
+      responses:
+        201:
+          description: Branch creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/BranchCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchCreationResponse'
+        409:
+          description: Branch creation error, constraint violation of organisation id and bank id
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create a Branch
+      tags:
+      - Branches
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/BranchCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BranchCreation'
+  /organisation/branches/{id}:
+    delete:
+      operationId: DeleteBranch
+      parameters:
+      - description: Branch Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Branch deleted
+      summary: Delete branch
+      tags:
+      - Branches
+      x-access:
+      - Public
+    get:
+      operationId: GetBranch
+      parameters:
+      - description: Branch Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Branch details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsResponse'
+      summary: Fetch branch
+      tags:
+      - Branches
+      x-access:
+      - Public
+    patch:
+      operationId: PatchBranch
+      parameters:
+      - description: Branches Id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Branch updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchDetailsResponse'
+      summary: Amend branch
+      tags:
+      - Branches
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/BranchAmendment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BranchAmendment'
+components:
+  schemas:
+    UserDefinedData:
+      properties:
+        key:
+          description: Key of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+        value:
+          description: Value of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+      required:
+      - key
+      - value
+      type: object
+      x-access:
+      - Public
+    ReferenceMask:
+      description: Account number of the account. A unique number will automatically be generated if not provided.
+      example: '41426819'
+      type: string
+      x-access:
+      - Public
+    BranchDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Branch'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    Branch:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/BranchAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: branches
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    BranchCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Branch'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AcceptanceQualifier:
+      description: All accepted payments will receive the matching qualifier code
+      enum:
+      - some_other_time
+      - same_day
+      - next_calendar_day
+      - next_working_day
+      - after_next_working_day
+      - none
+      type: string
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    BranchCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Branch'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    BranchAttributes:
+      properties:
+        acceptance_qualifier:
+          $ref: '#/components/schemas/AcceptanceQualifier'
+        bank_id:
+          description: Local country bank identifier. In the UK this is the sort code.
+          example: '400300'
+          pattern: ^[A-Z0-9]{1,11}$
+          type: string
+        bank_id_code:
+          description: ISO 20022 code used to identify the type of bank ID being used
+          example: GBDSC
+          pattern: ^[A-Z]{0,16}$
+          type: string
+        reference_mask:
+          description: if present – has effect of making secondary reference in payment mandatory
+          example: 4929############
+          type: string
+        user_defined_data:
+          description: All purpose list of key-value pairs to store specific data.
+          items:
+            $ref: '#/components/schemas/UserDefinedData'
+          maxItems: 5
+          type: array
+          x-omitempty: true
+        validation_type:
+          $ref: '#/components/schemas/BranchValidationType'
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    BranchDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Branch'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    BranchUpdate:
+      properties:
+        attributes:
+          properties:
+            acceptance_qualifier:
+              $ref: '#/components/schemas/AcceptanceQualifier'
+            reference_mask:
+              $ref: '#/components/schemas/ReferenceMask'
+            user_defined_data:
+              description: All purpose list of key-value pairs to store specific data.
+              items:
+                $ref: '#/components/schemas/UserDefinedData'
+              maxItems: 5
+              type: array
+              x-omitempty: true
+            validation_type:
+              $ref: '#/components/schemas/BranchValidationType'
+          type: object
+          x-access:
+          - Public
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: accounts
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - version
+      - attributes
+      type: object
+      x-access:
+      - Public
+    BranchValidationType:
+      description: optional validation to apply to the branch
+      enum:
+      - card
+      - mandatory_reference
+      - account_mod_check
+      - none
+      type: string
+      x-access:
+      - Public
+    BranchAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/BranchUpdate'
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

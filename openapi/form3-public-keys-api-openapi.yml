@@ -1,0 +1,485 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Public Keys API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Public Keys
+paths:
+  /security/users/{user_id}/authn/public_keys:
+    get:
+      operationId: ListPublicKeysForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: List of all public keys for given user
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeysListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeysListResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List all public keys associated with the user
+      tags:
+      - Public Keys
+      x-access:
+      - Public
+    post:
+      operationId: CreatePublicKeyForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Public key creation response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyCreationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyCreationResponse'
+        400:
+          description: Bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Create a new public key for user
+      tags:
+      - Public Keys
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PublicKeyCreation'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicKeyCreation'
+  /security/users/{user_id}/authn/public_keys/{public_key_id}:
+    get:
+      operationId: FetchPublicKeyForUser
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Public key
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyResponse'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch public key for user
+      tags:
+      - Public Keys
+      x-access:
+      - Public
+  /security/users/{user_id}/authn/public_keys/{public_key_id}/cancel_deletion:
+    post:
+      operationId: CancelPublicKeyDeletion
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        204:
+          description: Deletion cancelled successfully
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Cancel key deletion
+      tags:
+      - Public Keys
+      x-access:
+      - Public
+  /security/users/{user_id}/authn/public_keys/{public_key_id}/schedule_deletion:
+    post:
+      operationId: SchedulePublicKeyDeletion
+      parameters:
+      - description: User Id
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Public Key Id
+        in: path
+        name: public_key_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          description: Deletion scheduled successfully
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ScheduleDeletionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleDeletionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Schedule key deletion
+      tags:
+      - Public Keys
+      x-access:
+      - Public
+components:
+  schemas:
+    PublicKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKey:
+      properties:
+        attributes:
+          properties:
+            deletion_date:
+              description: When in pending_deletion state, indicates the date of permanent deletion
+              format: date-time
+              type: string
+              x-omitempty: true
+            expires_on:
+              format: date-time
+              type: string
+            fingerprint:
+              description: Key fingerprint
+              type: string
+            key_state:
+              $ref: '#/components/schemas/KeyState'
+            public_key:
+              type: string
+            user_id:
+              description: The user identifier
+              format: uuid
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_by:
+          format: uuid
+          type:
+          - string
+          - 'null'
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: PublicKey
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    PublicKeyCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    ScheduleDeletionResponse:
+      properties:
+        deletion_date:
+          description: The scheduled date of permanent deletion
+          format: date-time
+          type: string
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type

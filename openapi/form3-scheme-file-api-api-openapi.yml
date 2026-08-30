@@ -1,0 +1,1196 @@
+openapi: 3.2.0
+info:
+  title: Form3 Public Scheme File API
+  version: '1'
+servers:
+- url: https://api.form3.tech/v1
+security:
+- OAuth2: []
+tags:
+- name: Scheme File API
+paths:
+  /files/schemefiles:
+    get:
+      operationId: ListSchemeFiles
+      parameters:
+      - description: Which page to select
+        in: query
+        name: page[number]
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          pattern: ^(first|last|[\d]{1,4})$
+      - description: Number of items to select
+        in: query
+        name: page[size]
+        required: false
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+          minimum: 0
+      - description: Find all Scheme File resources with a given organisation ID
+        in: query
+        name: filter[organisation_id]
+        required: false
+        schema:
+          type: array
+          items:
+            format: uuid
+            type: string
+      - description: Find Scheme File resources by a certain scheme
+        in: query
+        name: filter[payment_scheme]
+        required: false
+        schema:
+          type: string
+      - description: Find Scheme File resources by the format of the file
+        in: query
+        name: filter[file_format]
+        required: false
+        schema:
+          type: string
+      - description: Find Scheme File resources by the type of the file
+        in: query
+        name: filter[file_type]
+        required: false
+        schema:
+          type: string
+      - description: Find all Scheme File resources created from this date, in format YYYY-MM-DD
+        in: query
+        name: filter[created_on_from]
+        required: false
+        schema:
+          type: string
+          format: date
+      - description: Find all Scheme File resources created up to this date, in format YYYY-MM-DD
+        in: query
+        name: filter[created_on_to]
+        required: false
+        schema:
+          type: string
+          format: date
+      - description: Find all Scheme File resources with a certain submission status
+        in: query
+        name: filter[submission.status]
+        required: false
+        schema:
+          type: string
+      - description: Find all Scheme File resources submitted from and including this date/time
+        in: query
+        name: filter[submission.submission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find all Scheme File resources submitted up to and included this date/time
+        in: query
+        name: filter[submission.submission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find all File resources with a certain admission status
+        in: query
+        name: filter[admission.status]
+        required: false
+        schema:
+          type: string
+      - description: Find all File resources admitted from and including this date/time
+        in: query
+        name: filter[admission.admission_date_from]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - description: Find all File resources admitted up to and included this date/time
+        in: query
+        name: filter[admission.admission_date_to]
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: List of scheme files
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ListSchemeFilesResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSchemeFilesResponse'
+        400:
+          description: Reports bad request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: List Scheme files
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+    post:
+      operationId: CreateSchemeFile
+      responses:
+        201:
+          description: Scheme File Creation Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Scheme File
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemeFileCreation'
+  /files/schemefiles/{scheme_file_id}:
+    get:
+      operationId: GetSchemeFile
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Acceptable Formats, possible values are "application/vnd.api+json", "application/x.form3.standard18", "application/xml"
+        in: header
+        name: Accept
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: Scheme File Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get Scheme file
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+    put:
+      operationId: UploadSchemeFile
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Which part of the file we are uploading
+        in: header
+        name: X-Form3-Upload-Part
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Scheme File Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Scheme File Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Scheme File Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Put Scheme file chunk
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+        required: true
+  /files/schemefiles/{scheme_file_id}/admissions:
+    post:
+      operationId: CreateSchemeFileAdmission
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Scheme File Admission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileAdmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileAdmissionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Scheme File Admission Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Scheme File Admission
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemeFileAdmissionCreation'
+  /files/schemefiles/{scheme_file_id}/admissions/{scheme_file_admission_id}:
+    get:
+      operationId: GetSchemeFileAdmission
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Scheme File Admission Id
+        in: path
+        name: scheme_file_admission_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Scheme File Admission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileAdmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileAdmissionResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Fetch scheme file admission
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+  /files/schemefiles/{scheme_file_id}/submissions:
+    post:
+      operationId: CreateSchemeFileSubmission
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: Scheme File Submission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionResponse'
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        409:
+          description: Scheme File Submission Conflict
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionConflictError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionConflictError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Creates a Scheme File Submission
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemeFileSubmissionCreation'
+  /files/schemefiles/{scheme_file_id}/submissions/{scheme_file_submission_id}:
+    get:
+      operationId: GetSchemeFileSubmission
+      parameters:
+      - description: Scheme File Id
+        in: path
+        name: scheme_file_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - description: Scheme File Submission Id
+        in: path
+        name: scheme_file_submission_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: Scheme File Submission Response
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemeFileSubmissionResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        403:
+          description: Forbidden
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: Not Found
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        500:
+          description: Internal Server Error
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Get Scheme file submission
+      tags:
+      - Scheme File API
+      x-access:
+      - Public
+components:
+  schemas:
+    SchemeFileResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFile'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      type: object
+      x-access:
+      - Public
+    SchemeFileLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/SchemeFileLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/SchemeFileLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SchemeFileLink:
+      properties:
+        href:
+          format: uri
+          type: string
+        meta:
+          properties:
+            content-type:
+              type: string
+          type: object
+      required:
+      - href
+      type: object
+      x-access:
+      - Public
+    ListSchemeFilesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeFile'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmission:
+      properties:
+        attributes:
+          properties:
+            admission_datetime:
+              description: Time when the Form3 system begins processing of the admission
+              example: '2019-03-13T14:48:29.699Z'
+              format: date-time
+              readOnly: true
+              type: string
+            start_datetime:
+              description: Time the admission request was received by Form3. Used to compute the total processing time
+              example: '2019-03-13T14:48:29.694Z'
+              format: date-time
+              readOnly: true
+              type: string
+            status:
+              $ref: '#/components/schemas/SchemeFileAdmissionStatus'
+            status_reason:
+              description: Plain-text description of the status attribute
+              example: accepted
+              readOnly: true
+              type: string
+          type: object
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/SchemeFileAdmissionRelationships'
+          readOnly: true
+        type:
+          enum:
+          - scheme_file_admissions
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionStatus:
+      description: Status of the scheme file admission
+      enum:
+      - confirmed
+      - failed
+      - pending
+      example: confirmed
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    SchemeFile:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeFileAttributes'
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/SchemeFileRelationships'
+        type:
+          enum:
+          - scheme_files
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeFileAttributes:
+      properties:
+        file_format:
+          default: xml
+          description: The format of the file that will be submitted to Form3
+          enum:
+          - xml
+          - csv
+          - standard18
+          type: string
+        file_hash:
+          description: Hashed content of the file
+          example: f60071837de834af950f070aa08fc1e0e3e4b1f7014a6251eabf207eba10c817
+          minLength: 1
+          type: string
+        file_size:
+          description: The size of the file to be uploaded - number of bytes. Max size is 1.4 Gigabyte
+          example: 1024
+          maximum: 1400000000
+          type: integer
+        file_type:
+          default: switch
+          description: The file type
+          enum:
+          - switch
+          - ISA
+          - redirection
+          - bacs
+          type: string
+        hashing_algorithm:
+          description: The algorithm used to generate the signature
+          enum:
+          - SHA256
+          type: string
+        number_of_parts:
+          description: The count of chunks to be uploaded to the resource
+          example: 1
+          minimum: 1
+          type: integer
+        payment_scheme:
+          description: Scheme/gateway that the file is to be processed by
+          enum:
+          - CASS
+          - CISA
+          - BPRS
+          - BACS
+          type: string
+      required:
+      - file_type
+      - file_format
+      - file_hash
+      - hashing_algorithm
+      - payment_scheme
+      - file_size
+      - number_of_parts
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionRelationships:
+      properties:
+        scheme_files:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmission:
+      properties:
+        attributes:
+          properties:
+            start_datetime:
+              description: Time the submission request was received by Form3. Used to compute the total processing time
+              example: '2019-03-13T14:48:29.694Z'
+              format: date-time
+              readOnly: true
+              type: string
+            status:
+              $ref: '#/components/schemas/SchemeFileSubmissionStatus'
+            status_reason:
+              description: Plain-text description of the status attribute
+              readOnly: true
+              type: string
+            submission_datetime:
+              description: Time when the Form3 system begins processing of the submission
+              example: '2019-03-13T14:48:29.699Z'
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/SchemeFileSubmissionRelationships'
+          readOnly: true
+        type:
+          enum:
+          - scheme_file_submissions
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      type: object
+      x-access:
+      - Public
+    SchemeFileRelationships:
+      properties:
+        scheme_file_admissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileAdmission'
+              type: array
+          type: object
+        scheme_file_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionRelationships:
+      properties:
+        scheme_file:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewSchemeFile'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionStatus:
+      description: Status of the scheme file submission
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - delivery_failed
+      - delivery_confirmed
+      example: accepted
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    SchemeFileSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    NewSchemeFile:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeFileAttributes'
+          x-order: 4
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        type:
+          enum:
+          - scheme_files
+          type: string
+          x-order: 2
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionConflictError:
+      properties:
+        actual_resource:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: https://api.form3.tech/v1/oauth2/token
+      description: OAuth 2.0 with Client Credentials Grant type
