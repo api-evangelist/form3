@@ -100,9 +100,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-accounts-api
@@ -134,43 +136,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
-- aid: form3:form3-accountvalidation-api
-  name: Form3 Account Validation API
-  description: The AccountValidation API from Form3 — 2 operation(s) for accountvalidation.
-  humanURL: https://www.api-docs.form3.tech/
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - Account Validation
-  tags_raw:
-  - AccountValidation
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-accountvalidation-api-openapi.yml
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-  - type: GettingStarted
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-ace-api
@@ -200,9 +170,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-audit-api
@@ -232,9 +204,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-branches-api
@@ -264,9 +238,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-branchidentification-api
@@ -296,9 +272,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-claims-api
@@ -328,43 +306,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
-- aid: form3:form3-directdebits-api
-  name: Form3 Direct Debits API
-  description: The DirectDebits API from Form3 — 26 operation(s) for directdebits.
-  humanURL: https://www.api-docs.form3.tech/
-  baseURL: https://api.form3.tech/v1
-  tags:
-  - Direct Debits
-  tags_raw:
-  - DirectDebits
-  properties:
-  - type: OpenAPI
-    url: openapi/form3-directdebits-api-openapi.yml
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/
-  - type: APIReference
-    url: https://api-docs.form3.tech/api.html
-  - type: GettingStarted
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
-  - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-directdebitsreads-api
@@ -394,9 +340,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-mandates-api
@@ -426,9 +374,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-metrics-api-api
@@ -458,9 +408,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-name-verification-api-api
@@ -490,9 +442,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-oauth2-api
@@ -524,9 +478,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-organisations-api
@@ -556,9 +512,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-paymentreads-api
@@ -588,9 +546,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-paymentwrites-api
@@ -620,9 +580,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-platformsecurityapi-api
@@ -652,9 +614,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-public-keys-api
@@ -686,9 +650,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-qualifiedtransactions-api
@@ -718,9 +684,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-query-api-api
@@ -752,9 +720,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-reports-api
@@ -784,9 +754,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-roles-api
@@ -816,9 +788,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-scheme-file-api-api
@@ -848,9 +822,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-schememessages-api
@@ -880,9 +856,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-subscriptions-api
@@ -914,9 +892,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-transaction-file-api-api
@@ -946,9 +926,11 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 - aid: form3:form3-users-api
@@ -980,9 +962,79 @@ apis:
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
   - type: Documentation
-    url: https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-account-validation-api
+  name: Form3 Account Validation API
+  description: The Account Validation API from Form3 — 2 operation(s) for account validation.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Account Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-account-validation-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
+- aid: form3:form3-direct-debits-api
+  name: Form3 Direct Debits API
+  description: The Direct Debits API from Form3 — 26 operation(s) for direct debits.
+  humanURL: https://www.api-docs.form3.tech/
+  baseURL: https://api.form3.tech/v1
+  tags:
+  - Direct Debits
+  properties:
+  - type: OpenAPI
+    url: openapi/form3-direct-debits-api-openapi.yml
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/
+  - type: APIReference
+    url: https://api-docs.form3.tech/api.html
+  - type: GettingStarted
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/getting-started/receive-a-payment
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/receive-a-direct-debit
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial
+  - type: Documentation
+    url: https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications
+  - type: Documentation
+    url: >-
+      https://www.api-docs.form3.tech/api/tutorials/event-notifications/verify-event-notifications
   - type: Documentation
     url: https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user
 common:
