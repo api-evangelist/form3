@@ -53,7 +53,8 @@ edges:
   reason: Read surface over payment instructions and their scheme admissions, submissions, recalls and
     returns — payment processing status and routing lifecycle.
 - tag: DirectDebits
-  spec_file: form3-directdebits-api-openapi.yml
+  spec_file: form3-direct-debits-api-openapi.yml
+  reanchored_from: form3-directdebits-api-openapi.yml
   capability_id: BC-1340.20
   capability_id_l1: BC-1340
   capability_name: Payment Processing Management
