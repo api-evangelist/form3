@@ -251,208 +251,67 @@ paths:
       - Public
 components:
   schemas:
-    DirectDebitDecisionSubmissionStatus:
+    CurrencyAndAmount:
+      properties:
+        amount:
+          example: '10.00'
+          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+          type: string
+        currency:
+          description: ISO currency code for `amount`
+          type: string
+      type: object
+      x-access:
+      - Public
+    DirectDebitAdmissionStatusReason:
       enum:
       - accepted
-      - released_to_gateway
-      - delivery_confirmed
-      - delivery_failed
-      - submitted
-      - validation_pending
-      - validation_passed
-      - queued_for_delivery
+      - invalid_beneficiary_details
+      - invalid_transaction
+      - bankid_not_provisioned
+      - unknown_accountnumber
+      - pending_settlement
+      - settlement_failed
+      - duplication
+      - not_allowed_amount
+      - mandate_cancelled
+      - no_instruction
+      - account_transferred_to_new_psp
+      - paying_bank_cancellation
+      - cancelled_by_payer
+      - payer_deceased
+      - account_closed
+      - scheme_status_invalid
+      - pending_authorisation_by_sponsor
+      - authorised_by_sponsor
+      - authorisation_failed_by_sponsor
+      - closed_account
+      - blocked_account
+      - invalid_debtor_account_type
+      - transaction_forbidden
+      - invalid_bank_operation_code
+      - insufficient_funds
+      - unrecognised_initiating_party
+      - creditor_bank_not_registered_under_bic
+      - debtor_bank_not registered_under_bic
+      - operation_code_incorrect
+      - unauthorised_transaction
+      - missing_mandatory_mandate_information
+      - end_customer_deceased
+      - not_specified_reason_customer
+      - not_specified_reason_agent
+      - bank_identifier_incorrect
+      - missing_debtor_account
+      - missing_debtor_name_or_address
+      - missing_creditor_name_or_address
+      - regulatory_reason
+      - specific_service_offered_by_debtor_bank
+      - recalled_by_originator
+      - unknown_status_reason
       type: string
       x-access:
       - Public
       x-parent: data.attributes
-    UltimateEntity:
-      properties:
-        additional_address_line:
-          description: Additional address line of the debtor/beneficiary address
-          type: string
-          x-length: 70
-        address:
-          description: Ultimate debtor/beneficiary address
-          example:
-          - Liverpool Customer Service Centre
-          - Stevenson Way, Wavertree, L13 1NW
-          items:
-            type: string
-          type: array
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Max 2 lines of 70 text.
-          x-omitempty: true
-        birth_city:
-          description: Ultimate debtor/beneficiary birth city
-          example: PARIS
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
-          x-length: 35
-        birth_country:
-          description: Ultimate debtor/beneficiary birth country. ISO 3166 format country code
-          example: FR
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
-          x-length: 2
-        birth_date:
-          description: Ultimate debtor/beneficiary birth date. Formatted ISO 8601 format YYYY-MM-DD
-          example: '1973-01-31'
-          format: date
-          type:
-          - string
-          - 'null'
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
-        birth_province:
-          description: Ultimate debtor/beneficiary birth province
-          example: SOUTH SIDE
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
-          x-length: 35
-        building_number:
-          description: Building number of the debtor/beneficiary address
-          type: string
-          x-length: 16
-        city:
-          description: City/Town of the Beneficiary address
-          example: BRUSSELS
-          type: string
-          x-length: 30
-        country:
-          description: Country of ultimate debtor/beneficiary address. ISO 3166 format country code
-          example: GB
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 2
-        country_of_residence:
-          description: Country of residence of the ultimate beneficiary, ISO 3166 format country code
-          example: UA
-          type: string
-          x-length: 2
-        name:
-          example: Jane Bond
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 70
-        organisation_identification:
-          description: Organisation identification of an ultimate debtor/beneficiary, in the case that the ultimate debtor/beneficiary is an organisation and not a private person.
-          example: ID1234656
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: The Identification can either be a BIC, BEI or Other Identification
-          x-length: 35
-        organisation_identification_code:
-          description: The code that specifies the type of `organisation_identification`
-          example: BIC
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If `organisation_identification` is specified, must be one of `BIC`, `BEI`, `BANK`, `CBID`, `CHID`, `CINC`, `COID`, `CUST`, `DUNS`, `EMPL`, `GS1G`, `SREN`, `SRET`, `TXID` or `Other`
-          x-length: 5
-        organisation_identification_issuer:
-          description: Issuer of the `organisation_identification`
-          example: NATIONAL WESTMINSTER BANK PLC
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: May only be present if `organisation_identification_code` is `Other`
-          x-length: 35
-        organisation_identification_scheme:
-          description: The code that specifies the scheme of `organisation_identification`
-          example: CustomerId
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: May only be present if `organisation_identification_code` is `Other`
-          x-length: 35
-        organisation_identifications:
-          description: Array for additional ID(s) of ultimate organisation
-          items:
-            $ref: '#/components/schemas/BeneficiaryDebtorOrganisationIdentification'
-          type: array
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Array for additional ID(s) for ultimate organisation
-          x-omitempty: true
-        post_code:
-          description: Post code of the debtor/beneficiary address
-          type: string
-          x-length: 16
-        postal_address:
-          $ref: '#/components/schemas/PostalAddress'
-          description: Postal address of the ultimate debtor/beneficiary
-          x-omitempty: true
-        private_identification:
-          $ref: '#/components/schemas/PrivateIdentification'
-        province:
-          description: Province of the debtor/beneficiary address
-          type: string
-          x-length: 35
-        street_name:
-          description: Street name of the debtor/beneficiary address
-          example: Park Avenue
-          type: string
-          x-length: 70
-      type: object
-      x-access:
-      - Public
     DirectDebitRecall:
       properties:
         attributes:
@@ -529,121 +388,13 @@ components:
       type: object
       x-access:
       - Public
-    DirectDebitRecallAdmissionStatus:
-      description: '[Status](http://draft-api-docs.form3.tech/api.html#enumerations-payment-admission-status) of the recall admission'
-      enum:
-      - confirmed
-      - failed
-      example: confirmed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitDecisionAdmissionStatus:
+    DirectDebitAdmissionStatus:
       enum:
       - confirmed
       - failed
       - pending
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitDecisionSubmission:
-      properties:
-        attributes:
-          properties:
-            auto:
-              default: false
-              description: Indicates if the submission was created automatically by the system (`true`) or manually (`false`).
-              type: boolean
-              x-parent: data.attributes
-            scheme_status_code:
-              description: Scheme-specific status (if submission has been submitted to a scheme)
-              example: '0000'
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitDecisionSubmissionStatus'
-            status_reason:
-              description: Reason for submission failure if status is `delivery_failed`
-              example: direct debit does not exist
-              type: string
-              x-parent: data.attributes
-            submission_datetime:
-              description: Date and time of the submission
-              example: '2018-03-12T14:11:48.055Z'
-              format: date-time
-              readOnly: true
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique resource ID
-          example: 2eae8187-7119-470d-abbb-33b11f21d3ad
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: 763e3cbb-da91-46fd-a0f8-169038a8324e
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_decision:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitDecision'
-                  type: array
-              type: object
-          type: object
-        type:
-          description: Name of the resource type
-          example: direct_debit_decision_submissions
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    DirectDebitRecallSubmissionStatus:
-      enum:
-      - accepted
-      - released_to_gateway
-      - delivery_confirmed
-      - delivery_failed
-      - submitted
-      - validation_pending
-      - validation_passed
-      - queued_for_delivery
-      - pending
+      - limit_check_pending
+      - limit_check_passed
       type: string
       x-access:
       - Public
@@ -705,283 +456,6 @@ components:
       - id
       - organisation_id
       - attributes
-      type: object
-      x-access:
-      - Public
-    DirectDebitReversal:
-      properties:
-        attributes:
-          properties:
-            charges_amount:
-              description: Only present when a DirectDebitReversal contains charges. SEPA only
-              properties:
-                amount:
-                  description: The charges amount
-                  example: '10.00'
-                  pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
-                  type: string
-                  x-parent: data.attributes.charges_amount
-                currency:
-                  description: ISO currency code for `amount`
-                  example: EUR
-                  type: string
-                  x-parent: data.attributes.charges_amount
-              type: object
-              x-omitempty: true
-              x-parent: data.attributes
-            processing_date:
-              description: 'Date on which the operation is to be debited from the debtor account. Formatted according to ISO 8601 format: YYYY-MM-DD.'
-              example: '2015-02-12'
-              format: date
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-            reason:
-              description: Further explanation of the reason given in reason_code. Only evaluated for certain reason codes.
-              example: Direct debit was a duplicate
-              type: string
-              x-omitempty: true
-              x-parent: data.attributes
-            reason_code:
-              description: The reason for the direct debit reversal. Has to be a valid [reversal reason code](http://api-docs.form3.tech/api.html#enumerations-reversal-reason-codes).
-              example: AM05
-              type: string
-              x-parent: data.attributes
-            reversal_amount:
-              description: SEPA only
-              properties:
-                amount:
-                  description: Full amount of the Direct Debit Reversal including charges
-                  example: '10.00'
-                  pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
-                  type: string
-                  x-parent: data.attributes.reversal_amount
-                currency:
-                  description: ISO currency code for `amount`
-                  example: EUR
-                  type: string
-                  x-parent: data.attributes.reversal_amount
-              type: object
-              x-omitempty: true
-              x-parent: data.attributes
-            scheme_processing_date:
-              description: 'Date on which the operation is processed by the scheme. Formatted according to ISO 8601 format: YYYY-MM-DD. Only used if different from `processing_date`.'
-              example: '2015-02-12'
-              format: date
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_reversal_admission:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReversalAdmission'
-                  type: array
-              type: object
-            direct_debit_reversal_submission:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReversalSubmission'
-                  type: array
-              type: object
-          type: object
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    BeneficiaryDebtorOrganisationIdentification:
-      properties:
-        identification:
-          description: Another ID of the organisation
-          example: H7FNTJ4851HG0EXQ1Z70
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Another ID of the organisation
-          x-length: 35
-          x-omitempty: true
-        identification_code:
-          description: Code for the type of other ID of organisation
-          example: LEI
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Code for the type of other ID of organisation
-          x-length: 5
-          x-omitempty: true
-        identification_issuer:
-          description: Issuer of the other ID of organisation
-          example: London Stock Exchange
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Issuer of the other ID of organisation
-          x-length: 35
-          x-omitempty: true
-        identification_scheme:
-          description: Custom internal code for the type of other ID of organisation
-          example: Custom code
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Custom internal code for the type of other ID of organisation
-          x-length: 35
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    DirectDebitSubmissionStatus:
-      enum:
-      - accepted
-      - released_to_gateway
-      - delivery_confirmed
-      - delivery_failed
-      - submitted
-      - pending
-      - validation_pending
-      - validation_passed
-      - queued_for_delivery
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitReversalSubmission:
-      properties:
-        attributes:
-          properties:
-            destination_gateway:
-              type: string
-              x-parent: data.attributes
-            scheme_status_code:
-              type: string
-              x-parent: data.attributes
-            scheme_status_code_description:
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitReversalSubmissionStatus'
-            status_reason:
-              type: string
-              x-parent: data.attributes
-            submission_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-              x-parent: data.attributes
-            transaction_start_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-              x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_reversal:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReversal'
-                  type: array
-              type: object
-          type: object
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    DirectDebitMandate:
-      properties:
-        id:
-          format: uuid
-          type: string
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
       type: object
       x-access:
       - Public
@@ -1100,131 +574,7 @@ components:
       type: object
       x-access:
       - Public
-    AccountWithBankId:
-      properties:
-        bank_id:
-          description: Other ID of agent
-          example: H7FNTJ4851HG0EXQ1Z70
-          maxLength: 30
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Other ID of agent
-          x-length: 11
-          x-omitempty: true
-        bank_id_code:
-          description: Code for the type of other ID for agent
-          example: LEI
-          maxLength: 5
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Code for the type of other ID for agent
-          x-length: 5
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    DirectDebitReturnReversal:
-      properties:
-        attributes:
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_return:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReturn'
-                  type: array
-              type: object
-            direct_debit_return_reversal_admission:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReturnReversalAdmission'
-                  type: array
-              type: object
-          type: object
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    DirectDebitReturnSubmissionStatus:
+    DirectDebitRecallSubmissionStatus:
       enum:
       - accepted
       - released_to_gateway
@@ -1234,6 +584,7 @@ components:
       - validation_pending
       - validation_passed
       - queued_for_delivery
+      - pending
       type: string
       x-access:
       - Public
@@ -1254,56 +605,154 @@ components:
       type: string
       x-access:
       - Public
-    DirectDebitSubmissionRelationships:
+    BeneficiaryDebtorOrganisationIdentification:
       properties:
-        direct_debit:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/DirectDebit'
-              type: array
-          type: object
+        identification:
+          description: Another ID of the organisation
+          example: H7FNTJ4851HG0EXQ1Z70
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Another ID of the organisation
+          x-length: 35
+          x-omitempty: true
+        identification_code:
+          description: Code for the type of other ID of organisation
+          example: LEI
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID of organisation
+          x-length: 5
+          x-omitempty: true
+        identification_issuer:
+          description: Issuer of the other ID of organisation
+          example: London Stock Exchange
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Issuer of the other ID of organisation
+          x-length: 35
+          x-omitempty: true
+        identification_scheme:
+          description: Custom internal code for the type of other ID of organisation
+          example: Custom code
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Custom internal code for the type of other ID of organisation
+          x-length: 35
+          x-omitempty: true
       type: object
       x-access:
       - Public
-    DirectDebitReturnAdmissionStatus:
+    DirectDebitRecallAdmissionStatus:
+      description: '[Status](http://draft-api-docs.form3.tech/api.html#enumerations-payment-admission-status) of the recall admission'
       enum:
       - confirmed
-      - pending
       - failed
-      - limit_check_pending
-      - limit_check_passed
+      example: confirmed
       type: string
       x-access:
       - Public
       x-parent: data.attributes
-    CurrencyAndAmount:
+    AccountHoldingEntity:
+      description: Information about the financial institution servicing the account.
       properties:
-        amount:
-          example: '10.00'
-          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+        bank_address:
+          description: Financial institution address
+          example:
+          - Liverpool Customer Service Centre
+          - Stevenson Way
+          - Wavertree
+          - L13 1NW
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        bank_id:
+          pattern: ^[A-Z0-9]{0,16}$
           type: string
-        currency:
-          description: ISO currency code for `amount`
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          example: GBDSC
           type: string
+          x-length: 5
+        bank_ids:
+          description: Array for additional ID(s) for agent
+          items:
+            $ref: '#/components/schemas/AccountWithBankId'
+          type: array
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for agent
+          x-omitempty: true
+        bank_name:
+          description: Financial institution name
+          example: NATIONAL WESTMINSTER BANK PLC
+          type: string
+        bank_party_id:
+          description: Identifier of the financial institution which services the account
+          example: //AT12345
+          type: string
+      required:
+      - bank_id
+      - bank_id_code
       type: object
       x-access:
       - Public
-    DirectDebitReturnReversalAdmission:
+    DirectDebitDecisionSubmission:
       properties:
         attributes:
           properties:
+            auto:
+              default: false
+              description: Indicates if the submission was created automatically by the system (`true`) or manually (`false`).
+              type: boolean
+              x-parent: data.attributes
             scheme_status_code:
-              minLength: 1
+              description: Scheme-specific status (if submission has been submitted to a scheme)
+              example: '0000'
               type: string
               x-parent: data.attributes
-            scheme_status_code_description:
-              minLength: 1
+            status:
+              $ref: '#/components/schemas/DirectDebitDecisionSubmissionStatus'
+            status_reason:
+              description: Reason for submission failure if status is `delivery_failed`
+              example: direct debit does not exist
               type: string
               x-parent: data.attributes
-          required:
-          - scheme_status_code
-          - scheme_status_code_description
+            submission_datetime:
+              description: Date and time of the submission
+              example: '2018-03-12T14:11:48.055Z'
+              format: date-time
+              readOnly: true
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
           type: object
           x-parent: data
         created_on:
@@ -1312,6 +761,8 @@ components:
           - string
           - 'null'
         id:
+          description: Unique resource ID
+          example: 2eae8187-7119-470d-abbb-33b11f21d3ad
           format: uuid
           type: string
         modified_on:
@@ -1320,6 +771,8 @@ components:
           - string
           - 'null'
         organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: 763e3cbb-da91-46fd-a0f8-169038a8324e
           format: uuid
           type: string
         relationships:
@@ -1331,34 +784,45 @@ components:
                     $ref: '#/components/schemas/DirectDebit'
                   type: array
               type: object
-            direct_debit_return:
+            direct_debit_decision:
               properties:
                 data:
                   items:
-                    $ref: '#/components/schemas/DirectDebitReturn'
-                  type: array
-              type: object
-            direct_debit_return_reversal:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitReturnReversal'
+                    $ref: '#/components/schemas/DirectDebitDecision'
                   type: array
               type: object
           type: object
         type:
+          description: Name of the resource type
+          example: direct_debit_decision_submissions
           pattern: ^[A-Za-z_]*$
           type: string
         version:
+          description: Version number
+          example: 0
           minimum: 0
           type: integer
       required:
       - id
       - organisation_id
-      - attributes
       type: object
       x-access:
       - Public
+    DirectDebitSubmissionStatus:
+      enum:
+      - accepted
+      - released_to_gateway
+      - delivery_confirmed
+      - delivery_failed
+      - submitted
+      - pending
+      - validation_pending
+      - validation_passed
+      - queued_for_delivery
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
     DirectDebitRelationships:
       properties:
         direct_debit_admission:
@@ -1414,98 +878,21 @@ components:
       type: object
       x-access:
       - Public
-    DirectDebitDecisionAdmission:
-      properties:
-        attributes:
-          properties:
-            admission_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-              x-parent: data.attributes
-            source_gateway:
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitDecisionAdmissionStatus'
-            status_reason:
-              $ref: '#/components/schemas/DirectDebitDecisionAdmissionStatusReason'
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/DirectDebitDecisionAdmissionRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
+    DirectDebitReturnSubmissionStatus:
+      enum:
+      - accepted
+      - released_to_gateway
+      - delivery_confirmed
+      - delivery_failed
+      - submitted
+      - validation_pending
+      - validation_passed
+      - queued_for_delivery
+      type: string
       x-access:
       - Public
-    Settlement:
-      description: Specifies the details on how the settlement of the transaction between the instructing agent and the instructed agent is completed
-      properties:
-        account_number:
-          example: '12345678'
-          type:
-          - string
-          - 'null'
-        account_number_code:
-          $ref: '#/components/schemas/AccountNumberCode'
-          enum:
-          - IBAN
-          - BBAN
-          type:
-          - string
-          - 'null'
-          x-length: 4
-        bank_id:
-          type:
-          - string
-          - 'null'
-        bank_id_code:
-          $ref: '#/components/schemas/BankIdCode'
-          enum:
-          - GBDSC
-          type:
-          - string
-          - 'null'
-        method:
-          description: 'Method used to settle the payment instruction. Acceptable Values for SEPA: CLRG. Acceptable Values for SWIFT: INDA (settled by Instructed Agent), INGA (Settled by Instructing Agent), COVE (Cover Payment)'
-          enum:
-          - CLRG
-          - COVE
-          - INGA
-          - INDA
-          example: CLRG
-          type:
-          - string
-          - 'null'
-      type: object
-      x-access:
-      - Public
-    DirectDebitRecallSubmission:
+      x-parent: data.attributes
+    DirectDebitReversalSubmission:
       properties:
         attributes:
           properties:
@@ -1513,267 +900,26 @@ components:
               type: string
               x-parent: data.attributes
             scheme_status_code:
-              description: Scheme-specific status (if submission has been submitted to a scheme)
-              example: '0000'
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitRecallSubmissionStatus'
-            status_reason:
-              description: Reason for submission failure if status is `delivery_failed`
-              example: direct debit does not exist
-              type: string
-              x-parent: data.attributes
-            submission_datetime:
-              description: Date and time of the submission
-              example: '2018-03-12T14:11:48.055Z'
-              format: date-time
-              readOnly: true
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_recall:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitRecall'
-                  type: array
-              type: object
-          type: object
-        type:
-          description: Name of the resource type
-          example: direct_debit_recall_submissions
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    PrivateIdentification:
-      properties:
-        identification:
-          description: Private Identification of an debtor/beneficiary or ultimate debtor/beneficiary
-          example: AB12345
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_issuer:
-          description: Issuer of the `identification`
-          example: HM Passport Office
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_scheme:
-          description: Scheme of the `identification`
-          example: BANK
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_scheme_code:
-          description: The code that specifies the type of `identification`
-          example: CCPT
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If `identification` is specified, must be either `ARNU`, `CCPT`, `CUST`, `DRLC`, `EMPL`, `NIDN`, `SOSE`, `TXID` or `Other`
-      type: object
-      x-access:
-      - Public
-    DirectDebitSubmission:
-      properties:
-        attributes:
-          properties:
-            file_identifier:
-              pattern: ^[0-9a-zA-Z]+$
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-            file_number:
-              pattern: ^[0-9]+$
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-            scheme_status_code:
-              description: Scheme-specific status (if submission has been submitted to a scheme)
-              example: '0000'
               type: string
               x-parent: data.attributes
             scheme_status_code_description:
-              description: '[Description](http://api-docs.form3.tech/api.html#enumerations-scheme-status-codes-for-bacs) of `scheme_status_code`'
-              example: Field 1 (destination sorting code) was invalid
               type: string
               x-parent: data.attributes
             status:
-              $ref: '#/components/schemas/DirectDebitSubmissionStatus'
-              description: Status of the submission
-              example: released_to_gateway
+              $ref: '#/components/schemas/DirectDebitReversalSubmissionStatus'
             status_reason:
-              description: Description of the submission status
-              example: Accepted without qualification
               type: string
               x-parent: data.attributes
             submission_datetime:
-              description: Date of the submission
-              example: '2018-03-12T14:11:48.055Z'
               format: date-time
               readOnly: true
               type: string
               x-parent: data.attributes
             transaction_start_datetime:
-              description: Time the request was received by Form3. Used to compute the total transaction time of an operation.
-              example: '2018-03-12T14:11:49.055Z'
               format: date-time
               readOnly: true
               type: string
               x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique ID
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/DirectDebitSubmissionRelationships'
-        type:
-          description: Name of the resource type
-          example: direct_debit_submissions
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: Version of the resource
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    DirectDebitReversalAdmissionStatus:
-      enum:
-      - confirmed
-      - failed
-      example: confirmed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitDecisionAdmissionStatusReason:
-      enum:
-      - accepted
-      - invalid_beneficiary_details
-      - bankid_not_provisioned
-      - unknown_accountnumber
-      - pending_settlement
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitReturnAdmissionRelationships:
-      properties:
-        direct_debit:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/DirectDebit'
-              type: array
-          type: object
-        direct_debit_return:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/DirectDebitReturn'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    DirectDebitReversalAdmission:
-      properties:
-        attributes:
-          properties:
-            scheme_status_code:
-              type: string
-              x-parent: data.attributes
-            scheme_status_code_description:
-              type: string
-              x-parent: data.attributes
-            source_gateway:
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitReversalAdmissionStatus'
           type: object
           x-parent: data
         created_on:
@@ -1818,129 +964,6 @@ components:
       required:
       - id
       - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    RecallStatus:
-      description: The status of the recall, can either be `pending`, `confirmed`, or `failed`.
-      enum:
-      - pending
-      - confirmed
-      - failed
-      example: confirmed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitRecallAdmission:
-      properties:
-        attributes:
-          properties:
-            admission_datetime:
-              description: Date and time the recall admission was created
-              example: '2018-09-26T15:26:57.494Z'
-              format: date-time
-              readOnly: true
-              type:
-              - string
-              - 'null'
-              x-parent: data.attributes
-            source_gateway:
-              type: string
-              x-parent: data.attributes
-            status:
-              $ref: '#/components/schemas/DirectDebitRecallAdmissionStatus'
-            status_reason:
-              description: Human-readable reason for failure if admission status is failed
-              example: payment does not exist
-              type: string
-              x-parent: data.attributes
-          type: object
-          x-parent: data
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            direct_debit:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebit'
-                  type: array
-              type: object
-            direct_debit_recall:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/DirectDebitRecall'
-                  type: array
-              type: object
-          type: object
-        type:
-          description: Name of the resource type
-          example: direct_debit_recall_admissions
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      required:
-      - id
-      type: object
-      x-access:
-      - Public
-    DirectDebitReversalSubmissionStatus:
-      enum:
-      - accepted
-      - released_to_gateway
-      - delivery_confirmed
-      - delivery_failed
-      - submitted
-      - validation_pending
-      - validation_passed
-      - queued_for_delivery
-      - pending
-      - limit_check_pending
-      - limit_check_passed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitDecisionAdmissionRelationships:
-      properties:
-        direct_debit:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/DirectDebit'
-              type: array
-          type: object
-        direct_debit_decision:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/DirectDebitDecision'
-              type: array
-          type: object
       type: object
       x-access:
       - Public
@@ -2444,14 +1467,318 @@ components:
       type: object
       x-access:
       - Public
-    AccountNumberCode:
-      description: The type of identification given at `account_number` attribute
+    DirectDebitReversalSubmissionStatus:
       enum:
-      - BBAN
-      - IBAN
-      example: IBAN
-      maxLength: 4
+      - accepted
+      - released_to_gateway
+      - delivery_confirmed
+      - delivery_failed
+      - submitted
+      - validation_pending
+      - validation_passed
+      - queued_for_delivery
+      - pending
+      - limit_check_pending
+      - limit_check_passed
       type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    DirectDebitDecisionAdmissionRelationships:
+      properties:
+        direct_debit:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/DirectDebit'
+              type: array
+          type: object
+        direct_debit_decision:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/DirectDebitDecision'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    DirectDebitReturnAdmissionRelationships:
+      properties:
+        direct_debit:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/DirectDebit'
+              type: array
+          type: object
+        direct_debit_return:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/DirectDebitReturn'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    DirectDebitDecisionAdmissionStatusReason:
+      enum:
+      - accepted
+      - invalid_beneficiary_details
+      - bankid_not_provisioned
+      - unknown_accountnumber
+      - pending_settlement
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    Settlement:
+      description: Specifies the details on how the settlement of the transaction between the instructing agent and the instructed agent is completed
+      properties:
+        account_number:
+          example: '12345678'
+          type:
+          - string
+          - 'null'
+        account_number_code:
+          $ref: '#/components/schemas/AccountNumberCode'
+          enum:
+          - IBAN
+          - BBAN
+          type:
+          - string
+          - 'null'
+          x-length: 4
+        bank_id:
+          type:
+          - string
+          - 'null'
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          type:
+          - string
+          - 'null'
+        method:
+          description: 'Method used to settle the payment instruction. Acceptable Values for SEPA: CLRG. Acceptable Values for SWIFT: INDA (settled by Instructed Agent), INGA (Settled by Instructing Agent), COVE (Cover Payment)'
+          enum:
+          - CLRG
+          - COVE
+          - INGA
+          - INDA
+          example: CLRG
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    DirectDebitAdmission:
+      properties:
+        attributes:
+          properties:
+            admission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+              x-parent: data.attributes
+            scheme_status_code:
+              type: string
+              x-parent: data.attributes
+            scheme_status_code_description:
+              type: string
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/DirectDebitAdmissionStatus'
+            status_reason:
+              $ref: '#/components/schemas/DirectDebitAdmissionStatusReason'
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/DirectDebitAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    DirectDebitReversal:
+      properties:
+        attributes:
+          properties:
+            charges_amount:
+              description: Only present when a DirectDebitReversal contains charges. SEPA only
+              properties:
+                amount:
+                  description: The charges amount
+                  example: '10.00'
+                  pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+                  type: string
+                  x-parent: data.attributes.charges_amount
+                currency:
+                  description: ISO currency code for `amount`
+                  example: EUR
+                  type: string
+                  x-parent: data.attributes.charges_amount
+              type: object
+              x-omitempty: true
+              x-parent: data.attributes
+            processing_date:
+              description: 'Date on which the operation is to be debited from the debtor account. Formatted according to ISO 8601 format: YYYY-MM-DD.'
+              example: '2015-02-12'
+              format: date
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+            reason:
+              description: Further explanation of the reason given in reason_code. Only evaluated for certain reason codes.
+              example: Direct debit was a duplicate
+              type: string
+              x-omitempty: true
+              x-parent: data.attributes
+            reason_code:
+              description: The reason for the direct debit reversal. Has to be a valid [reversal reason code](http://api-docs.form3.tech/api.html#enumerations-reversal-reason-codes).
+              example: AM05
+              type: string
+              x-parent: data.attributes
+            reversal_amount:
+              description: SEPA only
+              properties:
+                amount:
+                  description: Full amount of the Direct Debit Reversal including charges
+                  example: '10.00'
+                  pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+                  type: string
+                  x-parent: data.attributes.reversal_amount
+                currency:
+                  description: ISO currency code for `amount`
+                  example: EUR
+                  type: string
+                  x-parent: data.attributes.reversal_amount
+              type: object
+              x-omitempty: true
+              x-parent: data.attributes
+            scheme_processing_date:
+              description: 'Date on which the operation is processed by the scheme. Formatted according to ISO 8601 format: YYYY-MM-DD. Only used if different from `processing_date`.'
+              example: '2015-02-12'
+              format: date
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_reversal_admission:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReversalAdmission'
+                  type: array
+              type: object
+            direct_debit_reversal_submission:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReversalSubmission'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
       x-access:
       - Public
     PostalAddress:
@@ -2528,6 +1855,90 @@ components:
       type: object
       x-access:
       - Public
+    DirectDebitReversalAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      example: confirmed
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    DirectDebitRecallAdmission:
+      properties:
+        attributes:
+          properties:
+            admission_datetime:
+              description: Date and time the recall admission was created
+              example: '2018-09-26T15:26:57.494Z'
+              format: date-time
+              readOnly: true
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+            source_gateway:
+              type: string
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/DirectDebitRecallAdmissionStatus'
+            status_reason:
+              description: Human-readable reason for failure if admission status is failed
+              example: payment does not exist
+              type: string
+              x-parent: data.attributes
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_recall:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitRecall'
+                  type: array
+              type: object
+          type: object
+        type:
+          description: Name of the resource type
+          example: direct_debit_recall_admissions
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      type: object
+      x-access:
+      - Public
     DirectDebitAdmissionRelationships:
       properties:
         direct_debit:
@@ -2540,25 +1951,199 @@ components:
       type: object
       x-access:
       - Public
-    DirectDebitAdmission:
+    DirectDebitReturnReversal:
+      properties:
+        attributes:
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_return:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReturn'
+                  type: array
+              type: object
+            direct_debit_return_reversal_admission:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReturnReversalAdmission'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    DirectDebitDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/DirectDebit'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    DirectDebitMandate:
+      properties:
+        id:
+          format: uuid
+          type: string
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+      type: object
+      x-access:
+      - Public
+    DirectDebitRecallSubmission:
       properties:
         attributes:
           properties:
-            admission_datetime:
-              format: date-time
-              readOnly: true
+            destination_gateway:
               type: string
               x-parent: data.attributes
+            scheme_status_code:
+              description: Scheme-specific status (if submission has been submitted to a scheme)
+              example: '0000'
+              type: string
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/DirectDebitRecallSubmissionStatus'
+            status_reason:
+              description: Reason for submission failure if status is `delivery_failed`
+              example: direct debit does not exist
+              type: string
+              x-parent: data.attributes
+            submission_datetime:
+              description: Date and time of the submission
+              example: '2018-03-12T14:11:48.055Z'
+              format: date-time
+              readOnly: true
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_recall:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitRecall'
+                  type: array
+              type: object
+          type: object
+        type:
+          description: Name of the resource type
+          example: direct_debit_recall_submissions
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    AccountNumberCode:
+      description: The type of identification given at `account_number` attribute
+      enum:
+      - BBAN
+      - IBAN
+      example: IBAN
+      maxLength: 4
+      type: string
+      x-access:
+      - Public
+    DirectDebitDecisionAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      - pending
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    DirectDebitReversalAdmission:
+      properties:
+        attributes:
+          properties:
             scheme_status_code:
               type: string
               x-parent: data.attributes
             scheme_status_code_description:
               type: string
               x-parent: data.attributes
+            source_gateway:
+              type: string
+              x-parent: data.attributes
             status:
-              $ref: '#/components/schemas/DirectDebitAdmissionStatus'
-            status_reason:
-              $ref: '#/components/schemas/DirectDebitAdmissionStatusReason'
+              $ref: '#/components/schemas/DirectDebitReversalAdmissionStatus'
           type: object
           x-parent: data
         created_on:
@@ -2578,7 +2163,22 @@ components:
           format: uuid
           type: string
         relationships:
-          $ref: '#/components/schemas/DirectDebitAdmissionRelationships'
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_reversal:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReversal'
+                  type: array
+              type: object
+          type: object
         type:
           pattern: ^[A-Za-z_]*$
           type: string
@@ -2592,6 +2192,119 @@ components:
       type: object
       x-access:
       - Public
+    PrivateIdentification:
+      properties:
+        identification:
+          description: Private Identification of an debtor/beneficiary or ultimate debtor/beneficiary
+          example: AB12345
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_issuer:
+          description: Issuer of the `identification`
+          example: HM Passport Office
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme:
+          description: Scheme of the `identification`
+          example: BANK
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme_code:
+          description: The code that specifies the type of `identification`
+          example: CCPT
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If `identification` is specified, must be either `ARNU`, `CCPT`, `CUST`, `DRLC`, `EMPL`, `NIDN`, `SOSE`, `TXID` or `Other`
+      type: object
+      x-access:
+      - Public
+    AccountWithBankId:
+      properties:
+        bank_id:
+          description: Other ID of agent
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 30
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Other ID of agent
+          x-length: 11
+          x-omitempty: true
+        bank_id_code:
+          description: Code for the type of other ID for agent
+          example: LEI
+          maxLength: 5
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID for agent
+          x-length: 5
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    DirectDebitReturnAdmissionStatus:
+      enum:
+      - confirmed
+      - pending
+      - failed
+      - limit_check_pending
+      - limit_check_passed
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    DirectDebitSubmissionRelationships:
+      properties:
+        direct_debit:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/DirectDebit'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    RecallStatus:
+      description: The status of the recall, can either be `pending`, `confirmed`, or `failed`.
+      enum:
+      - pending
+      - confirmed
+      - failed
+      example: confirmed
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
     DirectDebitDecision:
       properties:
         attributes:
@@ -2677,45 +2390,82 @@ components:
       type: object
       x-access:
       - Public
-    DirectDebitAdmissionStatus:
+    DirectDebitDecisionSubmissionStatus:
       enum:
-      - confirmed
-      - failed
-      - pending
-      - limit_check_pending
-      - limit_check_passed
+      - accepted
+      - released_to_gateway
+      - delivery_confirmed
+      - delivery_failed
+      - submitted
+      - validation_pending
+      - validation_passed
+      - queued_for_delivery
       type: string
       x-access:
       - Public
       x-parent: data.attributes
-    AccountHoldingEntity:
-      description: Information about the financial institution servicing the account.
+    DirectDebitDecisionAdmission:
       properties:
-        bank_address:
-          description: Financial institution address
+        attributes:
+          properties:
+            admission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+              x-parent: data.attributes
+            source_gateway:
+              type: string
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/DirectDebitDecisionAdmissionStatus'
+            status_reason:
+              $ref: '#/components/schemas/DirectDebitDecisionAdmissionStatusReason'
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/DirectDebitDecisionAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    UltimateEntity:
+      properties:
+        additional_address_line:
+          description: Additional address line of the debtor/beneficiary address
+          type: string
+          x-length: 70
+        address:
+          description: Ultimate debtor/beneficiary address
           example:
           - Liverpool Customer Service Centre
-          - Stevenson Way
-          - Wavertree
-          - L13 1NW
+          - Stevenson Way, Wavertree, L13 1NW
           items:
             type: string
-          type: array
-          x-omitempty: true
-        bank_id:
-          pattern: ^[A-Z0-9]{0,16}$
-          type: string
-        bank_id_code:
-          $ref: '#/components/schemas/BankIdCode'
-          enum:
-          - GBDSC
-          example: GBDSC
-          type: string
-          x-length: 5
-        bank_ids:
-          description: Array for additional ID(s) for agent
-          items:
-            $ref: '#/components/schemas/AccountWithBankId'
           type: array
           x-availability:
             get:
@@ -2723,79 +2473,171 @@ components:
             post:
               sepa: optional
           x-description:
-            sepa: Array for additional ID(s) for agent
+            sepa: Max 2 lines of 70 text.
           x-omitempty: true
-        bank_name:
-          description: Financial institution name
+        birth_city:
+          description: Ultimate debtor/beneficiary birth city
+          example: PARIS
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
+          x-length: 35
+        birth_country:
+          description: Ultimate debtor/beneficiary birth country. ISO 3166 format country code
+          example: FR
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
+          x-length: 2
+        birth_date:
+          description: Ultimate debtor/beneficiary birth date. Formatted ISO 8601 format YYYY-MM-DD
+          example: '1973-01-31'
+          format: date
+          type:
+          - string
+          - 'null'
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
+        birth_province:
+          description: Ultimate debtor/beneficiary birth province
+          example: SOUTH SIDE
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: If a Ultimate Beneficiary/Debtor Identification is used then only one of `organisation_identification`, `private_identification` or date and place of birth can be present.
+          x-length: 35
+        building_number:
+          description: Building number of the debtor/beneficiary address
+          type: string
+          x-length: 16
+        city:
+          description: City/Town of the Beneficiary address
+          example: BRUSSELS
+          type: string
+          x-length: 30
+        country:
+          description: Country of ultimate debtor/beneficiary address. ISO 3166 format country code
+          example: GB
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 2
+        country_of_residence:
+          description: Country of residence of the ultimate beneficiary, ISO 3166 format country code
+          example: UA
+          type: string
+          x-length: 2
+        name:
+          example: Jane Bond
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 70
+        organisation_identification:
+          description: Organisation identification of an ultimate debtor/beneficiary, in the case that the ultimate debtor/beneficiary is an organisation and not a private person.
+          example: ID1234656
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: The Identification can either be a BIC, BEI or Other Identification
+          x-length: 35
+        organisation_identification_code:
+          description: The code that specifies the type of `organisation_identification`
+          example: BIC
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If `organisation_identification` is specified, must be one of `BIC`, `BEI`, `BANK`, `CBID`, `CHID`, `CINC`, `COID`, `CUST`, `DUNS`, `EMPL`, `GS1G`, `SREN`, `SRET`, `TXID` or `Other`
+          x-length: 5
+        organisation_identification_issuer:
+          description: Issuer of the `organisation_identification`
           example: NATIONAL WESTMINSTER BANK PLC
           type: string
-        bank_party_id:
-          description: Identifier of the financial institution which services the account
-          example: //AT12345
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: May only be present if `organisation_identification_code` is `Other`
+          x-length: 35
+        organisation_identification_scheme:
+          description: The code that specifies the scheme of `organisation_identification`
+          example: CustomerId
           type: string
-      required:
-      - bank_id
-      - bank_id_code
-      type: object
-      x-access:
-      - Public
-    DirectDebitAdmissionStatusReason:
-      enum:
-      - accepted
-      - invalid_beneficiary_details
-      - invalid_transaction
-      - bankid_not_provisioned
-      - unknown_accountnumber
-      - pending_settlement
-      - settlement_failed
-      - duplication
-      - not_allowed_amount
-      - mandate_cancelled
-      - no_instruction
-      - account_transferred_to_new_psp
-      - paying_bank_cancellation
-      - cancelled_by_payer
-      - payer_deceased
-      - account_closed
-      - scheme_status_invalid
-      - pending_authorisation_by_sponsor
-      - authorised_by_sponsor
-      - authorisation_failed_by_sponsor
-      - closed_account
-      - blocked_account
-      - invalid_debtor_account_type
-      - transaction_forbidden
-      - invalid_bank_operation_code
-      - insufficient_funds
-      - unrecognised_initiating_party
-      - creditor_bank_not_registered_under_bic
-      - debtor_bank_not registered_under_bic
-      - operation_code_incorrect
-      - unauthorised_transaction
-      - missing_mandatory_mandate_information
-      - end_customer_deceased
-      - not_specified_reason_customer
-      - not_specified_reason_agent
-      - bank_identifier_incorrect
-      - missing_debtor_account
-      - missing_debtor_name_or_address
-      - missing_creditor_name_or_address
-      - regulatory_reason
-      - specific_service_offered_by_debtor_bank
-      - recalled_by_originator
-      - unknown_status_reason
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    DirectDebitDetailsListResponse:
-      properties:
-        data:
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: May only be present if `organisation_identification_code` is `Other`
+          x-length: 35
+        organisation_identifications:
+          description: Array for additional ID(s) of ultimate organisation
           items:
-            $ref: '#/components/schemas/DirectDebit'
+            $ref: '#/components/schemas/BeneficiaryDebtorOrganisationIdentification'
           type: array
-        links:
-          $ref: '#/components/schemas/Links'
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for ultimate organisation
+          x-omitempty: true
+        post_code:
+          description: Post code of the debtor/beneficiary address
+          type: string
+          x-length: 16
+        postal_address:
+          $ref: '#/components/schemas/PostalAddress'
+          description: Postal address of the ultimate debtor/beneficiary
+          x-omitempty: true
+        private_identification:
+          $ref: '#/components/schemas/PrivateIdentification'
+        province:
+          description: Province of the debtor/beneficiary address
+          type: string
+          x-length: 35
+        street_name:
+          description: Street name of the debtor/beneficiary address
+          example: Park Avenue
+          type: string
+          x-length: 70
       type: object
       x-access:
       - Public
@@ -2887,6 +2729,164 @@ components:
       required:
       - id
       - organisation_id
+      type: object
+      x-access:
+      - Public
+    DirectDebitSubmission:
+      properties:
+        attributes:
+          properties:
+            file_identifier:
+              pattern: ^[0-9a-zA-Z]+$
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+            file_number:
+              pattern: ^[0-9]+$
+              type:
+              - string
+              - 'null'
+              x-parent: data.attributes
+            scheme_status_code:
+              description: Scheme-specific status (if submission has been submitted to a scheme)
+              example: '0000'
+              type: string
+              x-parent: data.attributes
+            scheme_status_code_description:
+              description: '[Description](http://api-docs.form3.tech/api.html#enumerations-scheme-status-codes-for-bacs) of `scheme_status_code`'
+              example: Field 1 (destination sorting code) was invalid
+              type: string
+              x-parent: data.attributes
+            status:
+              $ref: '#/components/schemas/DirectDebitSubmissionStatus'
+              description: Status of the submission
+              example: released_to_gateway
+            status_reason:
+              description: Description of the submission status
+              example: Accepted without qualification
+              type: string
+              x-parent: data.attributes
+            submission_datetime:
+              description: Date of the submission
+              example: '2018-03-12T14:11:48.055Z'
+              format: date-time
+              readOnly: true
+              type: string
+              x-parent: data.attributes
+            transaction_start_datetime:
+              description: Time the request was received by Form3. Used to compute the total transaction time of an operation.
+              example: '2018-03-12T14:11:49.055Z'
+              format: date-time
+              readOnly: true
+              type: string
+              x-parent: data.attributes
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique ID
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/DirectDebitSubmissionRelationships'
+        type:
+          description: Name of the resource type
+          example: direct_debit_submissions
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version of the resource
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    DirectDebitReturnReversalAdmission:
+      properties:
+        attributes:
+          properties:
+            scheme_status_code:
+              minLength: 1
+              type: string
+              x-parent: data.attributes
+            scheme_status_code_description:
+              minLength: 1
+              type: string
+              x-parent: data.attributes
+          required:
+          - scheme_status_code
+          - scheme_status_code_description
+          type: object
+          x-parent: data
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            direct_debit:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebit'
+                  type: array
+              type: object
+            direct_debit_return:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReturn'
+                  type: array
+              type: object
+            direct_debit_return_reversal:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/DirectDebitReturnReversal'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
       type: object
       x-access:
       - Public

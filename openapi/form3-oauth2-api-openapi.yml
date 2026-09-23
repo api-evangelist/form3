@@ -7,7 +7,7 @@ servers:
 security:
 - OAuth2: []
 tags:
-- name: Oauth2
+- name: OAuth2
 paths:
   /oauth2/token:
     post:
@@ -24,7 +24,7 @@ paths:
       - Basic: []
       summary: Request Access Token
       tags:
-      - Oauth2
+      - OAuth2
       x-access:
       - Public
       requestBody:
@@ -40,6 +40,8 @@ paths:
                   description: Value MUST be set to "client_credentials" as per RFC
               required:
               - grant_type
+      operationId: postOauth2Token
+      x-operation-id-source: derived
 components:
   schemas:
     Token:

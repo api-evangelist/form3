@@ -166,6 +166,102 @@ paths:
       - Public
 components:
   schemas:
+    RoleDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    RoleAttributes:
+      properties:
+        name:
+          description: Name of the role
+          example: Read-only Role
+          type: string
+        parent_role_id:
+          description: Unique resource ID of the parent Role
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    Role:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/RoleAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: role
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    RoleDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     Links:
       properties:
         first:
@@ -198,102 +294,6 @@ components:
           type: string
       required:
       - self
-      type: object
-      x-access:
-      - Public
-    Role:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/RoleAttributes'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        type:
-          description: Name of the resource type
-          example: role
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      type: object
-      x-access:
-      - Public
-    RoleAttributes:
-      properties:
-        name:
-          description: Name of the role
-          example: Read-only Role
-          type: string
-        parent_role_id:
-          description: Unique resource ID of the parent Role
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type:
-          - string
-          - 'null'
-      type: object
-      x-access:
-      - Public
-    RoleCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Role'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RoleCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Role'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RoleDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Role'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    RoleDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Role'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
       type: object
       x-access:
       - Public

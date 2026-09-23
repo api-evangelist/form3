@@ -230,6 +230,23 @@ paths:
               $ref: '#/components/schemas/AccountIdentificationRequest'
 components:
   schemas:
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountIdentificationData'
+      type: object
+      x-access:
+      - Public
     AccountIdentificationData:
       allOf:
       - $ref: '#/components/schemas/AccountIdentification'
@@ -239,18 +256,35 @@ components:
         type: object
       x-access:
       - Public
-    AccountIdentificationRelationships:
-      properties:
-        account:
-          $ref: '#/components/schemas/RelationshipLinks'
-      x-access:
-      - Public
     RelationshipLinks:
       properties:
         data:
           items:
             $ref: '#/components/schemas/RelationshipData'
           type: array
+      type: object
+      x-access:
+      - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountIdentificationListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AccountIdentification'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -298,6 +332,18 @@ components:
       type: object
       x-access:
       - Public
+    AccountIdentificationAttributes:
+      properties:
+        secondary_identification:
+          description: Used to validate where expecting an exact match against payment's reference information.
+          maxLength: 35
+          minLength: 1
+          type: string
+      required:
+      - secondary_identification
+      type: object
+      x-access:
+      - Public
     AccountIdentification:
       properties:
         attributes:
@@ -339,56 +385,10 @@ components:
       type: object
       x-access:
       - Public
-    RelationshipData:
+    AccountIdentificationRelationships:
       properties:
-        id:
-          description: ID of the referenced resource
-          format: uuid
-          type: string
-        type:
-          description: Name of the referenced resource type
-          type: string
-      type: object
-      x-access:
-      - Public
-    AccountIdentificationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/AccountIdentificationData'
-      type: object
-      x-access:
-      - Public
-    AccountIdentificationListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/AccountIdentification'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    AccountIdentificationAttributes:
-      properties:
-        secondary_identification:
-          description: Used to validate where expecting an exact match against payment's reference information.
-          maxLength: 35
-          minLength: 1
-          type: string
-      required:
-      - secondary_identification
-      type: object
+        account:
+          $ref: '#/components/schemas/RelationshipLinks'
       x-access:
       - Public
   securitySchemes:

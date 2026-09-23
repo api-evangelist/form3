@@ -286,282 +286,6 @@ paths:
       - Public
 components:
   schemas:
-    AcceptanceQualifier:
-      description: All accepted payments will receive the matching qualifier code
-      enum:
-      - some_other_time
-      - same_day
-      - next_calendar_day
-      - next_working_day
-      - after_next_working_day
-      - none
-      type: string
-      x-access:
-      - Public
-    ValidationType:
-      description: optional validation to apply to the account
-      enum:
-      - card
-      - mandatory_reference
-      - none
-      type: string
-      x-access:
-      - Public
-    AccountEventListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/AccountEvent'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    AccountAttributesOrganisationIdentificationActor:
-      properties:
-        birth_date:
-          example: '2017-07-23'
-          format: date
-          type:
-          - string
-          - 'null'
-        name:
-          description: Actor names (for example title, first name, last name). Used for Confirmation of Payee matching.
-          items:
-            maxLength: 255
-            minLength: 1
-            type: string
-          maxItems: 4
-          type:
-          - array
-          - 'null'
-        residency:
-          description: ISO 3166-1 code used to identify the domicile of the actor
-          example: GB
-          pattern: ^[A-Z]{2}$
-          type: string
-        role:
-          type: string
-      type: object
-      x-access:
-      - Public
-    AccountAmendment:
-      properties:
-        data:
-          $ref: '#/components/schemas/AccountUpdate'
-      type: object
-      x-access:
-      - Public
-    AccountCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    AccountEventRelationships:
-      properties:
-        account:
-          $ref: '#/components/schemas/RelationshipAccount'
-          description: Account this event relates to
-      type: object
-      x-access:
-      - Public
-    Account:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/AccountAttributes'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/AccountRelationships'
-        type:
-          description: Name of the resource type
-          example: accounts
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    RelationshipLinks:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipData'
-          type: array
-      type: object
-      x-access:
-      - Public
-    AccountWithBankId:
-      properties:
-        bank_id:
-          description: Other ID of agent
-          example: H7FNTJ4851HG0EXQ1Z70
-          maxLength: 30
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Other ID of agent
-          x-length: 11
-          x-omitempty: true
-        bank_id_code:
-          description: Code for the type of other ID for agent
-          example: LEI
-          maxLength: 5
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Code for the type of other ID for agent
-          x-length: 5
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    BankIdCode:
-      enum:
-      - SWBIC
-      - GBDSC
-      - BE
-      - FR
-      - DEBLZ
-      - GRBIC
-      - ITNCC
-      - PLKNR
-      - PTNCC
-      - ESNCC
-      - CHBCC
-      type: string
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    AccountAttributesPrivateIdentification:
-      properties:
-        address:
-          items:
-            maxLength: 140
-            minLength: 1
-            type: string
-          type: array
-        birth_country:
-          example: GB
-          pattern: ^[A-Z]{2}$
-          type: string
-        birth_date:
-          description: Customer birth date
-          example: '2017-07-23'
-          format: date
-          type:
-          - string
-          - 'null'
-        city:
-          maxLength: 35
-          minLength: 1
-          type: string
-        country:
-          example: GB
-          pattern: ^[A-Z]{2}$
-          type: string
-        identification:
-          example: L-123456789
-          maxLength: 140
-          minLength: 1
-          type: string
-        identification_issuer:
-          minLength: 1
-          type: string
-        identification_scheme:
-          maxLength: 35
-          minLength: 1
-          type: string
-        identification_scheme_code:
-          maxLength: 35
-          minLength: 1
-          type: string
-      type: object
-      x-access:
-      - Public
-    AccountRelationships:
-      properties:
-        account_events:
-          $ref: '#/components/schemas/RelationshipLinks'
-          description: Events related to the lifecycle of this account
-        master_account:
-          $ref: '#/components/schemas/RelationshipLinks'
-          description: ID of the master account related to this account
-      type: object
-      x-access:
-      - Public
-    AccountCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     AccountAttributes:
       properties:
         acceptance_qualifier:
@@ -741,39 +465,6 @@ components:
       type: object
       x-access:
       - Public
-    AccountEvent:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/AccountEventAttributes'
-        id:
-          description: Unique resource ID
-          example: 6d4f9916-3af9-416e-a347-2d8df90fc4ab
-          format: uuid
-          type: string
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: cfc09fb8-bbca-40bd-a518-6e58d8a9c7f4
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/AccountEventRelationships'
-        type:
-          description: Name of the resource type
-          example: account_events
-          pattern: ^[A-Za-z]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - type
-      - id
-      - version
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
     AccountEventAttributes:
       properties:
         account_id:
@@ -820,6 +511,116 @@ components:
       type: object
       x-access:
       - Public
+    AccountDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Account'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountEventListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AccountEvent'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AcceptanceQualifier:
+      description: All accepted payments will receive the matching qualifier code
+      enum:
+      - some_other_time
+      - same_day
+      - next_calendar_day
+      - next_working_day
+      - after_next_working_day
+      - none
+      type: string
+      x-access:
+      - Public
+    BankIdCode:
+      enum:
+      - SWBIC
+      - GBDSC
+      - BE
+      - FR
+      - DEBLZ
+      - GRBIC
+      - ITNCC
+      - PLKNR
+      - PTNCC
+      - ESNCC
+      - CHBCC
+      type: string
+      x-access:
+      - Public
+    AccountHoldingEntity:
+      description: Information about the financial institution servicing the account.
+      properties:
+        bank_address:
+          description: Financial institution address
+          example:
+          - Liverpool Customer Service Centre
+          - Stevenson Way
+          - Wavertree
+          - L13 1NW
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        bank_id:
+          pattern: ^[A-Z0-9]{0,16}$
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          example: GBDSC
+          type: string
+          x-length: 5
+        bank_ids:
+          description: Array for additional ID(s) for agent
+          items:
+            $ref: '#/components/schemas/AccountWithBankId'
+          type: array
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for agent
+          x-omitempty: true
+        bank_name:
+          description: Financial institution name
+          example: NATIONAL WESTMINSTER BANK PLC
+          type: string
+        bank_party_id:
+          description: Identifier of the financial institution which services the account
+          example: //AT12345
+          type: string
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    ValidationType:
+      description: optional validation to apply to the account
+      enum:
+      - card
+      - mandatory_reference
+      - none
+      type: string
+      x-access:
+      - Public
     SwitchedAccountDetails:
       description: Alternate Account details to use in case the account has been switched away from this organisation.
       properties:
@@ -856,20 +657,143 @@ components:
       type: object
       x-access:
       - Public
-    StatusReason:
-      description: Used to determine appropriate scheme or internal payment reject code. Account status field must be set to closed to use this functionality.
-      enum:
-      - closed
-      - stopped
-      - currency
-      - transferred
-      - deceased
-      - business_reasons
-      - beneficiary_sensitivities
-      - terms_and_conditions
-      - none
-      example: transferred
-      type: string
+    AccountCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountEvent:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountEventAttributes'
+        id:
+          description: Unique resource ID
+          example: 6d4f9916-3af9-416e-a347-2d8df90fc4ab
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: cfc09fb8-bbca-40bd-a518-6e58d8a9c7f4
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountEventRelationships'
+        type:
+          description: Name of the resource type
+          example: account_events
+          pattern: ^[A-Za-z]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - type
+      - id
+      - version
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    AccountRelationships:
+      properties:
+        account_events:
+          $ref: '#/components/schemas/RelationshipLinks'
+          description: Events related to the lifecycle of this account
+        master_account:
+          $ref: '#/components/schemas/RelationshipLinks'
+          description: ID of the master account related to this account
+      type: object
+      x-access:
+      - Public
+    Account:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/AccountRelationships'
+        type:
+          description: Name of the resource type
+          example: accounts
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    UserDefinedData:
+      properties:
+        key:
+          description: Key of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+        value:
+          description: Value of the pair
+          maxLength: 45
+          minLength: 1
+          type: string
+      required:
+      - key
+      - value
+      type: object
       x-access:
       - Public
     RelationshipAccount:
@@ -878,15 +802,6 @@ components:
           items:
             $ref: '#/components/schemas/Account'
           type: array
-      type: object
-      x-access:
-      - Public
-    AccountDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -1099,95 +1014,69 @@ components:
       type: object
       x-access:
       - Public
-    UserDefinedData:
-      properties:
-        key:
-          description: Key of the pair
-          maxLength: 45
-          minLength: 1
-          type: string
-        value:
-          description: Value of the pair
-          maxLength: 45
-          minLength: 1
-          type: string
-      required:
-      - key
-      - value
-      type: object
-      x-access:
-      - Public
-    AccountDetailsListResponse:
+    RelationshipLinks:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/Account'
+            $ref: '#/components/schemas/RelationshipData'
           type: array
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
-    AccountHoldingEntity:
-      description: Information about the financial institution servicing the account.
+    StatusReason:
+      description: Used to determine appropriate scheme or internal payment reject code. Account status field must be set to closed to use this functionality.
+      enum:
+      - closed
+      - stopped
+      - currency
+      - transferred
+      - deceased
+      - business_reasons
+      - beneficiary_sensitivities
+      - terms_and_conditions
+      - none
+      example: transferred
+      type: string
+      x-access:
+      - Public
+    AccountEventRelationships:
       properties:
-        bank_address:
-          description: Financial institution address
-          example:
-          - Liverpool Customer Service Centre
-          - Stevenson Way
-          - Wavertree
-          - L13 1NW
-          items:
-            type: string
-          type: array
-          x-omitempty: true
+        account:
+          $ref: '#/components/schemas/RelationshipAccount'
+          description: Account this event relates to
+      type: object
+      x-access:
+      - Public
+    AccountWithBankId:
+      properties:
         bank_id:
-          pattern: ^[A-Z0-9]{0,16}$
+          description: Other ID of agent
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 30
           type: string
-        bank_id_code:
-          $ref: '#/components/schemas/BankIdCode'
-          enum:
-          - GBDSC
-          example: GBDSC
-          type: string
-          x-length: 5
-        bank_ids:
-          description: Array for additional ID(s) for agent
-          items:
-            $ref: '#/components/schemas/AccountWithBankId'
-          type: array
           x-availability:
             get:
               sepa: sometimes
             post:
               sepa: optional
           x-description:
-            sepa: Array for additional ID(s) for agent
+            sepa: Other ID of agent
+          x-length: 11
           x-omitempty: true
-        bank_name:
-          description: Financial institution name
-          example: NATIONAL WESTMINSTER BANK PLC
+        bank_id_code:
+          description: Code for the type of other ID for agent
+          example: LEI
+          maxLength: 5
           type: string
-        bank_party_id:
-          description: Identifier of the financial institution which services the account
-          example: //AT12345
-          type: string
-      required:
-      - bank_id
-      - bank_id_code
-      type: object
-      x-access:
-      - Public
-    RelationshipData:
-      properties:
-        id:
-          description: ID of the referenced resource
-          format: uuid
-          type: string
-        type:
-          description: Name of the referenced resource type
-          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID for agent
+          x-length: 5
+          x-omitempty: true
       type: object
       x-access:
       - Public
@@ -1231,6 +1120,117 @@ components:
           description: ISO 3166-1 code used to identify the domicile of the account
           example: GB
           pattern: ^[A-Z]{2}$
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountUpdate'
+      type: object
+      x-access:
+      - Public
+    AccountDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    AccountAttributesPrivateIdentification:
+      properties:
+        address:
+          items:
+            maxLength: 140
+            minLength: 1
+            type: string
+          type: array
+        birth_country:
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        birth_date:
+          description: Customer birth date
+          example: '2017-07-23'
+          format: date
+          type:
+          - string
+          - 'null'
+        city:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        identification:
+          example: L-123456789
+          maxLength: 140
+          minLength: 1
+          type: string
+        identification_issuer:
+          minLength: 1
+          type: string
+        identification_scheme:
+          maxLength: 35
+          minLength: 1
+          type: string
+        identification_scheme_code:
+          maxLength: 35
+          minLength: 1
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountAttributesOrganisationIdentificationActor:
+      properties:
+        birth_date:
+          example: '2017-07-23'
+          format: date
+          type:
+          - string
+          - 'null'
+        name:
+          description: Actor names (for example title, first name, last name). Used for Confirmation of Payee matching.
+          items:
+            maxLength: 255
+            minLength: 1
+            type: string
+          maxItems: 4
+          type:
+          - array
+          - 'null'
+        residency:
+          description: ISO 3166-1 code used to identify the domicile of the actor
+          example: GB
+          pattern: ^[A-Z]{2}$
+          type: string
+        role:
           type: string
       type: object
       x-access:

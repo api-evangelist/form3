@@ -237,28 +237,14 @@ paths:
       - Public
 components:
   schemas:
-    SchemeMessageAdmission:
+    SchemeMessageAdmissionDetailsResponse:
       properties:
-        attributes:
-          $ref: '#/components/schemas/SchemeMessageAdmissionAttributes'
-        id:
-          format: uuid
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/SchemeMessageAdmissionRelationships'
-        type:
-          enum:
-          - scheme_message_admissions
-          type: string
-        version:
-          minimum: 0
-          type: integer
+        data:
+          $ref: '#/components/schemas/SchemeMessageAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
       required:
-      - id
-      - organisation_id
+      - data
       type: object
       x-access:
       - Public
@@ -299,11 +285,14 @@ components:
       type: object
       x-access:
       - Public
-    SchemeMessageAdmissionStatus:
-      enum:
-      - delivery_confirmed
-      - failed
-      type: string
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
       x-access:
       - Public
     SchemeMessageEntryItem:
@@ -318,85 +307,11 @@ components:
       type: object
       x-access:
       - Public
-    SchemeMessageDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SchemeMessage'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeMessageAdmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeMessageAdmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    SchemeMessageAdmissionRelationships:
-      properties:
-        scheme_message:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeMessage'
-              type: array
-          type: object
-      type: object
+    SchemeMessageAdmissionStatus:
+      enum:
+      - delivery_confirmed
+      - failed
+      type: string
       x-access:
       - Public
     PaymentScheme:
@@ -409,6 +324,45 @@ components:
       - FDN
       - BACS
       type: string
+      x-access:
+      - Public
+    SchemeMessageAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeMessageAdmissionAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/SchemeMessageAdmissionRelationships'
+        type:
+          enum:
+          - scheme_message_admissions
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionAttributes:
+      properties:
+        admission_datetime:
+          format: date-time
+          type: string
+        scheme_status_code:
+          type: string
+        scheme_status_code_description:
+          type: string
+        status:
+          $ref: '#/components/schemas/SchemeMessageAdmissionStatus'
+      type: object
       x-access:
       - Public
     SchemeMessageDetailsResponse:
@@ -448,17 +402,63 @@ components:
       type: object
       x-access:
       - Public
-    SchemeMessageAdmissionAttributes:
+    SchemeMessageAdmissionRelationships:
       properties:
-        admission_datetime:
-          format: date-time
+        scheme_message:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeMessage'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
           type: string
-        scheme_status_code:
-          type: string
-        scheme_status_code_description:
-          type: string
-        status:
-          $ref: '#/components/schemas/SchemeMessageAdmissionStatus'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SchemeMessageDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeMessage'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public

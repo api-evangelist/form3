@@ -135,6 +135,8 @@ paths:
       - Claims
       x-access:
       - Public
+      operationId: getTransactionClaims
+      x-operation-id-source: derived
     post:
       responses:
         201:
@@ -168,6 +170,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClaimCreation'
+      operationId: postTransactionClaims
+      x-operation-id-source: derived
   /transaction/claims/{id}:
     get:
       parameters:
@@ -211,6 +215,8 @@ paths:
       - Claims
       x-access:
       - Public
+      operationId: getTransactionClaimsById
+      x-operation-id-source: derived
   /transaction/claims/{id}/reversals:
     post:
       parameters:
@@ -262,6 +268,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClaimReversalCreation'
+      operationId: postTransactionClaimsByIdReversals
+      x-operation-id-source: derived
   /transaction/claims/{id}/reversals/{reversalId}:
     get:
       parameters:
@@ -312,6 +320,8 @@ paths:
       - Claims
       x-access:
       - Public
+      operationId: getTransactionClaimsByIdReversalsByReversalId
+      x-operation-id-source: derived
   /transaction/claims/{id}/reversals/{reversalId}/submissions:
     post:
       parameters:
@@ -369,6 +379,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClaimReversalSubmissionCreation'
+      operationId: postTransactionClaimsByIdReversalsByReversalIdSubmissions
+      x-operation-id-source: derived
   /transaction/claims/{id}/reversals/{reversalId}/submissions/{submissionId}:
     get:
       parameters:
@@ -426,6 +438,8 @@ paths:
       - Claims
       x-access:
       - Public
+      operationId: getTransactionClaimsByIdReversalsByReversalIdSubmissionsBySubmissionId
+      x-operation-id-source: derived
   /transaction/claims/{id}/submissions:
     post:
       parameters:
@@ -477,6 +491,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClaimSubmissionCreation'
+      operationId: postTransactionClaimsByIdSubmissions
+      x-operation-id-source: derived
   /transaction/claims/{id}/submissions/{submissionId}:
     get:
       parameters:
@@ -527,66 +543,17 @@ paths:
       - Claims
       x-access:
       - Public
+      operationId: getTransactionClaimsByIdSubmissionsBySubmissionId
+      x-operation-id-source: derived
 components:
   schemas:
-    ClaimReversalSubmissionCreation:
+    ApiError:
       properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversalSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    ClaimReversalSubmission:
-      properties:
-        attributes:
-          properties:
-            status:
-              $ref: '#/components/schemas/ClaimSubmissionStatus'
-            status_reason:
-              type: string
-            submission_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
+        error_code:
           format: uuid
           type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
+        error_message:
           type: string
-        relationships:
-          $ref: '#/components/schemas/ClaimReversalSubmissionRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    ClaimSubmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -604,63 +571,50 @@ components:
       type: object
       x-access:
       - Public
-    ClaimReversalSubmissionRelationships:
+    ClaimReversalCreation:
       properties:
-        claim:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Claim'
-              type: array
-          type: object
-        claim_reversal:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimReversal'
-              type: array
-          type: object
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+      required:
+      - data
       type: object
       x-access:
       - Public
-    ClaimReversal:
+    ClaimDetailsResponse:
       properties:
-        attributes:
-          properties:
-            original_instruction_id:
-              minLength: 1
-              type: string
-          required:
-          - original_instruction_id
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ClaimReversalRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
+        data:
+          $ref: '#/components/schemas/Claim'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
       required:
-      - id
-      - organisation_id
-      - attributes
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimReversalDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Claim'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -699,22 +653,29 @@ components:
       type: object
       x-access:
       - Public
-    ClaimReversalCreation:
+    ClaimSubmissionDetailsResponse:
       properties:
         data:
-          $ref: '#/components/schemas/ClaimReversal'
-      required:
-      - data
+          $ref: '#/components/schemas/ClaimSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
-    ClaimSubmissionRelationships:
+    ClaimReversalRelationships:
       properties:
         claim:
           properties:
             data:
               items:
                 $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversalSubmission'
               type: array
           type: object
       type: object
@@ -796,45 +757,6 @@ components:
       type: object
       x-access:
       - Public
-    ClaimDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Claim'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ClaimReversalRelationships:
-      properties:
-        claim:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Claim'
-              type: array
-          type: object
-        claim_reversal_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimReversalSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    ClaimDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Claim'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
     ClaimSubmissionCreation:
       properties:
         data:
@@ -844,58 +766,19 @@ components:
       type: object
       x-access:
       - Public
-    ClaimSubmissionStatus:
-      enum:
-      - accepted
-      - validation_failed
-      - validation_pending
-      - validation_passed
-      - released_to_gateway
-      - queued_for_delivery
-      - delivery_confirmed
-      - delivery_failed
-      type: string
-      x-access:
-      - Public
-    ClaimReversalSubmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversalSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ClaimRelationships:
-      properties:
-        claim_reversal:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimReversal'
-              type: array
-          type: object
-        claim_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    ClaimCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Claim'
-      type: object
-      x-access:
-      - Public
-    Claim:
+    ClaimReversalSubmission:
       properties:
         attributes:
-          $ref: '#/components/schemas/ClaimAttributes'
+          properties:
+            status:
+              $ref: '#/components/schemas/ClaimSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
         created_on:
           format: date-time
           type:
@@ -913,7 +796,7 @@ components:
           format: uuid
           type: string
         relationships:
-          $ref: '#/components/schemas/ClaimRelationships'
+          $ref: '#/components/schemas/ClaimReversalSubmissionRelationships'
         type:
           pattern: ^[A-Za-z_]*$
           type: string
@@ -923,16 +806,6 @@ components:
       required:
       - id
       - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ClaimReversalDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversal'
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -980,13 +853,158 @@ components:
       type: object
       x-access:
       - Public
-    ApiError:
+    ClaimReversalSubmissionDetailsResponse:
       properties:
-        error_code:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversal'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionStatus:
+      enum:
+      - accepted
+      - validation_failed
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - queued_for_delivery
+      - delivery_confirmed
+      - delivery_failed
+      type: string
+      x-access:
+      - Public
+    Claim:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ClaimAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
           format: uuid
           type: string
-        error_message:
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
           type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimReversal:
+      properties:
+        attributes:
+          properties:
+            original_instruction_id:
+              minLength: 1
+              type: string
+          required:
+          - original_instruction_id
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimReversalRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ClaimCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Claim'
+      type: object
+      x-access:
+      - Public
+    ClaimRelationships:
+      properties:
+        claim_reversal:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversal'
+              type: array
+          type: object
+        claim_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimSubmission'
+              type: array
+          type: object
       type: object
       x-access:
       - Public

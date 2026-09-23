@@ -693,6 +693,22 @@ paths:
       - Public
 components:
   schemas:
+    MandateAdmissionStatusReason:
+      enum:
+      - accepted
+      - invalid_beneficiary_details
+      - bankid_not_provisioned
+      - unknown_accountnumber
+      - mandate_cancelled
+      - mandate_expired
+      - mandate_failed
+      - unknown_instruction
+      - payer_reference_not_unique
+      - invalid_reference
+      - not_eligible_for_reinstatement_by_originator
+      type: string
+      x-access:
+      - Public
     ApiError:
       properties:
         error_code:
@@ -700,462 +716,6 @@ components:
           type: string
         error_message:
           type: string
-      type: object
-      x-access:
-      - Public
-    MandateAttributesDebtorParty:
-      properties:
-        account_name:
-          type: string
-          x-omitempty: false
-        account_number:
-          pattern: ^[A-Z0-9]{6,34}$
-          type: string
-        account_number_code:
-          $ref: '#/components/schemas/AccountNumberCode'
-        account_with:
-          $ref: '#/components/schemas/AccountHoldingEntity'
-        address:
-          items:
-            type: string
-          type: array
-          x-omitempty: true
-        country:
-          type: string
-      type: object
-      x-access:
-      - Public
-    MandateSubmissionStatus:
-      enum:
-      - accepted
-      - validation_pending
-      - validation_passed
-      - released_to_gateway
-      - queued_for_delivery
-      - submitted
-      - delivery_confirmed
-      - delivery_failed
-      type: string
-      x-access:
-      - Public
-    MandateCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Mandate'
-      type: object
-      x-access:
-      - Public
-    MandateAdmissionRelationships:
-      properties:
-        mandate:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Mandate'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    MandateAdmission:
-      properties:
-        attributes:
-          properties:
-            admission_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-            scheme_status_code:
-              type: string
-            scheme_status_code_description:
-              type: string
-            status:
-              $ref: '#/components/schemas/MandateAdmissionStatus'
-            status_reason:
-              $ref: '#/components/schemas/MandateAdmissionStatusReason'
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/MandateAdmissionRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      type: object
-      x-access:
-      - Public
-    MandateAttributes:
-      properties:
-        amount:
-          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
-          type: string
-        beneficiary_party:
-          $ref: '#/components/schemas/MandateAttributesBeneficiaryParty'
-        clearing_id:
-          type: string
-        currency:
-          type: string
-        debtor_party:
-          $ref: '#/components/schemas/MandateAttributesDebtorParty'
-        frequency:
-          $ref: '#/components/schemas/MandateFrequency'
-        numeric_reference:
-          type: string
-        payment_scheme:
-          type: string
-        processing_date:
-          format: date
-          type:
-          - string
-          - 'null'
-        reference:
-          type: string
-        scheme_payment_type:
-          type: string
-        scheme_processing_date:
-          format: date
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-          x-omitempty: true
-        status:
-          $ref: '#/components/schemas/MandateStatus'
-          x-omitempty: true
-        status_reason:
-          type:
-          - string
-          - 'null'
-          x-omitempty: true
-        unique_scheme_id:
-          type: string
-      type: object
-      x-access:
-      - Public
-    MandateAdmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/MandateAdmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    MandateReturnSubmissionCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/MandateReturnSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    MandateDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Mandate'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    AccountWithBankId:
-      properties:
-        bank_id:
-          description: Other ID of agent
-          example: H7FNTJ4851HG0EXQ1Z70
-          maxLength: 30
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Other ID of agent
-          x-length: 11
-          x-omitempty: true
-        bank_id_code:
-          description: Code for the type of other ID for agent
-          example: LEI
-          maxLength: 5
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-description:
-            sepa: Code for the type of other ID for agent
-          x-length: 5
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    MandateStatus:
-      enum:
-      - live
-      - invalid
-      - expired
-      - cancelled
-      type:
-      - string
-      - 'null'
-      x-access:
-      - Public
-    BankIdCode:
-      enum:
-      - SWBIC
-      - GBDSC
-      - BE
-      - FR
-      - DEBLZ
-      - GRBIC
-      - ITNCC
-      - PLKNR
-      - PTNCC
-      - ESNCC
-      - CHBCC
-      type: string
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    MandateReturnSubmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/MandateReturnSubmission'
-      type: object
-      x-access:
-      - Public
-    MandateSubmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/MandateSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    MandateDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Mandate'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    MandateReturn:
-      properties:
-        attributes:
-          properties:
-            debtor_party:
-              properties:
-                new_bank_details:
-                  properties:
-                    account_number:
-                      type: string
-                    account_number_code:
-                      $ref: '#/components/schemas/AccountNumberCode'
-                    account_with:
-                      $ref: '#/components/schemas/AccountHoldingEntity'
-                  type: object
-              type: object
-            return_code:
-              type: string
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          properties:
-            mandate:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/Mandate'
-                  type: array
-              type: object
-            mandate_return_submission:
-              properties:
-                data:
-                  items:
-                    $ref: '#/components/schemas/MandateReturnSubmission'
-                  type: array
-              type: object
-          type: object
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      type: object
-      x-access:
-      - Public
-    MandateAmendment:
-      properties:
-        data:
-          $ref: '#/components/schemas/Mandate'
-      type: object
-      x-access:
-      - Public
-    MostRecentCollection:
-      properties:
-        id:
-          format: uuid
-          type: string
-        type:
-          type: string
-      type: object
-      x-access:
-      - Public
-    Mandate:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/MandateAttributes'
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/MandateRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    PrivateIdentification:
-      properties:
-        identification:
-          description: Private Identification of an debtor/beneficiary or ultimate debtor/beneficiary
-          example: AB12345
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_issuer:
-          description: Issuer of the `identification`
-          example: HM Passport Office
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_scheme:
-          description: Scheme of the `identification`
-          example: BANK
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: optional
-          x-length: 35
-        identification_scheme_code:
-          description: The code that specifies the type of `identification`
-          example: CCPT
-          type: string
-          x-availability:
-            get:
-              sepa: sometimes
-            post:
-              sepa: conditional
-          x-description:
-            sepa: If `identification` is specified, must be either `ARNU`, `CCPT`, `CUST`, `DRLC`, `EMPL`, `NIDN`, `SOSE`, `TXID` or `Other`
       type: object
       x-access:
       - Public
@@ -1220,16 +780,13 @@ components:
       type: object
       x-access:
       - Public
-    MandateFrequency:
-      enum:
-      - daily
-      - weekly
-      - fortnightly
-      - monthly
-      - bimonthly
-      - quarterly
-      - yearly
-      type: string
+    MandateCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
       x-access:
       - Public
     MandateReturnSubmission:
@@ -1298,59 +855,56 @@ components:
       type: object
       x-access:
       - Public
-    MandateAdmissionStatusReason:
-      enum:
-      - accepted
-      - invalid_beneficiary_details
-      - bankid_not_provisioned
-      - unknown_accountnumber
-      - mandate_cancelled
-      - mandate_expired
-      - mandate_failed
-      - unknown_instruction
-      - payer_reference_not_unique
-      - invalid_reference
-      - not_eligible_for_reinstatement_by_originator
-      type: string
-      x-access:
-      - Public
-    MandateCreationResponse:
+    MandateAdmission:
       properties:
-        data:
-          $ref: '#/components/schemas/Mandate'
-        links:
-          $ref: '#/components/schemas/Links'
+        attributes:
+          properties:
+            admission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+            scheme_status_code:
+              type: string
+            scheme_status_code_description:
+              type: string
+            status:
+              $ref: '#/components/schemas/MandateAdmissionStatus'
+            status_reason:
+              $ref: '#/components/schemas/MandateAdmissionStatusReason'
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/MandateAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
       type: object
       x-access:
       - Public
-    MandateRelationships:
+    MandateSubmissionDetailsResponse:
       properties:
-        mandate_admission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/MandateAdmission'
-              type: array
-          type: object
-        mandate_return:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/MandateReturn'
-              type: array
-          type: object
-        mandate_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/MandateSubmission'
-              type: array
-          type: object
-        most_recent_collection:
-          properties:
-            data:
-              $ref: '#/components/schemas/MostRecentCollection'
-          type: object
+        data:
+          $ref: '#/components/schemas/MandateSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -1367,22 +921,86 @@ components:
       type: string
       x-access:
       - Public
-    AccountNumberCode:
-      description: The type of identification given at `account_number` attribute
+    MandateAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+      type: object
+      x-access:
+      - Public
+    MandateReturnSubmissionCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturnSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    BankIdCode:
       enum:
-      - BBAN
-      - IBAN
-      example: IBAN
-      maxLength: 4
+      - SWBIC
+      - GBDSC
+      - BE
+      - FR
+      - DEBLZ
+      - GRBIC
+      - ITNCC
+      - PLKNR
+      - PTNCC
+      - ESNCC
+      - CHBCC
       type: string
       x-access:
       - Public
-    MandateReturnDetailsResponse:
+    AccountHoldingEntity:
+      description: Information about the financial institution servicing the account.
       properties:
-        data:
-          $ref: '#/components/schemas/MandateReturn'
-        links:
-          $ref: '#/components/schemas/Links'
+        bank_address:
+          description: Financial institution address
+          example:
+          - Liverpool Customer Service Centre
+          - Stevenson Way
+          - Wavertree
+          - L13 1NW
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+        bank_id:
+          pattern: ^[A-Z0-9]{0,16}$
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIdCode'
+          enum:
+          - GBDSC
+          example: GBDSC
+          type: string
+          x-length: 5
+        bank_ids:
+          description: Array for additional ID(s) for agent
+          items:
+            $ref: '#/components/schemas/AccountWithBankId'
+          type: array
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Array for additional ID(s) for agent
+          x-omitempty: true
+        bank_name:
+          description: Financial institution name
+          example: NATIONAL WESTMINSTER BANK PLC
+          type: string
+        bank_party_id:
+          description: Identifier of the financial institution which services the account
+          example: //AT12345
+          type: string
+      required:
+      - bank_id
+      - bank_id_code
       type: object
       x-access:
       - Public
@@ -1395,6 +1013,26 @@ components:
       type: object
       x-access:
       - Public
+    MandateReturnSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturnSubmission'
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionStatus:
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - queued_for_delivery
+      - submitted
+      - delivery_confirmed
+      - delivery_failed
+      type: string
+      x-access:
+      - Public
     MandateAdmissionStatus:
       enum:
       - confirmed
@@ -1402,19 +1040,49 @@ components:
       type: string
       x-access:
       - Public
-    MandateReturnCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/MandateReturn'
-      type: object
+    MandateStatus:
+      enum:
+      - live
+      - invalid
+      - expired
+      - cancelled
+      type:
+      - string
+      - 'null'
       x-access:
       - Public
-    MandateReturnCreationResponse:
+    Links:
       properties:
-        data:
-          $ref: '#/components/schemas/MandateReturn'
-        links:
-          $ref: '#/components/schemas/Links'
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
       type: object
       x-access:
       - Public
@@ -1478,54 +1146,334 @@ components:
       type: object
       x-access:
       - Public
-    AccountHoldingEntity:
-      description: Information about the financial institution servicing the account.
+    MandateRelationships:
       properties:
-        bank_address:
-          description: Financial institution address
-          example:
-          - Liverpool Customer Service Centre
-          - Stevenson Way
-          - Wavertree
-          - L13 1NW
+        mandate_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateAdmission'
+              type: array
+          type: object
+        mandate_return:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateReturn'
+              type: array
+          type: object
+        mandate_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/MandateSubmission'
+              type: array
+          type: object
+        most_recent_collection:
+          properties:
+            data:
+              $ref: '#/components/schemas/MostRecentCollection'
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateAttributesDebtorParty:
+      properties:
+        account_name:
+          type: string
+          x-omitempty: false
+        account_number:
+          pattern: ^[A-Z0-9]{6,34}$
+          type: string
+        account_number_code:
+          $ref: '#/components/schemas/AccountNumberCode'
+        account_with:
+          $ref: '#/components/schemas/AccountHoldingEntity'
+        address:
           items:
             type: string
           type: array
           x-omitempty: true
+        country:
+          type: string
+      type: object
+      x-access:
+      - Public
+    MandateReturnCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateReturnDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateAttributes:
+      properties:
+        amount:
+          pattern: ^[0-9]{0,20}(?:\.[0-9]{1,10})?$
+          type: string
+        beneficiary_party:
+          $ref: '#/components/schemas/MandateAttributesBeneficiaryParty'
+        clearing_id:
+          type: string
+        currency:
+          type: string
+        debtor_party:
+          $ref: '#/components/schemas/MandateAttributesDebtorParty'
+        frequency:
+          $ref: '#/components/schemas/MandateFrequency'
+        numeric_reference:
+          type: string
+        payment_scheme:
+          type: string
+        processing_date:
+          format: date
+          type:
+          - string
+          - 'null'
+        reference:
+          type: string
+        scheme_payment_type:
+          type: string
+        scheme_processing_date:
+          format: date
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        status:
+          $ref: '#/components/schemas/MandateStatus'
+          x-omitempty: true
+        status_reason:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        unique_scheme_id:
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountNumberCode:
+      description: The type of identification given at `account_number` attribute
+      enum:
+      - BBAN
+      - IBAN
+      example: IBAN
+      maxLength: 4
+      type: string
+      x-access:
+      - Public
+    MandateCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+      type: object
+      x-access:
+      - Public
+    PrivateIdentification:
+      properties:
+        identification:
+          description: Private Identification of an debtor/beneficiary or ultimate debtor/beneficiary
+          example: AB12345
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_issuer:
+          description: Issuer of the `identification`
+          example: HM Passport Office
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme:
+          description: Scheme of the `identification`
+          example: BANK
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-length: 35
+        identification_scheme_code:
+          description: The code that specifies the type of `identification`
+          example: CCPT
+          type: string
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: conditional
+          x-description:
+            sepa: If `identification` is specified, must be either `ARNU`, `CCPT`, `CUST`, `DRLC`, `EMPL`, `NIDN`, `SOSE`, `TXID` or `Other`
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionRelationships:
+      properties:
+        mandate:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Mandate'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateFrequency:
+      enum:
+      - daily
+      - weekly
+      - fortnightly
+      - monthly
+      - bimonthly
+      - quarterly
+      - yearly
+      type: string
+      x-access:
+      - Public
+    AccountWithBankId:
+      properties:
         bank_id:
-          pattern: ^[A-Z0-9]{0,16}$
+          description: Other ID of agent
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 30
           type: string
-        bank_id_code:
-          $ref: '#/components/schemas/BankIdCode'
-          enum:
-          - GBDSC
-          example: GBDSC
-          type: string
-          x-length: 5
-        bank_ids:
-          description: Array for additional ID(s) for agent
-          items:
-            $ref: '#/components/schemas/AccountWithBankId'
-          type: array
           x-availability:
             get:
               sepa: sometimes
             post:
               sepa: optional
           x-description:
-            sepa: Array for additional ID(s) for agent
+            sepa: Other ID of agent
+          x-length: 11
           x-omitempty: true
-        bank_name:
-          description: Financial institution name
-          example: NATIONAL WESTMINSTER BANK PLC
+        bank_id_code:
+          description: Code for the type of other ID for agent
+          example: LEI
+          maxLength: 5
           type: string
-        bank_party_id:
-          description: Identifier of the financial institution which services the account
-          example: //AT12345
+          x-availability:
+            get:
+              sepa: sometimes
+            post:
+              sepa: optional
+          x-description:
+            sepa: Code for the type of other ID for agent
+          x-length: 5
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    MandateReturn:
+      properties:
+        attributes:
+          properties:
+            debtor_party:
+              properties:
+                new_bank_details:
+                  properties:
+                    account_number:
+                      type: string
+                    account_number_code:
+                      $ref: '#/components/schemas/AccountNumberCode'
+                    account_with:
+                      $ref: '#/components/schemas/AccountHoldingEntity'
+                  type: object
+              type: object
+            return_code:
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
           type: string
-      required:
-      - bank_id
-      - bank_id_code
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          properties:
+            mandate:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/Mandate'
+                  type: array
+              type: object
+            mandate_return_submission:
+              properties:
+                data:
+                  items:
+                    $ref: '#/components/schemas/MandateReturnSubmission'
+                  type: array
+              type: object
+          type: object
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    MandateAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateSubmissionRelationships:
+      properties:
+        mandate:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Mandate'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    MandateReturnCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/MandateReturn'
       type: object
       x-access:
       - Public
@@ -1555,15 +1503,67 @@ components:
       type: object
       x-access:
       - Public
-    MandateSubmissionRelationships:
+    MostRecentCollection:
       properties:
-        mandate:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Mandate'
-              type: array
-          type: object
+        id:
+          format: uuid
+          type: string
+        type:
+          type: string
+      type: object
+      x-access:
+      - Public
+    Mandate:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/MandateAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/MandateRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    MandateDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Mandate'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    MandateDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Mandate'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public

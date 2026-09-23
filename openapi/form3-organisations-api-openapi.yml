@@ -175,37 +175,6 @@ paths:
               $ref: '#/components/schemas/OrganisationUpdate'
 components:
   schemas:
-    OrganisationDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Organisation'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    OrganisationUpdate:
-      properties:
-        data:
-          $ref: '#/components/schemas/Organisation'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    OrganisationCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Organisation'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     Organisation:
       properties:
         attributes:
@@ -229,6 +198,58 @@ components:
           example: 0
           minimum: 0
           type: integer
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    OrganisationDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    OrganisationAttributes:
+      properties:
+        name:
+          description: Name of the organisation
+          example: Acme Corporation
+          type: string
+      type: object
+      x-access:
+      - Public
+    OrganisationDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Organisation'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    OrganisationCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Organisation'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -267,12 +288,10 @@ components:
       type: object
       x-access:
       - Public
-    OrganisationDetailsListResponse:
+    OrganisationCreationResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/Organisation'
-          type: array
+          $ref: '#/components/schemas/Organisation'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -280,31 +299,12 @@ components:
       type: object
       x-access:
       - Public
-    OrganisationCreation:
+    OrganisationUpdate:
       properties:
         data:
           $ref: '#/components/schemas/Organisation'
       required:
       - data
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    OrganisationAttributes:
-      properties:
-        name:
-          description: Name of the organisation
-          example: Acme Corporation
-          type: string
       type: object
       x-access:
       - Public

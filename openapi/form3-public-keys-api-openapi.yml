@@ -315,14 +315,24 @@ components:
       type: object
       x-access:
       - Public
-    PublicKeyResponse:
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    ApiError:
       properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
       type: object
       x-access:
       - Public
@@ -387,6 +397,17 @@ components:
       type: object
       x-access:
       - Public
+    PublicKeyCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     PublicKeyCreation:
       properties:
         data:
@@ -396,14 +417,12 @@ components:
       type: object
       x-access:
       - Public
-    PublicKeyCreationResponse:
+    ScheduleDeletionResponse:
       properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
+        deletion_date:
+          description: The scheduled date of permanent deletion
+          format: date-time
+          type: string
       type: object
       x-access:
       - Public
@@ -442,33 +461,14 @@ components:
       type: object
       x-access:
       - Public
-    KeyState:
-      description: Current lifecycle state of the key
-      enum:
-      - active
-      - pending_deletion
-      - pending_activation
-      - expired
-      - deleted
-      type: string
-      x-access:
-      - Public
-    ScheduleDeletionResponse:
+    PublicKeyResponse:
       properties:
-        deletion_date:
-          description: The scheduled date of permanent deletion
-          format: date-time
-          type: string
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public

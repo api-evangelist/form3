@@ -7,7 +7,7 @@ servers:
 security:
 - OAuth2: []
 tags:
-- name: AccountValidation
+- name: Account Validation
 paths:
   /validations/gbdsc/sortcodes/{sortcode}:
     get:
@@ -48,9 +48,11 @@ paths:
                 $ref: '#/components/schemas/ApiError'
       summary: Fetch sort code details
       tags:
-      - AccountValidation
+      - Account Validation
       x-access:
       - Public
+      operationId: getValidationsGbdscSortcodesBySortcode
+      x-operation-id-source: derived
   /validations/gbdsc/sortcodes/{sortcode}/accountnumbers/{accountnumber}:
     get:
       parameters:
@@ -96,11 +98,34 @@ paths:
                 $ref: '#/components/schemas/ApiError'
       summary: Validate sortcode and account number details
       tags:
-      - AccountValidation
+      - Account Validation
       x-access:
       - Public
+      operationId: getValidationsGbdscSortcodesBySortcodeAccountnumbersByAccountnumber
+      x-operation-id-source: derived
 components:
   schemas:
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    TransactionGroupCode:
+      enum:
+      - DR
+      - CR
+      - CU
+      - BS
+      - DV
+      - AU
+      type: string
+      x-access:
+      - Public
     AccountNumber:
       properties:
         id:
@@ -113,6 +138,50 @@ components:
         type:
           pattern: ^[A-Za-z_]*$
           type: string
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SortCodeDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SortCode'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -184,75 +253,10 @@ components:
       type: object
       x-access:
       - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    TransactionGroupCode:
-      enum:
-      - DR
-      - CR
-      - CU
-      - BS
-      - DV
-      - AU
-      type: string
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
     AccountNumberDetailsResponse:
       properties:
         data:
           $ref: '#/components/schemas/AccountNumber'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    SortCodeDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SortCode'
         links:
           $ref: '#/components/schemas/Links'
       type: object
