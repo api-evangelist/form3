@@ -146,33 +146,6 @@ components:
       type: object
       x-access:
       - Public
-    SigningKeysResourceType:
-      enum:
-      - signing_keys
-      type: string
-      x-access:
-      - Public
-    SigningKeysListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SigningKeysResponseData'
-          type: array
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SigningKeysResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SigningKeysResponseData'
-          x-order: 1
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     SigningKeysAttributes:
       properties:
         certificate:
@@ -210,6 +183,23 @@ components:
       type: object
       x-access:
       - Public
+    SigningKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SigningKeysResponseData'
+          type: array
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SigningKeysResourceType:
+      enum:
+      - signing_keys
+      type: string
+      x-access:
+      - Public
     SigningKeysResponseData:
       properties:
         attributes:
@@ -243,6 +233,16 @@ components:
       - type
       - attributes
       - version
+      type: object
+      x-access:
+      - Public
+    SigningKeysResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SigningKeysResponseData'
+          x-order: 1
+      required:
+      - data
       type: object
       x-access:
       - Public

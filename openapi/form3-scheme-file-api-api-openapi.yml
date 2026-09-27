@@ -699,27 +699,77 @@ paths:
       - Public
 components:
   schemas:
-    SchemeFileSubmissionStatus:
-      description: Status of the scheme file submission
-      enum:
-      - accepted
-      - validation_pending
-      - validation_passed
-      - released_to_gateway
-      - delivery_failed
-      - delivery_confirmed
-      example: accepted
-      readOnly: true
-      type: string
+    SchemeFileAdmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+      required:
+      - data
+      type: object
       x-access:
       - Public
-    ApiError:
+    SchemeFileSubmissionRelationships:
       properties:
-        error_code:
-          format: uuid
+        scheme_file:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      type: object
+      x-access:
+      - Public
+    SchemeFileCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewSchemeFile'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
           type: string
-        error_message:
-          type: string
+      required:
+      - self
       type: object
       x-access:
       - Public
@@ -790,59 +840,6 @@ components:
       type: object
       x-access:
       - Public
-    SchemeFileAdmissionRelationships:
-      properties:
-        scheme_files:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFile'
-              type: array
-      type: object
-      x-access:
-      - Public
-    SchemeFileLink:
-      properties:
-        href:
-          format: uri
-          type: string
-        meta:
-          properties:
-            content-type:
-              type: string
-          type: object
-      required:
-      - href
-      type: object
-      x-access:
-      - Public
-    NewSchemeFile:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/SchemeFileAttributes'
-          x-order: 4
-        id:
-          format: uuid
-          type: string
-          x-order: 1
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-          x-order: 3
-        type:
-          enum:
-          - scheme_files
-          type: string
-          x-order: 2
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
     SchemeFileAdmissionStatus:
       description: Status of the scheme file admission
       enum:
@@ -854,118 +851,12 @@ components:
       type: string
       x-access:
       - Public
-    SchemeFileSubmissionCreation:
+    SchemeFileSubmissionResponse:
       properties:
         data:
           $ref: '#/components/schemas/SchemeFileSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileRelationships:
-      properties:
-        scheme_file_admissions:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFileAdmission'
-              type: array
-          type: object
-        scheme_file_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFileSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    SchemeFileAdmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileAdmission'
         links:
           $ref: '#/components/schemas/SchemeFileLinks'
-      type: object
-      x-access:
-      - Public
-    ListSchemeFilesResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SchemeFile'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    SchemeFileSubmissionConflictError:
-      properties:
-        actual_resource:
-          $ref: '#/components/schemas/SchemeFileSubmission'
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    SchemeFileCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NewSchemeFile'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileAdmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileAdmission'
-      required:
-      - data
       type: object
       x-access:
       - Public
@@ -977,38 +868,6 @@ components:
           $ref: '#/components/schemas/SchemeFileLinks'
       required:
       - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileLinks:
-      additionalProperties:
-        $ref: '#/components/schemas/SchemeFileLink'
-      properties:
-        self:
-          $ref: '#/components/schemas/SchemeFileLink'
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    SchemeFileSubmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileSubmission'
-        links:
-          $ref: '#/components/schemas/SchemeFileLinks'
-      type: object
-      x-access:
-      - Public
-    SchemeFileSubmissionRelationships:
-      properties:
-        scheme_file:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFile'
-              type: array
-          type: object
       type: object
       x-access:
       - Public
@@ -1059,61 +918,13 @@ components:
       type: object
       x-access:
       - Public
-    SchemeFileAttributes:
+    ApiError:
       properties:
-        file_format:
-          default: xml
-          description: The format of the file that will be submitted to Form3
-          enum:
-          - xml
-          - csv
-          - standard18
+        error_code:
+          format: uuid
           type: string
-        file_hash:
-          description: Hashed content of the file
-          example: f60071837de834af950f070aa08fc1e0e3e4b1f7014a6251eabf207eba10c817
-          minLength: 1
+        error_message:
           type: string
-        file_size:
-          description: The size of the file to be uploaded - number of bytes. Max size is 1.4 Gigabyte
-          example: 1024
-          maximum: 1400000000
-          type: integer
-        file_type:
-          default: switch
-          description: The file type
-          enum:
-          - switch
-          - ISA
-          - redirection
-          - bacs
-          type: string
-        hashing_algorithm:
-          description: The algorithm used to generate the signature
-          enum:
-          - SHA256
-          type: string
-        number_of_parts:
-          description: The count of chunks to be uploaded to the resource
-          example: 1
-          minimum: 1
-          type: integer
-        payment_scheme:
-          description: Scheme/gateway that the file is to be processed by
-          enum:
-          - CASS
-          - CISA
-          - BPRS
-          - BACS
-          type: string
-      required:
-      - file_type
-      - file_format
-      - file_hash
-      - hashing_algorithm
-      - payment_scheme
-      - file_size
-      - number_of_parts
       type: object
       x-access:
       - Public
@@ -1180,6 +991,195 @@ components:
       required:
       - id
       - organisation_id
+      type: object
+      x-access:
+      - Public
+    ListSchemeFilesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeFile'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileLink:
+      properties:
+        href:
+          format: uri
+          type: string
+        meta:
+          properties:
+            content-type:
+              type: string
+          type: object
+      required:
+      - href
+      type: object
+      x-access:
+      - Public
+    NewSchemeFile:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeFileAttributes'
+          x-order: 4
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        type:
+          enum:
+          - scheme_files
+          type: string
+          x-order: 2
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeFileAttributes:
+      properties:
+        file_format:
+          default: xml
+          description: The format of the file that will be submitted to Form3
+          enum:
+          - xml
+          - csv
+          - standard18
+          type: string
+        file_hash:
+          description: Hashed content of the file
+          example: f60071837de834af950f070aa08fc1e0e3e4b1f7014a6251eabf207eba10c817
+          minLength: 1
+          type: string
+        file_size:
+          description: The size of the file to be uploaded - number of bytes. Max size is 1.4 Gigabyte
+          example: 1024
+          maximum: 1400000000
+          type: integer
+        file_type:
+          default: switch
+          description: The file type
+          enum:
+          - switch
+          - ISA
+          - redirection
+          - bacs
+          type: string
+        hashing_algorithm:
+          description: The algorithm used to generate the signature
+          enum:
+          - SHA256
+          type: string
+        number_of_parts:
+          description: The count of chunks to be uploaded to the resource
+          example: 1
+          minimum: 1
+          type: integer
+        payment_scheme:
+          description: Scheme/gateway that the file is to be processed by
+          enum:
+          - CASS
+          - CISA
+          - BPRS
+          - BACS
+          type: string
+      required:
+      - file_type
+      - file_format
+      - file_hash
+      - hashing_algorithm
+      - payment_scheme
+      - file_size
+      - number_of_parts
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionStatus:
+      description: Status of the scheme file submission
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - delivery_failed
+      - delivery_confirmed
+      example: accepted
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    SchemeFileSubmissionConflictError:
+      properties:
+        actual_resource:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    SchemeFileRelationships:
+      properties:
+        scheme_file_admissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileAdmission'
+              type: array
+          type: object
+        scheme_file_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/SchemeFileLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/SchemeFileLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionRelationships:
+      properties:
+        scheme_files:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
       type: object
       x-access:
       - Public

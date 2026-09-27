@@ -332,87 +332,20 @@ paths:
       - Public
 components:
   schemas:
-    ApiError:
+    ReportUser:
       properties:
-        error_code:
-          format: uuid
+        user_id:
+          description: Identifies a user or organization
+          example: '123456'
           type: string
-        error_message:
+        user_id_code:
+          description: Type of identifier for the user or organization
+          example: SUN
           type: string
       type: object
       x-access:
       - Public
-    Report:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/ReportAttributes'
-        created_on:
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          readOnly: true
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ReportRelationships'
-        type:
-          enum:
-          - reports
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ThinRelationship:
-      properties:
-        data:
-          description: A relationship which just contains id and type of the related resource
-          items:
-            properties:
-              id:
-                description: ID of the referenced resource
-                format: uuid
-                type: string
-              type:
-                description: Name of the referenced resource type
-                type: string
-            type: object
-          type: array
-      type: object
-      x-access:
-      - Public
-    ReportRequestStatus:
-      enum:
-      - pending
-      - closed
-      type: string
-      x-access:
-      - Public
-    ReportLinks:
-      additionalProperties:
-        $ref: '#/components/schemas/ReportLink'
-      properties:
-        self:
-          $ref: '#/components/schemas/ReportLink'
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    ReportRequestRelationships:
+    ReportAdmissionRelationships:
       properties:
         report:
           properties:
@@ -421,90 +354,6 @@ components:
                 $ref: '#/components/schemas/Report'
               type: array
           type: object
-        report_request_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ReportRequestSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    ReportAdmissionStatus:
-      enum:
-      - delivery_confirmed
-      - confirmed
-      - failed
-      type: string
-      x-access:
-      - Public
-    ReportRequest:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/ReportRequestAttributes'
-        created_on:
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          readOnly: true
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ReportRequestRelationships'
-        type:
-          enum:
-          - report_requests
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ReportRequestFilter:
-      properties:
-        date_from:
-          format: date
-          type:
-          - string
-          - 'null'
-        date_to:
-          format: date
-          type:
-          - string
-          - 'null'
-        report_users:
-          items:
-            $ref: '#/components/schemas/ReportUser'
-          type: array
-      required:
-      - report_users
-      type: object
-      x-access:
-      - Public
-    ReportAdmissionAttributes:
-      properties:
-        admission_datetime:
-          format: date-time
-          type: string
-        scheme_status_code:
-          type: string
-        scheme_status_code_description:
-          type: string
-        status:
-          $ref: '#/components/schemas/ReportAdmissionStatus'
       type: object
       x-access:
       - Public
@@ -543,71 +392,28 @@ components:
       type: object
       x-access:
       - Public
-    ReportUser:
+    ReportRequestFilter:
       properties:
-        user_id:
-          description: Identifies a user or organization
-          example: '123456'
-          type: string
-        user_id_code:
-          description: Type of identifier for the user or organization
-          example: SUN
-          type: string
-      type: object
-      x-access:
-      - Public
-    ReportAdmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ReportAdmission'
-        links:
-          $ref: '#/components/schemas/Links'
+        date_from:
+          format: date
+          type:
+          - string
+          - 'null'
+        date_to:
+          format: date
+          type:
+          - string
+          - 'null'
+        report_users:
+          items:
+            $ref: '#/components/schemas/ReportUser'
+          type: array
       required:
-      - data
+      - report_users
       type: object
       x-access:
       - Public
-    ReportDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Report'
-        links:
-          $ref: '#/components/schemas/ReportLinks'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    ReportRequestSubmissionStatus:
-      enum:
-      - delivery_confirmed
-      - delivery_failed
-      - pending
-      type: string
-      x-access:
-      - Public
-    ReportRelationships:
-      properties:
-        report_admission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ReportAdmission'
-              type: array
-          type: object
-        report_request:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ReportRequest'
-              type: array
-          type: object
-        transaction_file:
-          $ref: '#/components/schemas/ThinRelationship'
-      type: object
-      x-access:
-      - Public
-    ReportAdmissionRelationships:
+    ReportRequestRelationships:
       properties:
         report:
           properties:
@@ -616,14 +422,173 @@ components:
                 $ref: '#/components/schemas/Report'
               type: array
           type: object
+        report_request_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportRequestSubmission'
+              type: array
+          type: object
       type: object
       x-access:
       - Public
-    ReportUsers:
-      description: Users or organisations this report was generated for
-      items:
-        $ref: '#/components/schemas/ReportUser'
-      type: array
+    ReportRequestAttributes:
+      properties:
+        filter:
+          $ref: '#/components/schemas/ReportRequestFilter'
+        payment_scheme:
+          type: string
+        report_type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportRequestStatus'
+      required:
+      - report_type
+      - payment_scheme
+      - filter
+      - status
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    ReportRequest:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportRequestAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportRequestRelationships'
+        type:
+          enum:
+          - report_requests
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionAttributes:
+      properties:
+        admission_datetime:
+          format: date-time
+          type: string
+        scheme_status_code:
+          type: string
+        scheme_status_code_description:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportAdmissionStatus'
+      type: object
+      x-access:
+      - Public
+    ReportLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/ReportLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/ReportLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ReportDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Report'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ReportAdmissionStatus:
+      enum:
+      - delivery_confirmed
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    ReportAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportAdmissionAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportAdmissionRelationships'
+        type:
+          enum:
+          - report_admissions
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    ThinRelationship:
+      properties:
+        data:
+          description: A relationship which just contains id and type of the related resource
+          items:
+            properties:
+              id:
+                description: ID of the referenced resource
+                format: uuid
+                type: string
+              type:
+                description: Name of the referenced resource type
+                type: string
+            type: object
+          type: array
+      type: object
       x-access:
       - Public
     ReportRequestSubmission:
@@ -663,98 +628,6 @@ components:
       type: object
       x-access:
       - Public
-    ReportAdmission:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/ReportAdmissionAttributes'
-        created_on:
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          readOnly: true
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ReportAdmissionRelationships'
-        type:
-          enum:
-          - report_admissions
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    ReportLink:
-      properties:
-        href:
-          format: uri
-          type: string
-        meta:
-          properties:
-            content-type:
-              type: string
-          type: object
-      required:
-      - href
-      type: object
-      x-access:
-      - Public
-    ReportRequestSubmissionAttributes:
-      properties:
-        scheme_status_code:
-          type: string
-        status:
-          $ref: '#/components/schemas/ReportRequestSubmissionStatus'
-        status_reason:
-          type: string
-      required:
-      - status
-      type: object
-      x-access:
-      - Public
-    ReportRequestAttributes:
-      properties:
-        filter:
-          $ref: '#/components/schemas/ReportRequestFilter'
-        payment_scheme:
-          type: string
-        report_type:
-          type: string
-        status:
-          $ref: '#/components/schemas/ReportRequestStatus'
-      required:
-      - report_type
-      - payment_scheme
-      - filter
-      - status
-      type: object
-      x-access:
-      - Public
-    ReportDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Report'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     ReportAttributes:
       properties:
         formats:
@@ -782,6 +655,94 @@ components:
       type: object
       x-access:
       - Public
+    ReportAdmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Report:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/ReportAttributes'
+        created_on:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          readOnly: true
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ReportRelationships'
+        type:
+          enum:
+          - reports
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    ReportRequestStatus:
+      enum:
+      - pending
+      - closed
+      type: string
+      x-access:
+      - Public
+    ReportRequestSubmissionAttributes:
+      properties:
+        scheme_status_code:
+          type: string
+        status:
+          $ref: '#/components/schemas/ReportRequestSubmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    ReportLink:
+      properties:
+        href:
+          format: uri
+          type: string
+        meta:
+          properties:
+            content-type:
+              type: string
+          type: object
+      required:
+      - href
+      type: object
+      x-access:
+      - Public
+    ReportRequestSubmissionStatus:
+      enum:
+      - delivery_confirmed
+      - delivery_failed
+      - pending
+      type: string
+      x-access:
+      - Public
     ReportRequestSubmissionRelationships:
       properties:
         report_request:
@@ -793,6 +754,45 @@ components:
           required:
           - data
           type: object
+      type: object
+      x-access:
+      - Public
+    ReportUsers:
+      description: Users or organisations this report was generated for
+      items:
+        $ref: '#/components/schemas/ReportUser'
+      type: array
+      x-access:
+      - Public
+    ReportDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Report'
+        links:
+          $ref: '#/components/schemas/ReportLinks'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ReportRelationships:
+      properties:
+        report_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportAdmission'
+              type: array
+          type: object
+        report_request:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ReportRequest'
+              type: array
+          type: object
+        transaction_file:
+          $ref: '#/components/schemas/ThinRelationship'
       type: object
       x-access:
       - Public

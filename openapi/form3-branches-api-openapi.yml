@@ -223,6 +223,56 @@ paths:
               $ref: '#/components/schemas/BranchAmendment'
 components:
   schemas:
+    BranchDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Branch'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    BranchValidationType:
+      description: optional validation to apply to the branch
+      enum:
+      - card
+      - mandatory_reference
+      - account_mod_check
+      - none
+      type: string
+      x-access:
+      - Public
+    AcceptanceQualifier:
+      description: All accepted payments will receive the matching qualifier code
+      enum:
+      - some_other_time
+      - same_day
+      - next_calendar_day
+      - next_working_day
+      - after_next_working_day
+      - none
+      type: string
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    BranchAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/BranchUpdate'
+      type: object
+      x-access:
+      - Public
     BranchAttributes:
       properties:
         acceptance_qualifier:
@@ -256,10 +306,47 @@ components:
       type: object
       x-access:
       - Public
-    BranchAmendment:
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    BranchCreationResponse:
       properties:
         data:
-          $ref: '#/components/schemas/BranchUpdate'
+          $ref: '#/components/schemas/Branch'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -311,105 +398,12 @@ components:
       type: object
       x-access:
       - Public
-    ReferenceMask:
-      description: Account number of the account. A unique number will automatically be generated if not provided.
-      example: '41426819'
-      type: string
-      x-access:
-      - Public
     BranchCreation:
       properties:
         data:
           $ref: '#/components/schemas/Branch'
       required:
       - data
-      type: object
-      x-access:
-      - Public
-    BranchDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Branch'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    BranchDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Branch'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    BranchValidationType:
-      description: optional validation to apply to the branch
-      enum:
-      - card
-      - mandatory_reference
-      - account_mod_check
-      - none
-      type: string
-      x-access:
-      - Public
-    AcceptanceQualifier:
-      description: All accepted payments will receive the matching qualifier code
-      enum:
-      - some_other_time
-      - same_day
-      - next_calendar_day
-      - next_working_day
-      - after_next_working_day
-      - none
-      type: string
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
       type: object
       x-access:
       - Public
@@ -431,7 +425,13 @@ components:
       type: object
       x-access:
       - Public
-    BranchCreationResponse:
+    ReferenceMask:
+      description: Account number of the account. A unique number will automatically be generated if not provided.
+      example: '41426819'
+      type: string
+      x-access:
+      - Public
+    BranchDetailsResponse:
       properties:
         data:
           $ref: '#/components/schemas/Branch'

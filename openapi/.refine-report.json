@@ -33,7 +33,9 @@
     "form3-platformsecurityapi-api-openapi.yml",
     "form3-query-api-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -68,18 +70,19 @@
     "form3-payments.yml: declared missing tag: Users",
     "form3-payments.yml: declared missing tag: platformsecurityapi",
     "form3-payments.yml: declared missing tag: query_api",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: form3-account-validation-api-openapi.yml, form3-direct-debits-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 28 total)"
   ],
   "skipped": [
+    "form3-account-validation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-accountidentification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "form3-accountvalidation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-ace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-audit-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-branches-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-branchidentification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-claims-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "form3-directdebits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "form3-direct-debits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-directdebitsreads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-mandates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "form3-metrics-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",

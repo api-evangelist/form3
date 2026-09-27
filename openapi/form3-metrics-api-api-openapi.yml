@@ -273,6 +273,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    MetricsQueryResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/prometheusMetricData'
+        error:
+          type: string
+        errorType:
+          type: string
+        status:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+      x-access:
+      - Public
     prometheusMetric:
       additionalProperties:
         type: string
@@ -302,23 +319,6 @@ components:
       items:
         $ref: '#/components/schemas/prometheusResultItem'
       type: array
-      x-access:
-      - Public
-    MetricsQueryResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/prometheusMetricData'
-        error:
-          type: string
-        errorType:
-          type: string
-        status:
-          type: string
-        warnings:
-          items:
-            type: string
-          type: array
-      type: object
       x-access:
       - Public
   securitySchemes:

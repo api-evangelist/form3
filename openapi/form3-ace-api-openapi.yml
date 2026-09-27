@@ -191,19 +191,6 @@ paths:
       - Public
 components:
   schemas:
-    AceDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Ace'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     ApiError:
       properties:
         error_code:
@@ -214,19 +201,12 @@ components:
       type: object
       x-access:
       - Public
-    AceCreation:
+    AceDetailsListResponse:
       properties:
         data:
-          $ref: '#/components/schemas/Ace'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    AceDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Ace'
+          items:
+            $ref: '#/components/schemas/Ace'
+          type: array
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -281,6 +261,15 @@ components:
       type: object
       x-access:
       - Public
+    AceCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     Links:
       properties:
         first:
@@ -317,6 +306,17 @@ components:
       x-access:
       - Public
     AceCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    AceDetailsResponse:
       properties:
         data:
           $ref: '#/components/schemas/Ace'

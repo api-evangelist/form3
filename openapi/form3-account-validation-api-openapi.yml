@@ -115,17 +115,6 @@ components:
       type: object
       x-access:
       - Public
-    TransactionGroupCode:
-      enum:
-      - DR
-      - CR
-      - CU
-      - BS
-      - DV
-      - AU
-      type: string
-      x-access:
-      - Public
     AccountNumber:
       properties:
         id:
@@ -180,6 +169,26 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/SortCode'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    TransactionGroupCode:
+      enum:
+      - DR
+      - CR
+      - CU
+      - BS
+      - DV
+      - AU
+      type: string
+      x-access:
+      - Public
+    AccountNumberDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountNumber'
         links:
           $ref: '#/components/schemas/Links'
       type: object
@@ -250,15 +259,6 @@ components:
         type:
           pattern: ^[A-Za-z_]*$
           type: string
-      type: object
-      x-access:
-      - Public
-    AccountNumberDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/AccountNumber'
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public

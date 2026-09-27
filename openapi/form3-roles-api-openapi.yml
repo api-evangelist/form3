@@ -166,6 +166,25 @@ paths:
       - Public
 components:
   schemas:
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    RoleCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Role'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     RoleDetailsResponse:
       properties:
         data:
@@ -177,29 +196,14 @@ components:
       type: object
       x-access:
       - Public
-    ApiError:
+    RoleCreationResponse:
       properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    RoleAttributes:
-      properties:
-        name:
-          description: Name of the role
-          example: Read-only Role
-          type: string
-        parent_role_id:
-          description: Unique resource ID of the parent Role
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type:
-          - string
-          - 'null'
+        data:
+          $ref: '#/components/schemas/Role'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -226,39 +230,6 @@ components:
           example: 0
           minimum: 0
           type: integer
-      type: object
-      x-access:
-      - Public
-    RoleDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Role'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RoleCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Role'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RoleCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Role'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
       type: object
       x-access:
       - Public
@@ -294,6 +265,35 @@ components:
           type: string
       required:
       - self
+      type: object
+      x-access:
+      - Public
+    RoleAttributes:
+      properties:
+        name:
+          description: Name of the role
+          example: Read-only Role
+          type: string
+        parent_role_id:
+          description: Unique resource ID of the parent Role
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    RoleDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public

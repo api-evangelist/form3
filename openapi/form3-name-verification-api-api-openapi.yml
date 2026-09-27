@@ -463,14 +463,18 @@ paths:
       - Public
 components:
   schemas:
-    ApiError:
+    NameVerificationCreationResponse:
       properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
+        data:
+          $ref: '#/components/schemas/NameVerification'
       type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionStatus:
+      enum:
+      - delivery_confirmed
+      - delivery_failed
+      type: string
       x-access:
       - Public
     NameVerificationAttributes:
@@ -517,18 +521,73 @@ components:
       type: object
       x-access:
       - Public
-    DebtorParty:
+    NameVerificationCreation:
       properties:
-        account_with:
-          properties:
-            bank_name:
-              description: Financial institution name
-              type: string
-          type: object
+        data:
+          $ref: '#/components/schemas/NameVerification'
+      required:
+      - data
       type: object
       x-access:
       - Public
-      x-omitempty: true
+    NameVerificationAdmissionAttributes:
+      properties:
+        actual_name:
+          type: string
+        answer:
+          $ref: '#/components/schemas/NameVerificationAdmissionAnswer'
+        debtor_party:
+          $ref: '#/components/schemas/DebtorParty'
+        reason:
+          type: string
+        reason_code:
+          $ref: '#/components/schemas/NameVerificationAdmissionReasonCode'
+        status:
+          $ref: '#/components/schemas/NameVerificationAdmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    Requester:
+      properties:
+        bank_id:
+          maxLength: 11
+          type: string
+        bank_id_code:
+          $ref: '#/components/schemas/BankIDCode'
+      required:
+      - bank_id
+      - bank_id_code
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    NameVerificationDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/NameVerification'
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionAnswer:
+      enum:
+      - confirmed
+      - rejected
+      type: string
+      x-access:
+      - Public
     NameVerificationSubmission:
       properties:
         attributes:
@@ -563,14 +622,150 @@ components:
       type: object
       x-access:
       - Public
-    NameVerificationAdmissionDetailsResponse:
+    NameVerificationAdmission:
       properties:
-        data:
-          $ref: '#/components/schemas/NameVerificationAdmission'
+        attributes:
+          $ref: '#/components/schemas/NameVerificationAdmissionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/NameVerificationAdmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
       type: object
       x-access:
       - Public
-    NameVerificationAdmissionRelationships:
+    VerificationScheme:
+      default: CoP
+      enum:
+      - CoP
+      - VoP
+      type: string
+      x-access:
+      - Public
+    NameVerificationRelationships:
+      properties:
+        name_verification_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerificationAdmission'
+              maxItems: 1
+              minItems: 0
+              type: array
+          type: object
+        name_verification_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerificationSubmission'
+              maxItems: 1
+              minItems: 0
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    NameVerificationAdmissionReasonCode:
+      enum:
+      - AC01
+      - ACNS
+      - ANNM
+      - BAMM
+      - BANM
+      - CASS
+      - CMTC
+      - IVCR
+      - MBAM
+      - NMTC
+      - NOAP
+      - OPTO
+      - PAMM
+      - PANM
+      - SCNS
+      type: string
+      x-access:
+      - Public
+    NameVerificationSubmissionAttributes:
+      properties:
+        actual_name:
+          type: string
+        additional_messages:
+          items:
+            $ref: '#/components/schemas/NameVerificationSubmissionAdditionalMessage'
+          maxItems: 1
+          type: array
+        answer:
+          $ref: '#/components/schemas/NameVerificationSubmissionAnswer'
+        reason:
+          type: string
+        reason_code:
+          $ref: '#/components/schemas/NameVerificationSubmissionReasonCode'
+        status:
+          $ref: '#/components/schemas/NameVerificationSubmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    BankIDCode:
+      enum:
+      - GBDSC
+      - SWBIC
+      type: string
+      x-access:
+      - Public
+    DebtorParty:
+      properties:
+        account_with:
+          properties:
+            bank_name:
+              description: Financial institution name
+              type: string
+          type: object
+      type: object
+      x-access:
+      - Public
+      x-omitempty: true
+    NameVerificationSubmissionAdditionalMessage:
+      properties:
+        message_code:
+          maxLength: 20
+          type: string
+        message_text:
+          maxLength: 500
+          type: string
+        message_type:
+          maxLength: 70
+          type: string
+      type: object
+      x-access:
+      - Public
+    NameVerificationSubmissionRelationships:
       properties:
         name_verification:
           properties:
@@ -582,10 +777,31 @@ components:
       type: object
       x-access:
       - Public
-    NameVerificationCreationResponse:
+    NameVerificationAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    NameVerificationAdmissionAnswer:
+      enum:
+      - confirmed
+      - rejected
+      type: string
+      x-access:
+      - Public
+    AccountClassification:
+      enum:
+      - personal
+      - business
+      type: string
+      x-access:
+      - Public
+    NameVerificationAdmissionDetailsResponse:
       properties:
         data:
-          $ref: '#/components/schemas/NameVerification'
+          $ref: '#/components/schemas/NameVerificationAdmission'
       type: object
       x-access:
       - Public
@@ -624,77 +840,16 @@ components:
       type: object
       x-access:
       - Public
-    NameVerificationDetailsResponse:
+    NameVerificationAdmissionRelationships:
       properties:
-        data:
-          $ref: '#/components/schemas/NameVerification'
+        name_verification:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/NameVerification'
+              type: array
+          type: object
       type: object
-      x-access:
-      - Public
-    AccountClassification:
-      enum:
-      - personal
-      - business
-      type: string
-      x-access:
-      - Public
-    VerificationScheme:
-      default: CoP
-      enum:
-      - CoP
-      - VoP
-      type: string
-      x-access:
-      - Public
-    NameVerificationAdmissionAnswer:
-      enum:
-      - confirmed
-      - rejected
-      type: string
-      x-access:
-      - Public
-    NameVerificationSubmissionStatus:
-      enum:
-      - delivery_confirmed
-      - delivery_failed
-      type: string
-      x-access:
-      - Public
-    NameVerificationAdmissionAttributes:
-      properties:
-        actual_name:
-          type: string
-        answer:
-          $ref: '#/components/schemas/NameVerificationAdmissionAnswer'
-        debtor_party:
-          $ref: '#/components/schemas/DebtorParty'
-        reason:
-          type: string
-        reason_code:
-          $ref: '#/components/schemas/NameVerificationAdmissionReasonCode'
-        status:
-          $ref: '#/components/schemas/NameVerificationAdmissionStatus'
-        status_reason:
-          type: string
-      required:
-      - status
-      type: object
-      x-access:
-      - Public
-    NameVerificationCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NameVerification'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    BankIDCode:
-      enum:
-      - GBDSC
-      - SWBIC
-      type: string
       x-access:
       - Public
     NameVerificationSubmissionReasonCode:
@@ -717,60 +872,6 @@ components:
       type: string
       x-access:
       - Public
-    NameVerificationRelationships:
-      properties:
-        name_verification_admission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/NameVerificationAdmission'
-              maxItems: 1
-              minItems: 0
-              type: array
-          type: object
-        name_verification_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/NameVerificationSubmission'
-              maxItems: 1
-              minItems: 0
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    NameVerificationAdmissionStatus:
-      enum:
-      - confirmed
-      - failed
-      type: string
-      x-access:
-      - Public
-    NameVerificationSubmissionAttributes:
-      properties:
-        actual_name:
-          type: string
-        additional_messages:
-          items:
-            $ref: '#/components/schemas/NameVerificationSubmissionAdditionalMessage'
-          maxItems: 1
-          type: array
-        answer:
-          $ref: '#/components/schemas/NameVerificationSubmissionAnswer'
-        reason:
-          type: string
-        reason_code:
-          $ref: '#/components/schemas/NameVerificationSubmissionReasonCode'
-        status:
-          $ref: '#/components/schemas/NameVerificationSubmissionStatus'
-        status_reason:
-          type: string
-      required:
-      - status
-      type: object
-      x-access:
-      - Public
     AccountNumberCode:
       description: The type of identification given at `account_number` attribute
       enum:
@@ -779,107 +880,6 @@ components:
       example: IBAN
       maxLength: 4
       type: string
-      x-access:
-      - Public
-    NameVerificationSubmissionAnswer:
-      enum:
-      - confirmed
-      - rejected
-      type: string
-      x-access:
-      - Public
-    NameVerificationSubmissionAdditionalMessage:
-      properties:
-        message_code:
-          maxLength: 20
-          type: string
-        message_text:
-          maxLength: 500
-          type: string
-        message_type:
-          maxLength: 70
-          type: string
-      type: object
-      x-access:
-      - Public
-    Requester:
-      properties:
-        bank_id:
-          maxLength: 11
-          type: string
-        bank_id_code:
-          $ref: '#/components/schemas/BankIDCode'
-      required:
-      - bank_id
-      - bank_id_code
-      type: object
-      x-access:
-      - Public
-    NameVerificationAdmissionReasonCode:
-      enum:
-      - AC01
-      - ACNS
-      - ANNM
-      - BAMM
-      - BANM
-      - CASS
-      - CMTC
-      - IVCR
-      - MBAM
-      - NMTC
-      - NOAP
-      - OPTO
-      - PAMM
-      - PANM
-      - SCNS
-      type: string
-      x-access:
-      - Public
-    NameVerificationAdmission:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/NameVerificationAdmissionAttributes'
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/NameVerificationAdmissionRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    NameVerificationSubmissionRelationships:
-      properties:
-        name_verification:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/NameVerification'
-              type: array
-          type: object
-      type: object
       x-access:
       - Public
     Links:
