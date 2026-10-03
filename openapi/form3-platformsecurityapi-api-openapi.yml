@@ -136,6 +136,42 @@ paths:
       - Public
 components:
   schemas:
+    SigningKeysResponseData:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SigningKeysAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        type:
+          $ref: '#/components/schemas/SigningKeysResourceType'
+          x-order: 1
+        version:
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
     ApiError:
       properties:
         error_code:
@@ -143,6 +179,33 @@ components:
           type: string
         error_message:
           type: string
+      type: object
+      x-access:
+      - Public
+    SigningKeysResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SigningKeysResponseData'
+          x-order: 1
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SigningKeysResourceType:
+      enum:
+      - signing_keys
+      type: string
+      x-access:
+      - Public
+    SigningKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SigningKeysResponseData'
+          type: array
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -180,69 +243,6 @@ components:
           x-order: 3
       required:
       - public_key
-      type: object
-      x-access:
-      - Public
-    SigningKeysListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SigningKeysResponseData'
-          type: array
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SigningKeysResourceType:
-      enum:
-      - signing_keys
-      type: string
-      x-access:
-      - Public
-    SigningKeysResponseData:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/SigningKeysAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        type:
-          $ref: '#/components/schemas/SigningKeysResourceType'
-          x-order: 1
-        version:
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    SigningKeysResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SigningKeysResponseData'
-          x-order: 1
-      required:
-      - data
       type: object
       x-access:
       - Public

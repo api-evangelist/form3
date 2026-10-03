@@ -230,45 +230,12 @@ paths:
               $ref: '#/components/schemas/BranchIdentificationRequest'
 components:
   schemas:
-    RelationshipData:
-      properties:
-        id:
-          description: ID of the referenced resource
-          format: uuid
-          type: string
-        type:
-          description: Name of the referenced resource type
-          type: string
-      type: object
-      x-access:
-      - Public
-    BranchIdentificationListResponse:
+    RelationshipLinks:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/BranchIdentification'
+            $ref: '#/components/schemas/RelationshipData'
           type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    BranchIdentificationData:
-      allOf:
-      - $ref: '#/components/schemas/BranchIdentification'
-      - properties:
-          relationships:
-            $ref: '#/components/schemas/BranchIdentificationRelationships'
-        type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
       type: object
       x-access:
       - Public
@@ -313,6 +280,45 @@ components:
       type: object
       x-access:
       - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/BranchIdentification'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationRelationships:
+      properties:
+        branch:
+          $ref: '#/components/schemas/RelationshipLinks'
+      x-access:
+      - Public
     Links:
       properties:
         first:
@@ -355,30 +361,6 @@ components:
       type: object
       x-access:
       - Public
-    BranchIdentificationRelationships:
-      properties:
-        branch:
-          $ref: '#/components/schemas/RelationshipLinks'
-      x-access:
-      - Public
-    BranchIdentificationRequest:
-      properties:
-        data:
-          $ref: '#/components/schemas/BranchIdentification'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RelationshipLinks:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipData'
-          type: array
-      type: object
-      x-access:
-      - Public
     BranchIdentificationAttributes:
       properties:
         secondary_identification:
@@ -388,6 +370,24 @@ components:
           type: string
       required:
       - secondary_identification
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationData:
+      allOf:
+      - $ref: '#/components/schemas/BranchIdentification'
+      - properties:
+          relationships:
+            $ref: '#/components/schemas/BranchIdentificationRelationships'
+        type: object
+      x-access:
+      - Public
+    BranchIdentificationRequest:
+      properties:
+        data:
+          $ref: '#/components/schemas/BranchIdentification'
+      required:
+      - data
       type: object
       x-access:
       - Public

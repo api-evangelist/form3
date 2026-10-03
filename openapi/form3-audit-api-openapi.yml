@@ -114,6 +114,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AuditEntryListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/AuditEntry'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
     Links:
       properties:
         first:
@@ -205,17 +216,6 @@ components:
           example: 0
           minimum: 0
           type: integer
-      type: object
-      x-access:
-      - Public
-    AuditEntryListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/AuditEntry'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public

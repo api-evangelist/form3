@@ -273,6 +273,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    prometheusResult:
+      items:
+        $ref: '#/components/schemas/prometheusResultItem'
+      type: array
+      x-access:
+      - Public
     MetricsQueryResponse:
       properties:
         data:
@@ -287,12 +293,6 @@ components:
           items:
             type: string
           type: array
-      type: object
-      x-access:
-      - Public
-    prometheusMetric:
-      additionalProperties:
-        type: string
       type: object
       x-access:
       - Public
@@ -315,10 +315,10 @@ components:
       type: object
       x-access:
       - Public
-    prometheusResult:
-      items:
-        $ref: '#/components/schemas/prometheusResultItem'
-      type: array
+    prometheusMetric:
+      additionalProperties:
+        type: string
+      type: object
       x-access:
       - Public
   securitySchemes:

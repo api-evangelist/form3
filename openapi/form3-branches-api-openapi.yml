@@ -223,6 +223,15 @@ paths:
               $ref: '#/components/schemas/BranchAmendment'
 components:
   schemas:
+    BranchCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Branch'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
     BranchDetailsListResponse:
       properties:
         data:
@@ -232,28 +241,6 @@ components:
         links:
           $ref: '#/components/schemas/Links'
       type: object
-      x-access:
-      - Public
-    BranchValidationType:
-      description: optional validation to apply to the branch
-      enum:
-      - card
-      - mandatory_reference
-      - account_mod_check
-      - none
-      type: string
-      x-access:
-      - Public
-    AcceptanceQualifier:
-      description: All accepted payments will receive the matching qualifier code
-      enum:
-      - some_other_time
-      - same_day
-      - next_calendar_day
-      - next_working_day
-      - after_next_working_day
-      - none
-      type: string
       x-access:
       - Public
     ApiError:
@@ -266,88 +253,46 @@ components:
       type: object
       x-access:
       - Public
-    BranchAmendment:
+    UserDefinedData:
       properties:
-        data:
-          $ref: '#/components/schemas/BranchUpdate'
-      type: object
-      x-access:
-      - Public
-    BranchAttributes:
-      properties:
-        acceptance_qualifier:
-          $ref: '#/components/schemas/AcceptanceQualifier'
-        bank_id:
-          description: Local country bank identifier. In the UK this is the sort code.
-          example: '400300'
-          pattern: ^[A-Z0-9]{1,11}$
+        key:
+          description: Key of the pair
+          maxLength: 45
+          minLength: 1
           type: string
-        bank_id_code:
-          description: ISO 20022 code used to identify the type of bank ID being used
-          example: GBDSC
-          pattern: ^[A-Z]{0,16}$
-          type: string
-        reference_mask:
-          description: if present – has effect of making secondary reference in payment mandatory
-          example: 4929############
-          type: string
-        user_defined_data:
-          description: All purpose list of key-value pairs to store specific data.
-          items:
-            $ref: '#/components/schemas/UserDefinedData'
-          maxItems: 5
-          type: array
-          x-omitempty: true
-        validation_type:
-          $ref: '#/components/schemas/BranchValidationType'
-      required:
-      - bank_id
-      - bank_id_code
-      type: object
-      x-access:
-      - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
+        value:
+          description: Value of the pair
+          maxLength: 45
+          minLength: 1
           type: string
       required:
-      - self
+      - key
+      - value
       type: object
       x-access:
       - Public
-    BranchCreationResponse:
+    BranchDetailsResponse:
       properties:
         data:
           $ref: '#/components/schemas/Branch'
         links:
           $ref: '#/components/schemas/Links'
       type: object
+      x-access:
+      - Public
+    BranchCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Branch'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ReferenceMask:
+      description: Account number of the account. A unique number will automatically be generated if not provided.
+      example: '41426819'
+      type: string
       x-access:
       - Public
     BranchUpdate:
@@ -398,46 +343,84 @@ components:
       type: object
       x-access:
       - Public
-    BranchCreation:
+    Links:
       properties:
-        data:
-          $ref: '#/components/schemas/Branch'
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
       required:
-      - data
+      - self
       type: object
       x-access:
       - Public
-    UserDefinedData:
+    BranchAttributes:
       properties:
-        key:
-          description: Key of the pair
-          maxLength: 45
-          minLength: 1
+        acceptance_qualifier:
+          $ref: '#/components/schemas/AcceptanceQualifier'
+        bank_id:
+          description: Local country bank identifier. In the UK this is the sort code.
+          example: '400300'
+          pattern: ^[A-Z0-9]{1,11}$
           type: string
-        value:
-          description: Value of the pair
-          maxLength: 45
-          minLength: 1
+        bank_id_code:
+          description: ISO 20022 code used to identify the type of bank ID being used
+          example: GBDSC
+          pattern: ^[A-Z]{0,16}$
           type: string
+        reference_mask:
+          description: if present – has effect of making secondary reference in payment mandatory
+          example: 4929############
+          type: string
+        user_defined_data:
+          description: All purpose list of key-value pairs to store specific data.
+          items:
+            $ref: '#/components/schemas/UserDefinedData'
+          maxItems: 5
+          type: array
+          x-omitempty: true
+        validation_type:
+          $ref: '#/components/schemas/BranchValidationType'
       required:
-      - key
-      - value
+      - bank_id
+      - bank_id_code
       type: object
       x-access:
       - Public
-    ReferenceMask:
-      description: Account number of the account. A unique number will automatically be generated if not provided.
-      example: '41426819'
+    AcceptanceQualifier:
+      description: All accepted payments will receive the matching qualifier code
+      enum:
+      - some_other_time
+      - same_day
+      - next_calendar_day
+      - next_working_day
+      - after_next_working_day
+      - none
       type: string
-      x-access:
-      - Public
-    BranchDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Branch'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
       x-access:
       - Public
     Branch:
@@ -478,6 +461,23 @@ components:
       - id
       - organisation_id
       - attributes
+      type: object
+      x-access:
+      - Public
+    BranchValidationType:
+      description: optional validation to apply to the branch
+      enum:
+      - card
+      - mandatory_reference
+      - account_mod_check
+      - none
+      type: string
+      x-access:
+      - Public
+    BranchAmendment:
+      properties:
+        data:
+          $ref: '#/components/schemas/BranchUpdate'
       type: object
       x-access:
       - Public

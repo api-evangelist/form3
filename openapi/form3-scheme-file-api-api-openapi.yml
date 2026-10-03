@@ -699,40 +699,10 @@ paths:
       - Public
 components:
   schemas:
-    SchemeFileAdmissionCreation:
+    SchemeFileSubmissionCreation:
       properties:
         data:
-          $ref: '#/components/schemas/SchemeFileAdmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileSubmissionRelationships:
-      properties:
-        scheme_file:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFile'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    SchemeFileAdmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileAdmission'
-        links:
-          $ref: '#/components/schemas/SchemeFileLinks'
-      type: object
-      x-access:
-      - Public
-    SchemeFileCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NewSchemeFile'
+          $ref: '#/components/schemas/SchemeFileSubmission'
       required:
       - data
       type: object
@@ -840,94 +810,6 @@ components:
       type: object
       x-access:
       - Public
-    SchemeFileAdmissionStatus:
-      description: Status of the scheme file admission
-      enum:
-      - confirmed
-      - failed
-      - pending
-      example: confirmed
-      readOnly: true
-      type: string
-      x-access:
-      - Public
-    SchemeFileSubmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileSubmission'
-        links:
-          $ref: '#/components/schemas/SchemeFileLinks'
-      type: object
-      x-access:
-      - Public
-    SchemeFileResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFile'
-        links:
-          $ref: '#/components/schemas/SchemeFileLinks'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFile:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/SchemeFileAttributes'
-          x-order: 7
-        created_on:
-          example: '2017-09-26T15:26:57.494Z'
-          format: date-time
-          readOnly: true
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 1
-        modified_on:
-          example: '2017-09-26T15:26:57.494Z'
-          format: date-time
-          readOnly: true
-          type: string
-          x-order: 6
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-          x-order: 3
-        relationships:
-          $ref: '#/components/schemas/SchemeFileRelationships'
-        type:
-          enum:
-          - scheme_files
-          type: string
-          x-order: 2
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-          x-order: 4
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
     SchemeFileSubmission:
       properties:
         attributes:
@@ -994,40 +876,61 @@ components:
       type: object
       x-access:
       - Public
-    ListSchemeFilesResponse:
+    SchemeFile:
       properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SchemeFile'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileSubmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeFileSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    SchemeFileLink:
-      properties:
-        href:
-          format: uri
+        attributes:
+          $ref: '#/components/schemas/SchemeFileAttributes'
+          x-order: 7
+        created_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
           type: string
-        meta:
-          properties:
-            content-type:
-              type: string
-          type: object
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 1
+        modified_on:
+          example: '2017-09-26T15:26:57.494Z'
+          format: date-time
+          readOnly: true
+          type: string
+          x-order: 6
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+          x-order: 3
+        relationships:
+          $ref: '#/components/schemas/SchemeFileRelationships'
+        type:
+          enum:
+          - scheme_files
+          type: string
+          x-order: 2
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+          x-order: 4
       required:
-      - href
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeFileResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFile'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -1055,6 +958,155 @@ components:
       - id
       - organisation_id
       - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeFileRelationships:
+      properties:
+        scheme_file_admissions:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileAdmission'
+              type: array
+          type: object
+        scheme_file_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFileSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionStatus:
+      description: Status of the scheme file admission
+      enum:
+      - confirmed
+      - failed
+      - pending
+      example: confirmed
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    SchemeFileSubmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+        links:
+          $ref: '#/components/schemas/SchemeFileLinks'
+      type: object
+      x-access:
+      - Public
+    SchemeFileCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewSchemeFile'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ListSchemeFilesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeFile'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionConflictError:
+      properties:
+        actual_resource:
+          $ref: '#/components/schemas/SchemeFileSubmission'
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionStatus:
+      description: Status of the scheme file submission
+      enum:
+      - accepted
+      - validation_pending
+      - validation_passed
+      - released_to_gateway
+      - delivery_failed
+      - delivery_confirmed
+      example: accepted
+      readOnly: true
+      type: string
+      x-access:
+      - Public
+    SchemeFileAdmissionRelationships:
+      properties:
+        scheme_files:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
+      type: object
+      x-access:
+      - Public
+    SchemeFileLinks:
+      additionalProperties:
+        $ref: '#/components/schemas/SchemeFileLink'
+      properties:
+        self:
+          $ref: '#/components/schemas/SchemeFileLink'
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    SchemeFileSubmissionRelationships:
+      properties:
+        scheme_file:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeFile'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeFileAdmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeFileAdmission'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -1116,70 +1168,18 @@ components:
       type: object
       x-access:
       - Public
-    SchemeFileSubmissionStatus:
-      description: Status of the scheme file submission
-      enum:
-      - accepted
-      - validation_pending
-      - validation_passed
-      - released_to_gateway
-      - delivery_failed
-      - delivery_confirmed
-      example: accepted
-      readOnly: true
-      type: string
-      x-access:
-      - Public
-    SchemeFileSubmissionConflictError:
+    SchemeFileLink:
       properties:
-        actual_resource:
-          $ref: '#/components/schemas/SchemeFileSubmission'
-        error_code:
-          format: uuid
+        href:
+          format: uri
           type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    SchemeFileRelationships:
-      properties:
-        scheme_file_admissions:
+        meta:
           properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFileAdmission'
-              type: array
+            content-type:
+              type: string
           type: object
-        scheme_file_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFileSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    SchemeFileLinks:
-      additionalProperties:
-        $ref: '#/components/schemas/SchemeFileLink'
-      properties:
-        self:
-          $ref: '#/components/schemas/SchemeFileLink'
       required:
-      - self
-      type: object
-      x-access:
-      - Public
-    SchemeFileAdmissionRelationships:
-      properties:
-        scheme_files:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeFile'
-              type: array
+      - href
       type: object
       x-access:
       - Public

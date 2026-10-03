@@ -302,12 +302,10 @@ paths:
       - Public
 components:
   schemas:
-    PublicKeysListResponse:
+    PublicKeyCreationResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/PublicKey'
-          type: array
+          $ref: '#/components/schemas/PublicKey'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -322,6 +320,30 @@ components:
           type: string
         error_message:
           type: string
+      type: object
+      x-access:
+      - Public
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    PublicKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -439,29 +461,7 @@ components:
       type: object
       x-access:
       - Public
-    KeyState:
-      description: Current lifecycle state of the key
-      enum:
-      - active
-      - pending_deletion
-      - pending_activation
-      - expired
-      - deleted
-      type: string
-      x-access:
-      - Public
     PublicKeyResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    PublicKeyCreationResponse:
       properties:
         data:
           $ref: '#/components/schemas/PublicKey'

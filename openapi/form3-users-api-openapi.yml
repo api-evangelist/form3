@@ -762,12 +762,21 @@ paths:
       - Public
 components:
   schemas:
-    UserDetailsListResponse:
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    CredentialCreationResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/User'
-          type: array
+          $ref: '#/components/schemas/CredentialSecret'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -810,11 +819,63 @@ components:
       type: object
       x-access:
       - Public
-    CredentialSecret:
+    User:
+      properties:
+        attributes:
+          properties:
+            client_credential_ids:
+              items:
+                type: string
+              type: array
+              x-omitempty: true
+            email:
+              description: Email address
+              example: viewer.testbank@form3.tech
+              type: string
+            public_key_ids:
+              items:
+                format: uuid
+                type: string
+              type: array
+              x-omitempty: true
+            role_ids:
+              description: List of roles that this user belongs to
+              example:
+              - 1081014a-37a8-45c9-a40d-59c028a565d8
+              items:
+                format: uuid
+                type: string
+              type: array
+            username:
+              description: User name
+              example: viewer.testbank
+              type: string
+          type: object
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: User
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      type: object
+      x-access:
+      - Public
+    Credential:
       properties:
         client_id:
-          type: string
-        client_secret:
           type: string
       type: object
       x-access:
@@ -830,13 +891,71 @@ components:
       type: object
       x-access:
       - Public
-    ApiError:
+    PublicKeysListResponse:
       properties:
-        error_code:
-          format: uuid
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    UserCredentialListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Credential'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ScheduleDeletionResponse:
+      properties:
+        deletion_date:
+          description: The scheduled date of permanent deletion
+          format: date-time
           type: string
-        error_message:
-          type: string
+      type: object
+      x-access:
+      - Public
+    UserCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    UserDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    UserRoleListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -853,14 +972,35 @@ components:
       type: object
       x-access:
       - Public
-    UserDetailsResponse:
+    UserDetailsListResponse:
       properties:
         data:
-          $ref: '#/components/schemas/User'
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
         links:
           $ref: '#/components/schemas/Links'
       required:
       - data
+      type: object
+      x-access:
+      - Public
+    CredentialSecret:
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
       type: object
       x-access:
       - Public
@@ -911,12 +1051,10 @@ components:
       type: object
       x-access:
       - Public
-    UserCredentialListResponse:
+    UserCreationResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/Credential'
-          type: array
+          $ref: '#/components/schemas/User'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -924,12 +1062,29 @@ components:
       type: object
       x-access:
       - Public
-    ScheduleDeletionResponse:
+    Role:
       properties:
-        deletion_date:
-          description: The scheduled date of permanent deletion
-          format: date-time
+        attributes:
+          $ref: '#/components/schemas/RoleAttributes'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
           type: string
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Name of the resource type
+          example: role
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
       type: object
       x-access:
       - Public
@@ -994,109 +1149,6 @@ components:
       type: object
       x-access:
       - Public
-    UserRoleListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Role'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    Role:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/RoleAttributes'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        type:
-          description: Name of the resource type
-          example: role
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      type: object
-      x-access:
-      - Public
-    PublicKeyCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    KeyState:
-      description: Current lifecycle state of the key
-      enum:
-      - active
-      - pending_deletion
-      - pending_activation
-      - expired
-      - deleted
-      type: string
-      x-access:
-      - Public
-    CredentialCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/CredentialSecret'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    UserCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    PublicKeysListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/PublicKey'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    UserCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     RoleAttributes:
       properties:
         name:
@@ -1113,64 +1165,12 @@ components:
       type: object
       x-access:
       - Public
-    Credential:
+    PublicKeyCreation:
       properties:
-        client_id:
-          type: string
-      type: object
-      x-access:
-      - Public
-    User:
-      properties:
-        attributes:
-          properties:
-            client_credential_ids:
-              items:
-                type: string
-              type: array
-              x-omitempty: true
-            email:
-              description: Email address
-              example: viewer.testbank@form3.tech
-              type: string
-            public_key_ids:
-              items:
-                format: uuid
-                type: string
-              type: array
-              x-omitempty: true
-            role_ids:
-              description: List of roles that this user belongs to
-              example:
-              - 1081014a-37a8-45c9-a40d-59c028a565d8
-              items:
-                format: uuid
-                type: string
-              type: array
-            username:
-              description: User name
-              example: viewer.testbank
-              type: string
-          type: object
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        type:
-          description: Name of the resource type
-          example: User
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
+        data:
+          $ref: '#/components/schemas/PublicKey'
+      required:
+      - data
       type: object
       x-access:
       - Public

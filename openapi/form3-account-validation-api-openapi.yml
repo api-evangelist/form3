@@ -115,18 +115,21 @@ components:
       type: object
       x-access:
       - Public
-    AccountNumber:
+    AccountNumberDetailsResponse:
       properties:
-        id:
-          type: string
-        relationships:
-          properties:
-            sort_code:
-              $ref: '#/components/schemas/SortCode'
-          type: object
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
+        data:
+          $ref: '#/components/schemas/AccountNumber'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    SortCodeDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SortCode'
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
       x-access:
       - Public
@@ -165,15 +168,6 @@ components:
       type: object
       x-access:
       - Public
-    SortCodeDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SortCode'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
     TransactionGroupCode:
       enum:
       - DR
@@ -183,15 +177,6 @@ components:
       - DV
       - AU
       type: string
-      x-access:
-      - Public
-    AccountNumberDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/AccountNumber'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
       x-access:
       - Public
     SortCode:
@@ -256,6 +241,21 @@ components:
           type: object
         id:
           type: string
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+      type: object
+      x-access:
+      - Public
+    AccountNumber:
+      properties:
+        id:
+          type: string
+        relationships:
+          properties:
+            sort_code:
+              $ref: '#/components/schemas/SortCode'
+          type: object
         type:
           pattern: ^[A-Za-z_]*$
           type: string
