@@ -570,149 +570,6 @@ components:
       type: object
       x-access:
       - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    ClaimCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/Claim'
-      type: object
-      x-access:
-      - Public
-    ClaimReversal:
-      properties:
-        attributes:
-          properties:
-            original_instruction_id:
-              minLength: 1
-              type: string
-          required:
-          - original_instruction_id
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ClaimReversalRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ClaimReversalSubmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversalSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    DisputedTransaction:
-      properties:
-        amount:
-          pattern: ^[0-9.]{0,20}$
-          type: string
-        date:
-          format: date
-          type: string
-      required:
-      - date
-      - amount
-      type: object
-      x-access:
-      - Public
-    ClaimSubmissionDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ClaimReversalSubmissionRelationships:
-      properties:
-        claim:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Claim'
-              type: array
-          type: object
-        claim_reversal:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimReversal'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    ClaimReversalCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversal'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     Claim:
       properties:
         attributes:
@@ -748,95 +605,6 @@ components:
       type: object
       x-access:
       - Public
-    ClaimReversalSubmission:
-      properties:
-        attributes:
-          properties:
-            status:
-              $ref: '#/components/schemas/ClaimSubmissionStatus'
-            status_reason:
-              type: string
-            submission_datetime:
-              format: date-time
-              readOnly: true
-              type: string
-          type: object
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/ClaimReversalSubmissionRelationships'
-        type:
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    ClaimDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Claim'
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    ClaimReversalRelationships:
-      properties:
-        claim:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/Claim'
-              type: array
-          type: object
-        claim_reversal_submission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/ClaimReversalSubmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    ClaimSubmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    ClaimReversalSubmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/ClaimReversalSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     ClaimRelationships:
       properties:
         claim_reversal:
@@ -856,13 +624,47 @@ components:
       type: object
       x-access:
       - Public
-    ApiError:
+    ClaimDetailsResponse:
       properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
+        data:
+          $ref: '#/components/schemas/Claim'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/Claim'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversal'
+              type: array
+          type: object
       type: object
       x-access:
       - Public
@@ -942,6 +744,120 @@ components:
       type: object
       x-access:
       - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmissionDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversalSubmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    DisputedTransaction:
+      properties:
+        amount:
+          pattern: ^[0-9.]{0,20}$
+          type: string
+        date:
+          format: date
+          type: string
+      required:
+      - date
+      - amount
+      type: object
+      x-access:
+      - Public
+    ClaimReversalRelationships:
+      properties:
+        claim:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Claim'
+              type: array
+          type: object
+        claim_reversal_submission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/ClaimReversalSubmission'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    ClaimReversalDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/ClaimReversal'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
     ClaimSubmissionStatus:
       enum:
       - accepted
@@ -955,12 +871,55 @@ components:
       type: string
       x-access:
       - Public
-    ClaimReversalDetailsResponse:
+    ClaimSubmissionDetailsResponse:
       properties:
         data:
-          $ref: '#/components/schemas/ClaimReversal'
+          $ref: '#/components/schemas/ClaimSubmission'
         links:
           $ref: '#/components/schemas/Links'
+      type: object
+      x-access:
+      - Public
+    ClaimReversalSubmission:
+      properties:
+        attributes:
+          properties:
+            status:
+              $ref: '#/components/schemas/ClaimSubmissionStatus'
+            status_reason:
+              type: string
+            submission_datetime:
+              format: date-time
+              readOnly: true
+              type: string
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimReversalSubmissionRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
       type: object
       x-access:
       - Public
@@ -1005,6 +964,47 @@ components:
       required:
       - id
       - organisation_id
+      type: object
+      x-access:
+      - Public
+    ClaimReversal:
+      properties:
+        attributes:
+          properties:
+            original_instruction_id:
+              minLength: 1
+              type: string
+          required:
+          - original_instruction_id
+          type: object
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/ClaimReversalRelationships'
+        type:
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
       type: object
       x-access:
       - Public

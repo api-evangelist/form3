@@ -237,16 +237,79 @@ paths:
       - Public
 components:
   schemas:
-    SchemeMessageDetailsListResponse:
+    PaymentScheme:
+      enum:
+      - TCH
+      - SEPASCT
+      - FDW
+      - SEPAINSTANT
+      - FPS
+      - FDN
+      - BACS
+      type: string
+      x-access:
+      - Public
+    SchemeMessageAdmissionAttributes:
       properties:
-        data:
-          items:
-            $ref: '#/components/schemas/SchemeMessage'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
+        admission_datetime:
+          format: date-time
+          type: string
+        scheme_status_code:
+          type: string
+        scheme_status_code_description:
+          type: string
+        status:
+          $ref: '#/components/schemas/SchemeMessageAdmissionStatus'
+      type: object
+      x-access:
+      - Public
+    SchemeMessage:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/SchemeMessageAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/SchemeMessageRelationships'
+        type:
+          enum:
+          - scheme_messages
+          type: string
+        version:
+          minimum: 0
+          type: integer
       required:
-      - data
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    SchemeMessageAdmissionRelationships:
+      properties:
+        scheme_message:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeMessage'
+              type: array
+          type: object
+      type: object
+      x-access:
+      - Public
+    SchemeMessageRelationships:
+      properties:
+        scheme_message_admission:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/SchemeMessageAdmission'
+              type: array
+          type: object
       type: object
       x-access:
       - Public
@@ -275,6 +338,37 @@ components:
       type: object
       x-access:
       - Public
+    SchemeMessageAdmissionStatus:
+      enum:
+      - delivery_confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+    SchemeMessageDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SchemeMessage'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    SchemeMessageDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/SchemeMessage'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     SchemeMessageAdmissionDetailsResponse:
       properties:
         data:
@@ -294,25 +388,6 @@ components:
         error_message:
           type: string
       type: object
-      x-access:
-      - Public
-    SchemeMessageAdmissionStatus:
-      enum:
-      - delivery_confirmed
-      - failed
-      type: string
-      x-access:
-      - Public
-    PaymentScheme:
-      enum:
-      - TCH
-      - SEPASCT
-      - FDW
-      - SEPAINSTANT
-      - FPS
-      - FDN
-      - BACS
-      type: string
       x-access:
       - Public
     SchemeMessageEntryItem:
@@ -362,44 +437,6 @@ components:
       type: object
       x-access:
       - Public
-    SchemeMessageRelationships:
-      properties:
-        scheme_message_admission:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeMessageAdmission'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    SchemeMessage:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/SchemeMessageAttributes'
-        id:
-          format: uuid
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/SchemeMessageRelationships'
-        type:
-          enum:
-          - scheme_messages
-          type: string
-        version:
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
     SchemeMessageAdmission:
       properties:
         attributes:
@@ -422,43 +459,6 @@ components:
       required:
       - id
       - organisation_id
-      type: object
-      x-access:
-      - Public
-    SchemeMessageAdmissionRelationships:
-      properties:
-        scheme_message:
-          properties:
-            data:
-              items:
-                $ref: '#/components/schemas/SchemeMessage'
-              type: array
-          type: object
-      type: object
-      x-access:
-      - Public
-    SchemeMessageAdmissionAttributes:
-      properties:
-        admission_datetime:
-          format: date-time
-          type: string
-        scheme_status_code:
-          type: string
-        scheme_status_code_description:
-          type: string
-        status:
-          $ref: '#/components/schemas/SchemeMessageAdmissionStatus'
-      type: object
-      x-access:
-      - Public
-    SchemeMessageDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/SchemeMessage'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
       type: object
       x-access:
       - Public

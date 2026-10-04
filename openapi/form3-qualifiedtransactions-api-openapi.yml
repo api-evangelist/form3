@@ -275,105 +275,16 @@ paths:
       - Public
 components:
   schemas:
-    QualifiedLegRelationship:
-      description: 'Defines an association from a qualified leg to one of its child legs.
+    ResponsibleEntity:
+      description: 'The entity responsible.
+
+        Either Form3 or the customer.
 
         '
-      properties:
-        dependency:
-          default: false
-          description: 'Whether this relationship indicates a dependency such that the parent will not complete before the child
-
-            (e.g. has a dependency on).
-
-            Omission of this field indicates that no dependency exists.
-
-            '
-          type: boolean
-        leg:
-          $ref: '#/components/schemas/LegRef'
-      required:
-      - leg
-      type:
-      - object
-      - 'null'
-      x-access:
-      - Public
-    Responsibility:
-      description: 'Indicates whether responsibility for a leg sits with Form3 or the customer.
-
-        If unset, the responsibility is assumed to be with Form3.
-
-        '
-      properties:
-        with:
-          $ref: '#/components/schemas/ResponsibleEntity'
-      type: object
-      x-access:
-      - Public
-    QualifiedLegRelationships:
-      properties:
-        children:
-          items:
-            $ref: '#/components/schemas/QualifiedLegRelationship'
-          type: array
-          x-omitempty: true
-      type:
-      - object
-      - 'null'
-      x-access:
-      - Public
-    QualifiedTransactionAttributes:
-      properties:
-        current_deadline:
-          $ref: '#/components/schemas/Deadline'
-        deadlines:
-          items:
-            $ref: '#/components/schemas/Deadline'
-          type: array
-        latencies:
-          items:
-            $ref: '#/components/schemas/Latency'
-          type: array
-        legs:
-          items:
-            $ref: '#/components/schemas/QualifiedLeg'
-          type: array
-        status:
-          $ref: '#/components/schemas/QualificationStatus'
-        tags:
-          items:
-            type: string
-          type: array
-        transaction:
-          $ref: '#/components/schemas/TransactionInfo'
-        transaction_grouping_id:
-          format: uuid
-          type: string
-      required:
-      - transaction
-      - transaction_grouping_id
-      - legs
-      - status
-      - latencies
-      - tags
-      - deadlines
-      type: object
-      x-access:
-      - Public
-    Latency:
-      properties:
-        alias:
-          type: string
-        id:
-          type: string
-        value_ms:
-          format: int64
-          type: integer
-      required:
-      - id
-      - value_ms
-      type: object
+      enum:
+      - form3
+      - customer
+      type: string
       x-access:
       - Public
     ErrorResponse:
@@ -418,38 +329,157 @@ components:
       type: object
       x-access:
       - Public
-    Links:
+    LegRef:
+      description: Reference to a leg instance within a transaction.
       properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
+        id:
+          description: Unique identifier within the scope of a leg type.
+          minLength: 1
+          type: string
+        type:
+          example: task
           type: string
       required:
-      - self
+      - type
+      - id
+      type: object
+      x-access:
+      - Public
+    TransactionInfo:
+      properties:
+        business_line:
+          type: string
+        direction:
+          enum:
+          - inbound
+          - outbound
+          type: string
+        id:
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'Arbitrary metadata attached to the transaction
+
+            '
+          example:
+            amount: '13.37'
+            currency: GBP
+          type: object
+        product:
+          type: string
+        type:
+          type: string
+      required:
+      - business_line
+      - product
+      - id
+      - type
+      - direction
+      type: object
+      x-access:
+      - Public
+    FetchQualifiedTransactionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/QualifiedTransaction'
+      type: object
+      x-access:
+      - Public
+    QualifiedLegRelationship:
+      description: 'Defines an association from a qualified leg to one of its child legs.
+
+        '
+      properties:
+        dependency:
+          default: false
+          description: 'Whether this relationship indicates a dependency such that the parent will not complete before the child
+
+            (e.g. has a dependency on).
+
+            Omission of this field indicates that no dependency exists.
+
+            '
+          type: boolean
+        leg:
+          $ref: '#/components/schemas/LegRef'
+      required:
+      - leg
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    QualifiedTransaction:
+      description: 'Qualified transaction as a resource envelope: identifiers at the top level,
+
+        full qualified transaction payload under `attributes`.
+
+        '
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QualifiedTransactionAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource identifier for the qualified transaction.
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Organisation this qualified transaction belongs to.
+          type: string
+        type:
+          description: Name of the resource type
+          example: qualified_transactions
+          pattern: ^[A-Za-z_]*$
+          type: string
+        version:
+          description: 'Version is incremented whenever an updated qualification is emitted.
+
+            It is guaranteed to increase monotonically for the same qualification ID.
+
+            '
+          format: int32
+          minimum: 1
+          type: integer
+      required:
+      - id
+      - organisation_id
+      - attributes
+      type: object
+      x-access:
+      - Public
+    QualifiedLegRelationships:
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/QualifiedLegRelationship'
+          type: array
+          x-omitempty: true
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    Latency:
+      properties:
+        alias:
+          type: string
+        id:
+          type: string
+        value_ms:
+          format: int64
+          type: integer
+      required:
+      - id
+      - value_ms
       type: object
       x-access:
       - Public
@@ -524,143 +554,76 @@ components:
       type: object
       x-access:
       - Public
-    FetchQualifiedTransactionResponse:
+    Links:
       properties:
-        data:
-          $ref: '#/components/schemas/QualifiedTransaction'
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
       type: object
       x-access:
       - Public
-    TransactionInfo:
+    QualifiedTransactionAttributes:
       properties:
-        business_line:
-          type: string
-        direction:
-          enum:
-          - inbound
-          - outbound
-          type: string
-        id:
-          type: string
-        metadata:
-          additionalProperties:
+        current_deadline:
+          $ref: '#/components/schemas/Deadline'
+        deadlines:
+          items:
+            $ref: '#/components/schemas/Deadline'
+          type: array
+        latencies:
+          items:
+            $ref: '#/components/schemas/Latency'
+          type: array
+        legs:
+          items:
+            $ref: '#/components/schemas/QualifiedLeg'
+          type: array
+        status:
+          $ref: '#/components/schemas/QualificationStatus'
+        tags:
+          items:
             type: string
-          description: 'Arbitrary metadata attached to the transaction
-
-            '
-          example:
-            amount: '13.37'
-            currency: GBP
-          type: object
-        product:
-          type: string
-        type:
+          type: array
+        transaction:
+          $ref: '#/components/schemas/TransactionInfo'
+        transaction_grouping_id:
+          format: uuid
           type: string
       required:
-      - business_line
-      - product
-      - id
-      - type
-      - direction
-      type: object
-      x-access:
-      - Public
-    QualifiedTransaction:
-      description: 'Qualified transaction as a resource envelope: identifiers at the top level,
-
-        full qualified transaction payload under `attributes`.
-
-        '
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QualifiedTransactionAttributes'
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique resource identifier for the qualified transaction.
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          description: Organisation this qualified transaction belongs to.
-          type: string
-        type:
-          description: Name of the resource type
-          example: qualified_transactions
-          pattern: ^[A-Za-z_]*$
-          type: string
-        version:
-          description: 'Version is incremented whenever an updated qualification is emitted.
-
-            It is guaranteed to increase monotonically for the same qualification ID.
-
-            '
-          format: int32
-          minimum: 1
-          type: integer
-      required:
-      - id
-      - organisation_id
-      - attributes
-      type: object
-      x-access:
-      - Public
-    ResponsibleEntity:
-      description: 'The entity responsible.
-
-        Either Form3 or the customer.
-
-        '
-      enum:
-      - form3
-      - customer
-      type: string
-      x-access:
-      - Public
-    QualificationStatus:
-      enum:
-      - processed
-      - unprocessed
-      type: string
-      x-access:
-      - Public
-    DynamicDeadline:
-      description: "A deadline that the transaction must be processed by, dynamically set by the service producing the \nTransactionEvent. \nIf a leg needs to be able to change a deadline, a priority can be specified. TIA will apply the deadline with\nthe highest priority value. e.g. A task leg might start with a short deadline of 5m, then when customer input\nis required we might want a larger deadline of 1h if a customer doesn't have to respond quickly, finally once\na customer response is received, we can reduce the deadline back to 5m to ensure the remaining processing within\nour platform happens in the time we expect.\n"
-      properties:
-        absolute:
-          format: date-time
-          type: string
-        priority:
-          format: int64
-          type:
-          - integer
-          - 'null'
-      required:
-      - absolute
-      type:
-      - object
-      - 'null'
-      x-access:
-      - Public
-    LegRef:
-      description: Reference to a leg instance within a transaction.
-      properties:
-        id:
-          description: Unique identifier within the scope of a leg type.
-          minLength: 1
-          type: string
-        type:
-          example: task
-          type: string
-      required:
-      - type
-      - id
+      - transaction
+      - transaction_grouping_id
+      - legs
+      - status
+      - latencies
+      - tags
+      - deadlines
       type: object
       x-access:
       - Public
@@ -675,6 +638,18 @@ components:
           $ref: '#/components/schemas/Links'
       required:
       - data
+      type: object
+      x-access:
+      - Public
+    Responsibility:
+      description: 'Indicates whether responsibility for a leg sits with Form3 or the customer.
+
+        If unset, the responsibility is assumed to be with Form3.
+
+        '
+      properties:
+        with:
+          $ref: '#/components/schemas/ResponsibleEntity'
       type: object
       x-access:
       - Public
@@ -707,6 +682,31 @@ components:
       - exceeded
       - leg
       type: object
+      x-access:
+      - Public
+    DynamicDeadline:
+      description: "A deadline that the transaction must be processed by, dynamically set by the service producing the \nTransactionEvent. \nIf a leg needs to be able to change a deadline, a priority can be specified. TIA will apply the deadline with\nthe highest priority value. e.g. A task leg might start with a short deadline of 5m, then when customer input\nis required we might want a larger deadline of 1h if a customer doesn't have to respond quickly, finally once\na customer response is received, we can reduce the deadline back to 5m to ensure the remaining processing within\nour platform happens in the time we expect.\n"
+      properties:
+        absolute:
+          format: date-time
+          type: string
+        priority:
+          format: int64
+          type:
+          - integer
+          - 'null'
+      required:
+      - absolute
+      type:
+      - object
+      - 'null'
+      x-access:
+      - Public
+    QualificationStatus:
+      enum:
+      - processed
+      - unprocessed
+      type: string
       x-access:
       - Public
   securitySchemes:

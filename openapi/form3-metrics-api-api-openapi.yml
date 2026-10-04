@@ -279,6 +279,16 @@ components:
       type: array
       x-access:
       - Public
+    prometheusResultItem:
+      properties:
+        metric:
+          $ref: '#/components/schemas/prometheusMetric'
+        value:
+          items: {}
+          type: array
+      type: object
+      x-access:
+      - Public
     MetricsQueryResponse:
       properties:
         data:
@@ -292,16 +302,6 @@ components:
         warnings:
           items:
             type: string
-          type: array
-      type: object
-      x-access:
-      - Public
-    prometheusResultItem:
-      properties:
-        metric:
-          $ref: '#/components/schemas/prometheusMetric'
-        value:
-          items: {}
           type: array
       type: object
       x-access:

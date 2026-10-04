@@ -191,21 +191,23 @@ paths:
       - Public
 components:
   schemas:
-    AceCreation:
+    AceDetailsListResponse:
       properties:
         data:
-          $ref: '#/components/schemas/Ace'
+          items:
+            $ref: '#/components/schemas/Ace'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
       required:
       - data
       type: object
       x-access:
       - Public
-    AceDetailsResponse:
+    AceCreation:
       properties:
         data:
           $ref: '#/components/schemas/Ace'
-        links:
-          $ref: '#/components/schemas/Links'
       required:
       - data
       type: object
@@ -218,6 +220,52 @@ components:
           type: string
         error_message:
           type: string
+      type: object
+      x-access:
+      - Public
+    AceCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
       type: object
       x-access:
       - Public
@@ -268,55 +316,7 @@ components:
       type: object
       x-access:
       - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    AceDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Ace'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    AceCreationResponse:
+    AceDetailsResponse:
       properties:
         data:
           $ref: '#/components/schemas/Ace'
