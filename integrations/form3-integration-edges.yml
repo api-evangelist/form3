@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/form3/integrations
+- https://n8n.io/integrations/form3/
+- https://composio.dev/toolkits/form3
+- https://monid.ai/tools/form3
+checked:
+- https://composio.dev/toolkits/form3
+- https://monid.ai/tools/form3
+- https://n8n.io/integrations/form3/
+- https://zapier.com/apps/form3/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
