@@ -1,11 +1,186 @@
-generated: '2026-07-24'
-method: derived
-source: openapi/form3-payments.yml
+generated: '2026-10-14'
+method: none
+source: openapi/form3-account-validation-api-openapi.yml, openapi/form3-accountidentification-api-openapi.yml,
+  openapi/form3-accounts-api-openapi.yml, openapi/form3-ace-api-openapi.yml, openapi/form3-audit-api-openapi.yml,
+  openapi/form3-branches-api-openapi.yml, openapi/form3-branchidentification-api-openapi.yml,
+  openapi/form3-claims-api-openapi.yml, openapi/form3-direct-debits-api-openapi.yml, openapi/form3-directdebitsreads-api-openapi.yml,
+  openapi/form3-mandates-api-openapi.yml, openapi/form3-metrics-api-api-openapi.yml, openapi/form3-name-verification-api-api-openapi.yml,
+  openapi/form3-oauth2-api-openapi.yml, openapi/form3-organisations-api-openapi.yml, openapi/form3-paymentreads-api-openapi.yml,
+  openapi/form3-paymentwrites-api-openapi.yml, openapi/form3-platformsecurityapi-api-openapi.yml,
+  openapi/form3-public-keys-api-openapi.yml, openapi/form3-qualifiedtransactions-api-openapi.yml,
+  openapi/form3-query-api-api-openapi.yml, openapi/form3-reports-api-openapi.yml, openapi/form3-roles-api-openapi.yml,
+  openapi/form3-scheme-file-api-api-openapi.yml, openapi/form3-schememessages-api-openapi.yml,
+  openapi/form3-subscriptions-api-openapi.yml, openapi/form3-transaction-file-api-api-openapi.yml,
+  openapi/form3-users-api-openapi.yml
 schemes:
 - name: OAuth2
-  source: openapi/form3-payments.yml
+  source: openapi/form3-account-validation-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-accountidentification-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-accounts-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-ace-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-audit-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-branches-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-branchidentification-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-claims-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-direct-debits-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-directdebitsreads-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-mandates-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-metrics-api-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-name-verification-api-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-oauth2-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-organisations-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-paymentreads-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-paymentwrites-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-platformsecurityapi-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-public-keys-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-qualifiedtransactions-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-query-api-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-reports-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-roles-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-scheme-file-api-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-schememessages-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-subscriptions-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-transaction-file-api-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.form3.tech/v1/oauth2/token
+  description: OAuth 2.0 with Client Credentials Grant type
+- name: OAuth2
+  source: openapi/form3-users-api-openapi.yml
   flows:
   - flow: clientCredentials
     tokenUrl: https://api.form3.tech/v1/oauth2/token
   description: OAuth 2.0 with Client Credentials Grant type
 scopes: []
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.
