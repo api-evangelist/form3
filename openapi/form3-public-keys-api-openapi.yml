@@ -302,23 +302,47 @@ paths:
       - Public
 components:
   schemas:
-    PublicKeyResponse:
+    Links:
       properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
       required:
-      - data
+      - self
       type: object
       x-access:
       - Public
-    ScheduleDeletionResponse:
+    PublicKeyCreation:
       properties:
-        deletion_date:
-          description: The scheduled date of permanent deletion
-          format: date-time
-          type: string
+        data:
+          $ref: '#/components/schemas/PublicKey'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -328,6 +352,15 @@ components:
           format: uuid
           type: string
         error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    ScheduleDeletionResponse:
+      properties:
+        deletion_date:
+          description: The scheduled date of permanent deletion
+          format: date-time
           type: string
       type: object
       x-access:
@@ -393,56 +426,10 @@ components:
       type: object
       x-access:
       - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    PublicKeyCreation:
+    PublicKeyResponse:
       properties:
         data:
           $ref: '#/components/schemas/PublicKey'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    PublicKeysListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/PublicKey'
-          type: array
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -454,6 +441,19 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
         links:
           $ref: '#/components/schemas/Links'
       required:

@@ -703,806 +703,11 @@ paths:
       - Public
 components:
   schemas:
-    QueryBeneficiaryDebtorOrganisationIdentification:
-      properties:
-        identification:
-          description: Another ID of the organisation
-          example: H7FNTJ4851HG0EXQ1Z70
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        identification_code:
-          description: Code for the type of other ID of organisation
-          example: LEI
-          type: string
-          x-length: 5
-          x-omitempty: true
-        identification_issuer:
-          description: Issuer of the other ID of organisation
-          example: London Stock Exchange
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        identification_scheme:
-          description: Custom internal code for the type of other ID of organisation
-          example: Custom code
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    QueryResponseSubmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/QueryResponseSubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    NewQuerySubmission:
-      properties:
-        id:
-          format: uuid
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/QuerySubmissionResourceType'
-      required:
-      - id
-      - organisation_id
-      - type
-      type: object
-      x-access:
-      - Public
-    QueryResponseAdmissionAttributes:
-      properties:
-        status:
-          $ref: '#/components/schemas/QueryResponseAdmissionStatus'
-        status_reason:
-          type: string
-      required:
-      - status
-      type: object
-      x-access:
-      - Public
-    QueryResponseSubmission:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryResponseSubmissionAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        relationships:
-          $ref: '#/components/schemas/QueryResponseSubmissionRelationships'
-          x-order: 8
-        type:
-          $ref: '#/components/schemas/QueryResponseSubmissionResourceType'
-          x-order: 1
-        version:
-          minimum: 0
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    QueryCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NewQuery'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    QueryResponseStatusCode:
-      enum:
-      - IPAY
-      - INFO
-      - NINF
-      - PDNG
-      - IDUP
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    RelationshipQueryResponseSubmission:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/QueryResponseSubmission'
-          type: array
-      type: object
-      x-access:
-      - Public
-    RelationshipsFullQueryResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/QueryResponse'
-          type: array
-      type: object
-      x-access:
-      - Public
-    QueryResponseInformation:
-      properties:
-        beneficiary_party:
-          $ref: '#/components/schemas/QueryBeneficiaryDebtorParty'
-        correction_transaction_information:
-          $ref: '#/components/schemas/CorrectionTransactionInformation'
-        debtor_party:
-          $ref: '#/components/schemas/QueryBeneficiaryDebtorParty'
-        duplicate_transaction_information:
-          $ref: '#/components/schemas/DuplicateTransactionInformation'
-        payment_type_information:
-          $ref: '#/components/schemas/PaymentTypeInformation'
-        references:
-          description: Reference for the case ID associated to this Exception and Investigation case.
-          items:
-            $ref: '#/components/schemas/QueryReference'
-          type: array
-          x-omitempty: true
-        ultimate_beneficiary_party:
-          $ref: '#/components/schemas/QueryUltimateEntity'
-        ultimate_debtor_party:
-          $ref: '#/components/schemas/QueryUltimateEntity'
-      type: object
-      x-access:
-      - Public
-      x-parent: data.attributes
-    NewQuery:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryAttributes'
-        id:
-          format: uuid
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        relationships:
-          $ref: '#/components/schemas/NewQueryRelationships'
-        type:
-          $ref: '#/components/schemas/QueryResourceType'
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      type: object
-      x-access:
-      - Public
-    QuerySubmission:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QuerySubmissionAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        relationships:
-          $ref: '#/components/schemas/QuerySubmissionRelationships'
-          x-order: 8
-        type:
-          $ref: '#/components/schemas/QuerySubmissionResourceType'
-          x-order: 1
-        version:
-          minimum: 0
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    QueryResponseAdmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/QueryResponseAdmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    RequestForInformationReferences:
-      items:
-        properties:
-          type:
-            type: string
-          value:
-            type: string
-        required:
-        - type
-        - value
-        type: object
-      type: array
-      x-access:
-      - Public
-    RelationshipsPaymentRecallSubmission:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsPaymentRecallSubmissionProperties'
-          type: array
-      type: object
-      x-access:
-      - Public
-    RelationshipsPaymentRecall:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsPaymentRecallProperties'
-          type: array
-      type: object
-      x-access:
-      - Public
-    RelationshipsPaymentAdmissionProperties:
-      properties:
-        id:
-          description: The payment admission associated with this query
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/PaymentAdmissionResourceType'
-      required:
-      - id
-      - type
-      type: object
-      x-access:
-      - Public
-    RelationshipsPayment:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsPaymentProperties'
-          type: array
-      type: object
-      x-access:
-      - Public
-    QueryResponseRelationships:
-      properties:
-        query:
-          $ref: '#/components/schemas/RelationshipsFullQuery'
-        query_response_admission:
-          $ref: '#/components/schemas/RelationshipQueryResponseAdmission'
-        query_response_submission:
-          $ref: '#/components/schemas/RelationshipQueryResponseSubmission'
-      type: object
-      x-access:
-      - Public
-    RequestForInformationQuerySubTypes:
-      items:
-        type: string
-      type: array
-      x-access:
-      - Public
-    RelationshipsQuerySubmission:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/QuerySubmission'
-          type: array
-      type: object
-      x-access:
-      - Public
-    PaymentResourceType:
-      enum:
-      - payments
-      type: string
-      x-access:
-      - Public
-    RelationshipsQueryProperties:
-      properties:
-        id:
-          description: The query for this admission
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/QueryResourceType'
-      required:
-      - id
-      - type
-      type: object
-      x-access:
-      - Public
-    QueryResponseSubmissionAttributes:
-      properties:
-        auto:
-          type: boolean
-          x-parent: data.attributes
-        status:
-          $ref: '#/components/schemas/QueryResponseSubmissionStatus'
-        status_reason:
-          type: string
-          x-parent: data.attributes
-      type: object
-      x-access:
-      - Public
-      x-parent: data
-    QueryAdmissionResourceType:
-      enum:
-      - query_admissions
-      type: string
-      x-access:
-      - Public
-    QueryReference:
-      description: Arbitrary references for payment or case. Defined by a pair of reference type and reference value.
-      properties:
-        type:
-          description: Name of the reference type
-          example: UETR
-          maxLength: 45
-          minLength: 1
-          type: string
-        value:
-          description: Value of the provided reference type
-          maxLength: 45
-          minLength: 1
-          type: string
-      required:
-      - type
-      - value
-      type: object
-      x-access:
-      - Public
-    QuerySubmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/QuerySubmission'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    QuerySubmissionAttributes:
-      properties:
-        status:
-          $ref: '#/components/schemas/QuerySubmissionStatus'
-        status_reason:
-          type: string
-      type: object
-      x-access:
-      - Public
-    PaymentRecallResourceType:
-      enum:
-      - recalls
-      type: string
-      x-access:
-      - Public
-    RelationshipsQueryResponseProperties:
-      properties:
-        id:
-          description: The Query Response ID
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/QueryResponseResourceType'
-      required:
-      - id
-      - type
-      type: object
-      x-access:
-      - Public
-    QueryRelationships:
-      properties:
-        payment:
-          $ref: '#/components/schemas/RelationshipsPayment'
-        payment_admission:
-          $ref: '#/components/schemas/RelationshipsPaymentAdmission'
-        payment_submission:
-          $ref: '#/components/schemas/RelationshipsPaymentSubmission'
-        query:
-          $ref: '#/components/schemas/RelationshipsQuery'
-        query_admission:
-          $ref: '#/components/schemas/RelationshipsQueryAdmission'
-        query_response:
-          $ref: '#/components/schemas/RelationshipsFullQueryResponse'
-        query_submission:
-          $ref: '#/components/schemas/RelationshipsQuerySubmission'
-        recall:
-          $ref: '#/components/schemas/RelationshipsPaymentRecall'
-        recall_submission:
-          $ref: '#/components/schemas/RelationshipsPaymentRecallSubmission'
-      type: object
-      x-access:
-      - Public
-    QueryResponseResourceType:
-      enum:
-      - query_responses
-      type: string
-      x-access:
-      - Public
-    RequestForInformationCreatorParty:
-      properties:
-        birth_city:
-          type: string
-        birth_country:
-          type: string
-        birth_date:
-          type: string
-        birth_province:
-          type: string
-        name:
-          type: string
-        organisation_identification:
-          type: string
-        organisation_identification_code:
-          type: string
-        organisation_identification_issuer:
-          type: string
-        organisation_identifications:
-          items:
-            properties:
-              identification:
-                type: string
-              identification_code:
-                type: string
-              identification_issuer:
-                type: string
-            type: object
-          type: array
-          x-omitempty: true
-        private_identification:
-          properties:
-            private_identification.code:
-              type: string
-            private_identification.identification:
-              type: string
-            private_identification.issuer:
-              type: string
-          type: object
-        telephone_number:
-          type: string
-      type: object
-      x-access:
-      - Public
-    RelationshipsPaymentRecallSubmissionProperties:
-      properties:
-        id:
-          description: The payment recall submission associated with this query
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/PaymentRecallSubmissionResourceType'
-      required:
-      - id
-      - type
-      type: object
-      x-access:
-      - Public
-    QuerySubmissionStatus:
-      enum:
-      - accepted
-      - validation_pending
-      - released_to_gateway
-      - queued_for_delivery
-      - submitted
-      - delivery_confirmed
-      - delivery_failed
-      type: string
-      x-access:
-      - Public
-    QueryResponseAnswer:
-      enum:
-      - accepted
-      - rejected
-      - pending
-      - already_applied
-      - modified_as_requested
-      - transaction_not_received
-      - transaction_rejected
-      - transaction_returned
-      - transaction_not_processed
-      - rejected_regulatory_reason
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    RequestForInformationAgentBankId:
-      properties:
-        bank_id:
-          type: string
-        bank_id_code:
-          type: string
-      type: object
-      x-access:
-      - Public
-    QueryAccountNumberCode:
-      description: The type of identification given at `account_number` attribute
-      enum:
-      - IBAN
-      - BBAN
-      example: IBAN
-      maxLength: 4
-      type: string
-      x-access:
-      - Public
-      x-length: 4
-      x-omitempty: true
-    QueryListResponse:
+    RelationshipsFullQuery:
       properties:
         data:
           items:
             $ref: '#/components/schemas/Query'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      - links
-      type: object
-      x-access:
-      - Public
-    NewQueryResponse:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryResponseAttributes'
-        id:
-          format: uuid
-          type: string
-        organisation_id:
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/QueryResponseResourceType'
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      type: object
-      x-access:
-      - Public
-    QueryResponseCharges:
-      properties:
-        account_number:
-          type: string
-          x-parent: data.attributes.charges
-        account_number_code:
-          type: string
-          x-parent: data.attributes.charges
-        amount:
-          type: string
-          x-parent: data.attributes.charges
-        currency:
-          type: string
-          x-parent: data.attributes.charges
-      type: object
-      x-access:
-      - Public
-      x-parent: data.attributes
-    Query:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        relationships:
-          $ref: '#/components/schemas/QueryRelationships'
-          x-order: 8
-        type:
-          $ref: '#/components/schemas/QueryResourceType'
-          x-order: 1
-        version:
-          minimum: 0
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    PaymentSubmissionResourceType:
-      enum:
-      - payment_submissions
-      type: string
-      x-access:
-      - Public
-    QueryAdmissionRelationships:
-      properties:
-        query:
-          $ref: '#/components/schemas/RelationshipsFullQuery'
-      required:
-      - query
-      type: object
-      x-access:
-      - Public
-    RelationshipsPaymentSubmission:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsPaymentSubmissionProperties'
-          type: array
-      type: object
-      x-access:
-      - Public
-    QueryAdmission:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryAdmissionAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        relationships:
-          $ref: '#/components/schemas/QueryAdmissionRelationships'
-          x-order: 8
-        type:
-          $ref: '#/components/schemas/QueryAdmissionResourceType'
-          x-order: 1
-        version:
-          minimum: 0
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    PaymentTypeInformation:
-      description: Set of elements used to further specify the type of transaction.
-      properties:
-        amount:
-          description: Amount of money to be moved between the debtor and creditor, before deduction of charges.
-          pattern: ^[0-9.]{0,14}$
-          type: string
-          x-length: 14
-          x-omitempty: true
-        category_purpose:
-          description: Specifies the high level purpose of the instruction based on a set of pre-defined categories.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        currency:
-          description: Currency of the transaction amount. Currency code as defined in [ISO 4217](https://www.iso.org/iso/home/standards/currency_codes.htm)
-          maxLength: 3
-          minLength: 3
-          type: string
-          x-length: 3
-          x-omitempty: true
-        payment_purpose:
-          description: Underlying reason for the payment transaction. Defined in external code list (4 char) or proprietary code (35 char)
-          maxLength: 35
-          minLength: 4
-          type: string
-          x-omitempty: true
-        processing_date:
-          description: Date on which the amount of money ceases to be available to the agent that owes it and when the amount of money becomes available to the agent to which it is due.
-          example: '2015-12-23'
-          format: date
-          type:
-          - string
-          - 'null'
-          x-omitempty: true
-        remittance_information:
-          description: Unstructured information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle.
-          maxLength: 140
-          type: string
-          x-length: 140
-          x-omitempty: true
-        scheme_payment_sub_type:
-          description: Specifies a local instrument to further qualify the level of service.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        scheme_payment_type:
-          description: Specifies a pre-agreed level of service as published in an external code list (4 char) or a proprietary code (35 char).
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    QueryResponseAdmissionStatus:
-      enum:
-      - confirmed
-      - failed
-      - pending
-      type: string
-      x-access:
-      - Public
-    RelationshipsQueryResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsQueryResponseProperties'
-          type: array
-      type: object
-      x-access:
-      - Public
-    RelationshipsPaymentAdmission:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/RelationshipsPaymentAdmissionProperties'
           type: array
       type: object
       x-access:
@@ -1566,176 +771,24 @@ components:
       x-access:
       - Public
       x-parent: data
-    RelationshipsPaymentRecallProperties:
+    RelationshipsQueryProperties:
       properties:
         id:
-          description: The payment recall associated with this query
+          description: The query for this admission
           format: uuid
           type: string
         type:
-          $ref: '#/components/schemas/PaymentRecallResourceType'
+          $ref: '#/components/schemas/QueryResourceType'
       required:
       - id
       - type
       type: object
       x-access:
       - Public
-    DuplicateTransactionInformation:
-      properties:
-        end_to_end_reference:
-          description: Unique identification, as assigned by the initiating party, to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        references:
-          description: Reference for the duplicated payment for this Exception and Investigation case.
-          items:
-            $ref: '#/components/schemas/QueryReference'
-          type: array
-          x-omitempty: true
-        scheme_transaction_id:
-          description: Unique identification, as assigned by the first instructing agent, to unambiguously identify the transaction that is passed on, unchanged, throughout the entire interbank chain.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    PaymentAdmissionResourceType:
-      enum:
-      - payment_admissions
-      type: string
-      x-access:
-      - Public
-    QueryResponseCompensation:
-      properties:
-        account_number:
-          type: string
-          x-parent: data.attributes.compensation
-        account_number_code:
-          type: string
-          x-parent: data.attributes.compensation
-        amount:
-          type: string
-          x-parent: data.attributes.compensation
-        currency:
-          type: string
-          x-parent: data.attributes.compensation
-      type: object
-      x-access:
-      - Public
-      x-parent: data.attributes
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    QueryAdmissionAttributes:
-      properties:
-        status:
-          $ref: '#/components/schemas/QueryAdmissionStatus'
-        status_reason:
-          type: string
-          x-parent: data.attributes
-      required:
-      - status
-      type: object
-      x-access:
-      - Public
-      x-parent: data
-    RelationshipsFullQuery:
+    QueryResponseSubmissionResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/Query'
-          type: array
-      type: object
-      x-access:
-      - Public
-    QueryResponse:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/QueryResponseAttributes'
-          x-order: 7
-        created_on:
-          format: date-time
-          type: string
-          x-order: 5
-        id:
-          format: uuid
-          type: string
-          x-order: 2
-        modified_on:
-          format: date-time
-          type: string
-          x-order: 6
-        organisation_id:
-          format: uuid
-          type: string
-          x-order: 4
-        relationships:
-          $ref: '#/components/schemas/QueryResponseRelationships'
-          x-order: 8
-        type:
-          $ref: '#/components/schemas/QueryResponseResourceType'
-          x-order: 1
-        version:
-          minimum: 0
-          type: integer
-          x-order: 3
-      required:
-      - id
-      - organisation_id
-      - type
-      - attributes
-      - version
-      type: object
-      x-access:
-      - Public
-    QueryAdmissionStatus:
-      enum:
-      - confirmed
-      - failed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    QueryFetchResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Query'
+          $ref: '#/components/schemas/QueryResponseSubmission'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -1870,6 +923,757 @@ components:
       type: object
       x-access:
       - Public
+    QueryResponseSubmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryResponseSubmissionAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        relationships:
+          $ref: '#/components/schemas/QueryResponseSubmissionRelationships'
+          x-order: 8
+        type:
+          $ref: '#/components/schemas/QueryResponseSubmissionResourceType'
+          x-order: 1
+        version:
+          minimum: 0
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    RequestForInformationReferences:
+      items:
+        properties:
+          type:
+            type: string
+          value:
+            type: string
+        required:
+        - type
+        - value
+        type: object
+      type: array
+      x-access:
+      - Public
+    QueryResponseSubmissionResourceType:
+      enum:
+      - query_response_submissions
+      type: string
+      x-access:
+      - Public
+    QueryAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    QuerySubmissionResourceType:
+      enum:
+      - query_submissions
+      type: string
+      x-access:
+      - Public
+    QueryAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/QueryAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    QueryResponse:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryResponseAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        relationships:
+          $ref: '#/components/schemas/QueryResponseRelationships'
+          x-order: 8
+        type:
+          $ref: '#/components/schemas/QueryResponseResourceType'
+          x-order: 1
+        version:
+          minimum: 0
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    QueryResponseStatusCode:
+      enum:
+      - IPAY
+      - INFO
+      - NINF
+      - PDNG
+      - IDUP
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    QueryResponseAdmissionStatus:
+      enum:
+      - confirmed
+      - failed
+      - pending
+      type: string
+      x-access:
+      - Public
+    NewQueryResponseSubmission:
+      properties:
+        attributes:
+          properties:
+            auto:
+              type: boolean
+          type: object
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/QueryResponseSubmissionResourceType'
+      required:
+      - id
+      - organisation_id
+      - type
+      type: object
+      x-access:
+      - Public
+    QueryRelationships:
+      properties:
+        payment:
+          $ref: '#/components/schemas/RelationshipsPayment'
+        payment_admission:
+          $ref: '#/components/schemas/RelationshipsPaymentAdmission'
+        payment_submission:
+          $ref: '#/components/schemas/RelationshipsPaymentSubmission'
+        query:
+          $ref: '#/components/schemas/RelationshipsQuery'
+        query_admission:
+          $ref: '#/components/schemas/RelationshipsQueryAdmission'
+        query_response:
+          $ref: '#/components/schemas/RelationshipsFullQueryResponse'
+        query_submission:
+          $ref: '#/components/schemas/RelationshipsQuerySubmission'
+        recall:
+          $ref: '#/components/schemas/RelationshipsPaymentRecall'
+        recall_submission:
+          $ref: '#/components/schemas/RelationshipsPaymentRecallSubmission'
+      type: object
+      x-access:
+      - Public
+    QueryResponseSubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewQueryResponseSubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PaymentAdmissionResourceType:
+      enum:
+      - payment_admissions
+      type: string
+      x-access:
+      - Public
+    RelationshipsPaymentAdmission:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsPaymentAdmissionProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    NewQuerySubmission:
+      properties:
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/QuerySubmissionResourceType'
+      required:
+      - id
+      - organisation_id
+      - type
+      type: object
+      x-access:
+      - Public
+    QueryResponseAnswer:
+      enum:
+      - accepted
+      - rejected
+      - pending
+      - already_applied
+      - modified_as_requested
+      - transaction_not_received
+      - transaction_rejected
+      - transaction_returned
+      - transaction_not_processed
+      - rejected_regulatory_reason
+      type: string
+      x-access:
+      - Public
+      x-parent: data.attributes
+    QueryCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewQuery'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RelationshipsQuery:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsQueryProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QueryResponseCompensation:
+      properties:
+        account_number:
+          type: string
+          x-parent: data.attributes.compensation
+        account_number_code:
+          type: string
+          x-parent: data.attributes.compensation
+        amount:
+          type: string
+          x-parent: data.attributes.compensation
+        currency:
+          type: string
+          x-parent: data.attributes.compensation
+      type: object
+      x-access:
+      - Public
+      x-parent: data.attributes
+    QueryResponseRelationships:
+      properties:
+        query:
+          $ref: '#/components/schemas/RelationshipsFullQuery'
+        query_response_admission:
+          $ref: '#/components/schemas/RelationshipQueryResponseAdmission'
+        query_response_submission:
+          $ref: '#/components/schemas/RelationshipQueryResponseSubmission'
+      type: object
+      x-access:
+      - Public
+    Links:
+      properties:
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
+      type: object
+      x-access:
+      - Public
+    RelationshipsPaymentRecall:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsPaymentRecallProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    RelationshipsQueryAdmission:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/QueryAdmission'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QueryAdmissionAttributes:
+      properties:
+        status:
+          $ref: '#/components/schemas/QueryAdmissionStatus'
+        status_reason:
+          type: string
+          x-parent: data.attributes
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+      x-parent: data
+    RelationshipsQuerySubmission:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/QuerySubmission'
+          type: array
+      type: object
+      x-access:
+      - Public
+    NewQueryRelationships:
+      properties:
+        payment:
+          $ref: '#/components/schemas/RelationshipsPayment'
+        payment_admission:
+          $ref: '#/components/schemas/RelationshipsPaymentAdmission'
+        payment_submission:
+          $ref: '#/components/schemas/RelationshipsPaymentSubmission'
+        query:
+          $ref: '#/components/schemas/RelationshipsQuery'
+        recall:
+          $ref: '#/components/schemas/RelationshipsPaymentRecall'
+        recall_submission:
+          $ref: '#/components/schemas/RelationshipsPaymentRecallSubmission'
+      type: object
+      x-access:
+      - Public
+    DuplicateTransactionInformation:
+      properties:
+        end_to_end_reference:
+          description: Unique identification, as assigned by the initiating party, to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        references:
+          description: Reference for the duplicated payment for this Exception and Investigation case.
+          items:
+            $ref: '#/components/schemas/QueryReference'
+          type: array
+          x-omitempty: true
+        scheme_transaction_id:
+          description: Unique identification, as assigned by the first instructing agent, to unambiguously identify the transaction that is passed on, unchanged, throughout the entire interbank chain.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    QuerySubmissionRelationships:
+      properties:
+        query:
+          $ref: '#/components/schemas/RelationshipsQuery'
+      required:
+      - query
+      type: object
+      x-access:
+      - Public
+    QueryResponseAdmissionResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/QueryResponseAdmission'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    QueryResponseAdmissionAttributes:
+      properties:
+        status:
+          $ref: '#/components/schemas/QueryResponseAdmissionStatus'
+        status_reason:
+          type: string
+      required:
+      - status
+      type: object
+      x-access:
+      - Public
+    CorrectionTransactionInformation:
+      description: References a transaction initiated to fix the case under investigation.
+      properties:
+        amount:
+          description: Amount of money moved between the instructing agent and the instructed agent.
+          pattern: ^[0-9.]{0,14}$
+          type: string
+          x-length: 14
+          x-omitempty: true
+        currency:
+          description: Currency of the transaction amount. Currency code as defined in [ISO 4217](https://www.iso.org/iso/home/standards/currency_codes.htm)
+          maxLength: 3
+          minLength: 3
+          type: string
+          x-length: 3
+          x-omitempty: true
+        end_to_end_reference:
+          description: Unique identification, as assigned by the initiating party, to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        instruction_id:
+          description: Unique identification, as assigned by an instructing party for an instructed party, to unambiguously identify the instruction.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        processing_date:
+          description: Date on which the amount of money ceases to be available to the agent that owes it and when the amount of money becomes available to the agent to which it is due.
+          example: '2015-12-23'
+          format: date
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        references:
+          description: Reference for the corrective payment for this query case.
+          items:
+            $ref: '#/components/schemas/QueryReference'
+          type: array
+          x-omitempty: true
+        scheme_transaction_id:
+          description: Unique identification, as assigned by the first instructing agent, to unambiguously identify the transaction that is passed on, unchanged, throughout the entire interbank chain.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        unique_scheme_id:
+          description: The scheme-specific unique transaction ID to unambiguously identify the message. Populated by the scheme.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+      type: object
+      x-access:
+      - Public
+    QueryResourceType:
+      enum:
+      - queries
+      type: string
+      x-access:
+      - Public
+    QuerySubmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QuerySubmissionAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        relationships:
+          $ref: '#/components/schemas/QuerySubmissionRelationships'
+          x-order: 8
+        type:
+          $ref: '#/components/schemas/QuerySubmissionResourceType'
+          x-order: 1
+        version:
+          minimum: 0
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    NewQueryResponse:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryResponseAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/QueryResponseResourceType'
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      type: object
+      x-access:
+      - Public
+    RelationshipsPaymentSubmissionProperties:
+      properties:
+        id:
+          description: The payment submission associated with this query
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/PaymentSubmissionResourceType'
+      required:
+      - id
+      - type
+      type: object
+      x-access:
+      - Public
+    RequestForInformationQuerySubTypes:
+      items:
+        type: string
+      type: array
+      x-access:
+      - Public
+    QueryListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Query'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      - links
+      type: object
+      x-access:
+      - Public
+    QueryResponseCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewQueryResponse'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    QueryResponseSubmissionRelationships:
+      properties:
+        query:
+          $ref: '#/components/schemas/RelationshipsFullQuery'
+        query_response:
+          $ref: '#/components/schemas/RelationshipsFullQueryResponse'
+      type: object
+      x-access:
+      - Public
+    QuerySubmissionAttributes:
+      properties:
+        status:
+          $ref: '#/components/schemas/QuerySubmissionStatus'
+        status_reason:
+          type: string
+      type: object
+      x-access:
+      - Public
+    QueryResponseCharges:
+      properties:
+        account_number:
+          type: string
+          x-parent: data.attributes.charges
+        account_number_code:
+          type: string
+          x-parent: data.attributes.charges
+        amount:
+          type: string
+          x-parent: data.attributes.charges
+        currency:
+          type: string
+          x-parent: data.attributes.charges
+      type: object
+      x-access:
+      - Public
+      x-parent: data.attributes
+    PaymentRecallResourceType:
+      enum:
+      - recalls
+      type: string
+      x-access:
+      - Public
+    NewQuery:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryAttributes'
+        id:
+          format: uuid
+          type: string
+        organisation_id:
+          format: uuid
+          type: string
+        relationships:
+          $ref: '#/components/schemas/NewQueryRelationships'
+        type:
+          $ref: '#/components/schemas/QueryResourceType'
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      type: object
+      x-access:
+      - Public
+    QuerySubmissionCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/NewQuerySubmission'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    QueryAdmissionRelationships:
+      properties:
+        query:
+          $ref: '#/components/schemas/RelationshipsFullQuery'
+      required:
+      - query
+      type: object
+      x-access:
+      - Public
+    Query:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        relationships:
+          $ref: '#/components/schemas/QueryRelationships'
+          x-order: 8
+        type:
+          $ref: '#/components/schemas/QueryResourceType'
+          x-order: 1
+        version:
+          minimum: 0
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    QueryResponseSubmissionAttributes:
+      properties:
+        auto:
+          type: boolean
+          x-parent: data.attributes
+        status:
+          $ref: '#/components/schemas/QueryResponseSubmissionStatus'
+        status_reason:
+          type: string
+          x-parent: data.attributes
+      type: object
+      x-access:
+      - Public
+      x-parent: data
     QueryBeneficiaryDebtorParty:
       properties:
         account_number:
@@ -2002,28 +1806,10 @@ components:
       type: object
       x-access:
       - Public
-    RelationshipsQueryAdmission:
+    QueryResponseResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/QueryAdmission'
-          type: array
-      type: object
-      x-access:
-      - Public
-    QueryResponseSubmissionCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NewQueryResponseSubmission'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    QueryAdmissionResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/QueryAdmission'
+          $ref: '#/components/schemas/QueryResponse'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -2031,26 +1817,39 @@ components:
       type: object
       x-access:
       - Public
-    NewQueryResponseSubmission:
+    RelationshipsPaymentProperties:
       properties:
-        attributes:
-          properties:
-            auto:
-              type: boolean
-          type: object
         id:
-          format: uuid
-          type: string
-        organisation_id:
+          description: The payment associated with this query
           format: uuid
           type: string
         type:
-          $ref: '#/components/schemas/QueryResponseSubmissionResourceType'
+          $ref: '#/components/schemas/PaymentResourceType'
       required:
       - id
-      - organisation_id
       - type
       type: object
+      x-access:
+      - Public
+    RelationshipsPayment:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsPaymentProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QuerySubmissionStatus:
+      enum:
+      - accepted
+      - validation_pending
+      - released_to_gateway
+      - queued_for_delivery
+      - submitted
+      - delivery_confirmed
+      - delivery_failed
+      type: string
       x-access:
       - Public
     QueryPrivateIdentification:
@@ -2085,75 +1884,27 @@ components:
       type: object
       x-access:
       - Public
-    RequestForInformationRequestedInformation:
-      items:
-        properties:
-          additional_information:
-            type: string
-          code:
-            type: string
-          type:
-            enum:
-            - missing
-            - incorrect
-            type: string
-        required:
-        - type
-        - code
-        type: object
-      type: array
-      x-access:
-      - Public
-    NewQueryRelationships:
-      properties:
-        payment:
-          $ref: '#/components/schemas/RelationshipsPayment'
-        payment_admission:
-          $ref: '#/components/schemas/RelationshipsPaymentAdmission'
-        payment_submission:
-          $ref: '#/components/schemas/RelationshipsPaymentSubmission'
-        query:
-          $ref: '#/components/schemas/RelationshipsQuery'
-        recall:
-          $ref: '#/components/schemas/RelationshipsPaymentRecall'
-        recall_submission:
-          $ref: '#/components/schemas/RelationshipsPaymentRecallSubmission'
-      type: object
-      x-access:
-      - Public
-    QuerySubmissionResourceType:
-      enum:
-      - query_submissions
-      type: string
-      x-access:
-      - Public
-    RelationshipsQuery:
+    RelationshipsFullQueryResponse:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/RelationshipsQueryProperties'
+            $ref: '#/components/schemas/QueryResponse'
           type: array
       type: object
       x-access:
       - Public
-    RequestForInformationAgents:
-      items:
-        properties:
-          identification:
-            allOf:
-            - $ref: '#/components/schemas/RequestForInformationAgentBankId'
-            - properties:
-                bank_ids:
-                  items:
-                    $ref: '#/components/schemas/RequestForInformationAgentBankId'
-                  type: array
-                  x-omitempty: true
-              type: object
-            type: object
-          role:
-            type: string
-        type: object
-      type: array
+    RelationshipsPaymentRecallProperties:
+      properties:
+        id:
+          description: The payment recall associated with this query
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/PaymentRecallResourceType'
+      required:
+      - id
+      - type
+      type: object
       x-access:
       - Public
     QueryResponseAdmission:
@@ -2196,161 +1947,125 @@ components:
       type: object
       x-access:
       - Public
-    QueryResponseSubmissionRelationships:
-      properties:
-        query:
-          $ref: '#/components/schemas/RelationshipsFullQuery'
-        query_response:
-          $ref: '#/components/schemas/RelationshipsFullQueryResponse'
-      type: object
-      x-access:
-      - Public
-    CorrectionTransactionInformation:
-      description: References a transaction initiated to fix the case under investigation.
-      properties:
-        amount:
-          description: Amount of money moved between the instructing agent and the instructed agent.
-          pattern: ^[0-9.]{0,14}$
-          type: string
-          x-length: 14
-          x-omitempty: true
-        currency:
-          description: Currency of the transaction amount. Currency code as defined in [ISO 4217](https://www.iso.org/iso/home/standards/currency_codes.htm)
-          maxLength: 3
-          minLength: 3
-          type: string
-          x-length: 3
-          x-omitempty: true
-        end_to_end_reference:
-          description: Unique identification, as assigned by the initiating party, to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        instruction_id:
-          description: Unique identification, as assigned by an instructing party for an instructed party, to unambiguously identify the instruction.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        processing_date:
-          description: Date on which the amount of money ceases to be available to the agent that owes it and when the amount of money becomes available to the agent to which it is due.
-          example: '2015-12-23'
-          format: date
-          type:
-          - string
-          - 'null'
-          x-omitempty: true
-        references:
-          description: Reference for the corrective payment for this query case.
-          items:
-            $ref: '#/components/schemas/QueryReference'
-          type: array
-          x-omitempty: true
-        scheme_transaction_id:
-          description: Unique identification, as assigned by the first instructing agent, to unambiguously identify the transaction that is passed on, unchanged, throughout the entire interbank chain.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-        unique_scheme_id:
-          description: The scheme-specific unique transaction ID to unambiguously identify the message. Populated by the scheme.
-          maxLength: 35
-          type: string
-          x-length: 35
-          x-omitempty: true
-      type: object
-      x-access:
-      - Public
-    QueryResponseCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/NewQueryResponse'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    QueryResponseSubmissionResourceType:
-      enum:
-      - query_response_submissions
-      type: string
-      x-access:
-      - Public
-    QueryResponseSubmissionStatus:
-      enum:
-      - accepted
-      - validation_pending
-      - released_to_gateway
-      - queued_for_delivery
-      - submitted
-      - delivery_confirmed
-      - delivery_failed
-      type: string
-      x-access:
-      - Public
-      x-parent: data.attributes
-    PaymentRecallSubmissionResourceType:
-      enum:
-      - recall_submissions
-      type: string
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
     QueryResponseAdmissionResourceType:
       enum:
       - query_response_admissions
       type: string
       x-access:
       - Public
-    RelationshipsPaymentProperties:
+    RelationshipsQueryResponseProperties:
       properties:
         id:
-          description: The payment associated with this query
+          description: The Query Response ID
           format: uuid
           type: string
         type:
-          $ref: '#/components/schemas/PaymentResourceType'
+          $ref: '#/components/schemas/QueryResponseResourceType'
       required:
       - id
       - type
       type: object
       x-access:
       - Public
-    QueryResponseAdmissionRelationships:
+    RequestForInformationRequestedInformation:
+      items:
+        properties:
+          additional_information:
+            type: string
+          code:
+            type: string
+          type:
+            enum:
+            - missing
+            - incorrect
+            type: string
+        required:
+        - type
+        - code
+        type: object
+      type: array
+      x-access:
+      - Public
+    QueryBeneficiaryDebtorOrganisationIdentification:
       properties:
-        payment:
-          $ref: '#/components/schemas/RelationshipsPayment'
-        query:
-          $ref: '#/components/schemas/RelationshipsQuery'
-        query_response:
-          $ref: '#/components/schemas/RelationshipsQueryResponse'
-        recall:
-          $ref: '#/components/schemas/RelationshipsPaymentRecall'
+        identification:
+          description: Another ID of the organisation
+          example: H7FNTJ4851HG0EXQ1Z70
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        identification_code:
+          description: Code for the type of other ID of organisation
+          example: LEI
+          type: string
+          x-length: 5
+          x-omitempty: true
+        identification_issuer:
+          description: Issuer of the other ID of organisation
+          example: London Stock Exchange
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        identification_scheme:
+          description: Custom internal code for the type of other ID of organisation
+          example: Custom code
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
       type: object
       x-access:
       - Public
-    RelationshipsPaymentSubmissionProperties:
+    RelationshipsPaymentSubmission:
       properties:
-        id:
-          description: The payment submission associated with this query
-          format: uuid
-          type: string
-        type:
-          $ref: '#/components/schemas/PaymentSubmissionResourceType'
-      required:
-      - id
-      - type
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsPaymentSubmissionProperties'
+          type: array
       type: object
+      x-access:
+      - Public
+    RelationshipsQueryResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsQueryResponseProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QueryResponseInformation:
+      properties:
+        beneficiary_party:
+          $ref: '#/components/schemas/QueryBeneficiaryDebtorParty'
+        correction_transaction_information:
+          $ref: '#/components/schemas/CorrectionTransactionInformation'
+        debtor_party:
+          $ref: '#/components/schemas/QueryBeneficiaryDebtorParty'
+        duplicate_transaction_information:
+          $ref: '#/components/schemas/DuplicateTransactionInformation'
+        payment_type_information:
+          $ref: '#/components/schemas/PaymentTypeInformation'
+        references:
+          description: Reference for the case ID associated to this Exception and Investigation case.
+          items:
+            $ref: '#/components/schemas/QueryReference'
+          type: array
+          x-omitempty: true
+        ultimate_beneficiary_party:
+          $ref: '#/components/schemas/QueryUltimateEntity'
+        ultimate_debtor_party:
+          $ref: '#/components/schemas/QueryUltimateEntity'
+      type: object
+      x-access:
+      - Public
+      x-parent: data.attributes
+    QueryAdmissionResourceType:
+      enum:
+      - query_admissions
+      type: string
       x-access:
       - Public
     RelationshipQueryResponseAdmission:
@@ -2360,6 +2075,91 @@ components:
             $ref: '#/components/schemas/QueryResponseAdmission'
           type: array
       type: object
+      x-access:
+      - Public
+    PaymentResourceType:
+      enum:
+      - payments
+      type: string
+      x-access:
+      - Public
+    QueryResponseAttributes:
+      properties:
+        answer:
+          $ref: '#/components/schemas/QueryResponseAnswer'
+        charges:
+          $ref: '#/components/schemas/QueryResponseCharges'
+        compensation:
+          $ref: '#/components/schemas/QueryResponseCompensation'
+        compensation_amount:
+          type: string
+          x-parent: data.attributes
+        currency:
+          type: string
+          x-parent: data.attributes
+        information:
+          $ref: '#/components/schemas/QueryResponseInformation'
+        status_code:
+          $ref: '#/components/schemas/QueryResponseStatusCode'
+      required:
+      - answer
+      type: object
+      x-access:
+      - Public
+      x-parent: data
+    QueryAdmission:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/QueryAdmissionAttributes'
+          x-order: 7
+        created_on:
+          format: date-time
+          type: string
+          x-order: 5
+        id:
+          format: uuid
+          type: string
+          x-order: 2
+        modified_on:
+          format: date-time
+          type: string
+          x-order: 6
+        organisation_id:
+          format: uuid
+          type: string
+          x-order: 4
+        relationships:
+          $ref: '#/components/schemas/QueryAdmissionRelationships'
+          x-order: 8
+        type:
+          $ref: '#/components/schemas/QueryAdmissionResourceType'
+          x-order: 1
+        version:
+          minimum: 0
+          type: integer
+          x-order: 3
+      required:
+      - id
+      - organisation_id
+      - type
+      - attributes
+      - version
+      type: object
+      x-access:
+      - Public
+    RelationshipQueryResponseSubmission:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/QueryResponseSubmission'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QueryResponseResourceType:
+      enum:
+      - query_responses
+      type: string
       x-access:
       - Public
     QueryBeneficiaryDebtorAccountProxy:
@@ -2392,25 +2192,70 @@ components:
       type: object
       x-access:
       - Public
-    QuerySubmissionCreation:
+    QueryResponseAdmissionRelationships:
       properties:
-        data:
-          $ref: '#/components/schemas/NewQuerySubmission'
-      required:
-      - data
+        payment:
+          $ref: '#/components/schemas/RelationshipsPayment'
+        query:
+          $ref: '#/components/schemas/RelationshipsQuery'
+        query_response:
+          $ref: '#/components/schemas/RelationshipsQueryResponse'
+        recall:
+          $ref: '#/components/schemas/RelationshipsPaymentRecall'
       type: object
       x-access:
       - Public
-    QueryResourceType:
+    QueryResponseSubmissionStatus:
       enum:
-      - queries
+      - accepted
+      - validation_pending
+      - released_to_gateway
+      - queued_for_delivery
+      - submitted
+      - delivery_confirmed
+      - delivery_failed
       type: string
       x-access:
       - Public
-    QueryResponseResponse:
+      x-parent: data.attributes
+    RelationshipsPaymentAdmissionProperties:
+      properties:
+        id:
+          description: The payment admission associated with this query
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/PaymentAdmissionResourceType'
+      required:
+      - id
+      - type
+      type: object
+      x-access:
+      - Public
+    RequestForInformationAgents:
+      items:
+        properties:
+          identification:
+            allOf:
+            - $ref: '#/components/schemas/RequestForInformationAgentBankId'
+            - properties:
+                bank_ids:
+                  items:
+                    $ref: '#/components/schemas/RequestForInformationAgentBankId'
+                  type: array
+                  x-omitempty: true
+              type: object
+            type: object
+          role:
+            type: string
+        type: object
+      type: array
+      x-access:
+      - Public
+    QuerySubmissionResponse:
       properties:
         data:
-          $ref: '#/components/schemas/QueryResponse'
+          $ref: '#/components/schemas/QuerySubmission'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -2418,39 +2263,194 @@ components:
       type: object
       x-access:
       - Public
-    QuerySubmissionRelationships:
+    RelationshipsPaymentRecallSubmissionProperties:
       properties:
-        query:
-          $ref: '#/components/schemas/RelationshipsQuery'
+        id:
+          description: The payment recall submission associated with this query
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/PaymentRecallSubmissionResourceType'
       required:
-      - query
+      - id
+      - type
       type: object
       x-access:
       - Public
-    QueryResponseAttributes:
+    PaymentSubmissionResourceType:
+      enum:
+      - payment_submissions
+      type: string
+      x-access:
+      - Public
+    PaymentRecallSubmissionResourceType:
+      enum:
+      - recall_submissions
+      type: string
+      x-access:
+      - Public
+    QueryFetchResponse:
       properties:
-        answer:
-          $ref: '#/components/schemas/QueryResponseAnswer'
-        charges:
-          $ref: '#/components/schemas/QueryResponseCharges'
-        compensation:
-          $ref: '#/components/schemas/QueryResponseCompensation'
-        compensation_amount:
+        data:
+          $ref: '#/components/schemas/Query'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RequestForInformationAgentBankId:
+      properties:
+        bank_id:
           type: string
-          x-parent: data.attributes
+        bank_id_code:
+          type: string
+      type: object
+      x-access:
+      - Public
+    RequestForInformationCreatorParty:
+      properties:
+        birth_city:
+          type: string
+        birth_country:
+          type: string
+        birth_date:
+          type: string
+        birth_province:
+          type: string
+        name:
+          type: string
+        organisation_identification:
+          type: string
+        organisation_identification_code:
+          type: string
+        organisation_identification_issuer:
+          type: string
+        organisation_identifications:
+          items:
+            properties:
+              identification:
+                type: string
+              identification_code:
+                type: string
+              identification_issuer:
+                type: string
+            type: object
+          type: array
+          x-omitempty: true
+        private_identification:
+          properties:
+            private_identification.code:
+              type: string
+            private_identification.identification:
+              type: string
+            private_identification.issuer:
+              type: string
+          type: object
+        telephone_number:
+          type: string
+      type: object
+      x-access:
+      - Public
+    QueryAccountNumberCode:
+      description: The type of identification given at `account_number` attribute
+      enum:
+      - IBAN
+      - BBAN
+      example: IBAN
+      maxLength: 4
+      type: string
+      x-access:
+      - Public
+      x-length: 4
+      x-omitempty: true
+    RelationshipsPaymentRecallSubmission:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/RelationshipsPaymentRecallSubmissionProperties'
+          type: array
+      type: object
+      x-access:
+      - Public
+    QueryReference:
+      description: Arbitrary references for payment or case. Defined by a pair of reference type and reference value.
+      properties:
+        type:
+          description: Name of the reference type
+          example: UETR
+          maxLength: 45
+          minLength: 1
+          type: string
+        value:
+          description: Value of the provided reference type
+          maxLength: 45
+          minLength: 1
+          type: string
+      required:
+      - type
+      - value
+      type: object
+      x-access:
+      - Public
+    PaymentTypeInformation:
+      description: Set of elements used to further specify the type of transaction.
+      properties:
+        amount:
+          description: Amount of money to be moved between the debtor and creditor, before deduction of charges.
+          pattern: ^[0-9.]{0,14}$
+          type: string
+          x-length: 14
+          x-omitempty: true
+        category_purpose:
+          description: Specifies the high level purpose of the instruction based on a set of pre-defined categories.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
         currency:
+          description: Currency of the transaction amount. Currency code as defined in [ISO 4217](https://www.iso.org/iso/home/standards/currency_codes.htm)
+          maxLength: 3
+          minLength: 3
           type: string
-          x-parent: data.attributes
-        information:
-          $ref: '#/components/schemas/QueryResponseInformation'
-        status_code:
-          $ref: '#/components/schemas/QueryResponseStatusCode'
-      required:
-      - answer
+          x-length: 3
+          x-omitempty: true
+        payment_purpose:
+          description: Underlying reason for the payment transaction. Defined in external code list (4 char) or proprietary code (35 char)
+          maxLength: 35
+          minLength: 4
+          type: string
+          x-omitempty: true
+        processing_date:
+          description: Date on which the amount of money ceases to be available to the agent that owes it and when the amount of money becomes available to the agent to which it is due.
+          example: '2015-12-23'
+          format: date
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+        remittance_information:
+          description: Unstructured information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle.
+          maxLength: 140
+          type: string
+          x-length: 140
+          x-omitempty: true
+        scheme_payment_sub_type:
+          description: Specifies a local instrument to further qualify the level of service.
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
+        scheme_payment_type:
+          description: Specifies a pre-agreed level of service as published in an external code list (4 char) or a proprietary code (35 char).
+          maxLength: 35
+          type: string
+          x-length: 35
+          x-omitempty: true
       type: object
       x-access:
       - Public
-      x-parent: data
   securitySchemes:
     Basic:
       type: http

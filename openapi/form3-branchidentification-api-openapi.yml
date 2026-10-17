@@ -230,108 +230,6 @@ paths:
               $ref: '#/components/schemas/BranchIdentificationRequest'
 components:
   schemas:
-    BranchIdentificationAttributes:
-      properties:
-        secondary_identification:
-          description: Used to validate where expecting an exact match against payment's reference information.
-          maxLength: 35
-          minLength: 1
-          type: string
-      required:
-      - secondary_identification
-      type: object
-      x-access:
-      - Public
-    BranchIdentificationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/BranchIdentificationData'
-      type: object
-      x-access:
-      - Public
-    BranchIdentification:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/BranchIdentificationAttributes'
-        created_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Unique resource ID
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
-          type: string
-        modified_on:
-          format: date-time
-          type:
-          - string
-          - 'null'
-        organisation_id:
-          description: Unique ID of the organisation this resource is created by
-          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
-          format: uuid
-          type: string
-        type:
-          description: Type of this resource, always branch_identifications
-          example: branch_identifications
-          format: ^branch_identifications$
-          type: string
-        version:
-          description: Version number
-          example: 0
-          minimum: 0
-          type: integer
-      required:
-      - id
-      - attributes
-      - organisation_id
-      type: object
-      x-access:
-      - Public
-    BranchIdentificationListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/BranchIdentification'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      type: object
-      x-access:
-      - Public
-    RelationshipData:
-      properties:
-        id:
-          description: ID of the referenced resource
-          format: uuid
-          type: string
-        type:
-          description: Name of the referenced resource type
-          type: string
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    BranchIdentificationData:
-      allOf:
-      - $ref: '#/components/schemas/BranchIdentification'
-      - properties:
-          relationships:
-            $ref: '#/components/schemas/BranchIdentificationRelationships'
-        type: object
-      x-access:
-      - Public
     Links:
       properties:
         first:
@@ -376,10 +274,73 @@ components:
       type: object
       x-access:
       - Public
-    BranchIdentificationRelationships:
+    BranchIdentification:
       properties:
-        branch:
-          $ref: '#/components/schemas/RelationshipLinks'
+        attributes:
+          $ref: '#/components/schemas/BranchIdentificationAttributes'
+        created_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Unique resource ID
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
+          format: uuid
+          type: string
+        modified_on:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        organisation_id:
+          description: Unique ID of the organisation this resource is created by
+          example: ee2fb143-6dfe-4787-b183-ca8ddd4164d2
+          format: uuid
+          type: string
+        type:
+          description: Type of this resource, always branch_identifications
+          example: branch_identifications
+          format: ^branch_identifications$
+          type: string
+        version:
+          description: Version number
+          example: 0
+          minimum: 0
+          type: integer
+      required:
+      - id
+      - attributes
+      - organisation_id
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/BranchIdentificationData'
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/BranchIdentification'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
       x-access:
       - Public
     BranchIdentificationRequest:
@@ -389,6 +350,45 @@ components:
       required:
       - data
       type: object
+      x-access:
+      - Public
+    BranchIdentificationRelationships:
+      properties:
+        branch:
+          $ref: '#/components/schemas/RelationshipLinks'
+      x-access:
+      - Public
+    RelationshipData:
+      properties:
+        id:
+          description: ID of the referenced resource
+          format: uuid
+          type: string
+        type:
+          description: Name of the referenced resource type
+          type: string
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationAttributes:
+      properties:
+        secondary_identification:
+          description: Used to validate where expecting an exact match against payment's reference information.
+          maxLength: 35
+          minLength: 1
+          type: string
+      required:
+      - secondary_identification
+      type: object
+      x-access:
+      - Public
+    BranchIdentificationData:
+      allOf:
+      - $ref: '#/components/schemas/BranchIdentification'
+      - properties:
+          relationships:
+            $ref: '#/components/schemas/BranchIdentificationRelationships'
+        type: object
       x-access:
       - Public
   securitySchemes:

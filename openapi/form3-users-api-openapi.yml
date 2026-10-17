@@ -762,11 +762,11 @@ paths:
       - Public
 components:
   schemas:
-    UserDetailsListResponse:
+    AceDetailsListResponse:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/User'
+            $ref: '#/components/schemas/Ace'
           type: array
         links:
           $ref: '#/components/schemas/Links'
@@ -775,30 +775,128 @@ components:
       type: object
       x-access:
       - Public
-    RoleAttributes:
+    Links:
       properties:
-        name:
-          description: Name of the role
-          example: Read-only Role
-          type: string
-        parent_role_id:
-          description: Unique resource ID of the parent Role
-          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
-          format: uuid
+        first:
+          description: Link to the first resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
           type:
           - string
           - 'null'
+        last:
+          description: Link to the last resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        next:
+          description: Link to the next resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        prev:
+          description: Link to the previous resource in the list
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type:
+          - string
+          - 'null'
+        self:
+          description: Link to this resource type
+          example: https://api.test.form3.tech/v1/api_name/resource_type
+          type: string
+      required:
+      - self
       type: object
       x-access:
       - Public
-    PublicKeysListResponse:
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
+      type: object
+      x-access:
+      - Public
+    UserRoleListResponse:
       properties:
         data:
           items:
-            $ref: '#/components/schemas/PublicKey'
+            $ref: '#/components/schemas/Role'
           type: array
         links:
           $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    CredentialSecret:
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      type: object
+      x-access:
+      - Public
+    Credential:
+      properties:
+        client_id:
+          type: string
+      type: object
+      x-access:
+      - Public
+    CredentialCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/CredentialSecret'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    PublicKeyCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    KeyState:
+      description: Current lifecycle state of the key
+      enum:
+      - active
+      - pending_deletion
+      - pending_activation
+      - expired
+      - deleted
+      type: string
+      x-access:
+      - Public
+    PublicKeyCreation:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
       required:
       - data
       type: object
@@ -848,64 +946,6 @@ components:
       - id
       - organisation_id
       - attributes
-      type: object
-      x-access:
-      - Public
-    CredentialSecret:
-      properties:
-        client_id:
-          type: string
-        client_secret:
-          type: string
-      type: object
-      x-access:
-      - Public
-    CredentialCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/CredentialSecret'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    UserDetailsResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    UserCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    Credential:
-      properties:
-        client_id:
-          type: string
-      type: object
-      x-access:
-      - Public
-    UserCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-      required:
-      - data
       type: object
       x-access:
       - Public
@@ -970,78 +1010,6 @@ components:
       type: object
       x-access:
       - Public
-    Links:
-      properties:
-        first:
-          description: Link to the first resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        last:
-          description: Link to the last resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        next:
-          description: Link to the next resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        prev:
-          description: Link to the previous resource in the list
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type:
-          - string
-          - 'null'
-        self:
-          description: Link to this resource type
-          example: https://api.test.form3.tech/v1/api_name/resource_type
-          type: string
-      required:
-      - self
-      type: object
-      x-access:
-      - Public
-    AceDetailsListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Ace'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    UserRoleListResponse:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Role'
-          type: array
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    PublicKeyResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
     User:
       properties:
         attributes:
@@ -1096,6 +1064,30 @@ components:
       type: object
       x-access:
       - Public
+    UserDetailsListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    UserDetailsResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
     ScheduleDeletionResponse:
       properties:
         deletion_date:
@@ -1105,13 +1097,43 @@ components:
       type: object
       x-access:
       - Public
-    ApiError:
+    UserCreationResponse:
       properties:
-        error_code:
+        data:
+          $ref: '#/components/schemas/User'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    RoleAttributes:
+      properties:
+        name:
+          description: Name of the role
+          example: Read-only Role
+          type: string
+        parent_role_id:
+          description: Unique resource ID of the parent Role
+          example: 7826c3cb-d6fd-41d0-b187-dc23ba928772
           format: uuid
-          type: string
-        error_message:
-          type: string
+          type:
+          - string
+          - 'null'
+      type: object
+      x-access:
+      - Public
+    PublicKeysListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicKey'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
       type: object
       x-access:
       - Public
@@ -1128,12 +1150,10 @@ components:
       type: object
       x-access:
       - Public
-    PublicKeyCreationResponse:
+    UserCreation:
       properties:
         data:
-          $ref: '#/components/schemas/PublicKey'
-        links:
-          $ref: '#/components/schemas/Links'
+          $ref: '#/components/schemas/User'
       required:
       - data
       type: object
@@ -1163,26 +1183,6 @@ components:
           minimum: 0
           type: integer
       type: object
-      x-access:
-      - Public
-    PublicKeyCreation:
-      properties:
-        data:
-          $ref: '#/components/schemas/PublicKey'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    KeyState:
-      description: Current lifecycle state of the key
-      enum:
-      - active
-      - pending_deletion
-      - pending_activation
-      - expired
-      - deleted
-      type: string
       x-access:
       - Public
   securitySchemes:

@@ -191,12 +191,10 @@ paths:
       - Public
 components:
   schemas:
-    AceDetailsListResponse:
+    AceDetailsResponse:
       properties:
         data:
-          items:
-            $ref: '#/components/schemas/Ace'
-          type: array
+          $ref: '#/components/schemas/Ace'
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -204,29 +202,12 @@ components:
       type: object
       x-access:
       - Public
-    AceCreation:
+    AceDetailsListResponse:
       properties:
         data:
-          $ref: '#/components/schemas/Ace'
-      required:
-      - data
-      type: object
-      x-access:
-      - Public
-    ApiError:
-      properties:
-        error_code:
-          format: uuid
-          type: string
-        error_message:
-          type: string
-      type: object
-      x-access:
-      - Public
-    AceCreationResponse:
-      properties:
-        data:
-          $ref: '#/components/schemas/Ace'
+          items:
+            $ref: '#/components/schemas/Ace'
+          type: array
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -266,6 +247,27 @@ components:
           type: string
       required:
       - self
+      type: object
+      x-access:
+      - Public
+    AceCreationResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Ace'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+      - data
+      type: object
+      x-access:
+      - Public
+    ApiError:
+      properties:
+        error_code:
+          format: uuid
+          type: string
+        error_message:
+          type: string
       type: object
       x-access:
       - Public
@@ -316,12 +318,10 @@ components:
       type: object
       x-access:
       - Public
-    AceDetailsResponse:
+    AceCreation:
       properties:
         data:
           $ref: '#/components/schemas/Ace'
-        links:
-          $ref: '#/components/schemas/Links'
       required:
       - data
       type: object
