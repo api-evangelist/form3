@@ -1,4 +1,4 @@
-# Form3 (form3)
+# Form3
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,108 +64,162 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Form3 is a United Kingdom-headquartered, cloud-native payments technology company offering account-to-account payment processing as a single, unified REST API to banks and fintechs. Founded in 2016 and based in London, Form3 runs a fully managed Payments-as-a-Service platform connecting customers to domestic and cross-border schemes — UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer, SEPA Instant and SEPA Direct Debit, and US instant rails — alongside Confirmation of Payee / Verification of Payee name-checking, direct debit mandate management, scheme-addressable account identification, event notifications (webhooks), and full audit trails.
+Form3 is a United Kingdom-headquartered, cloud-native payments technology company offering account-to-account payment processing as a single, unified REST API to banks and fintechs. Founded in 2016 and headquartered in London, Form3 runs a fully managed, Payments-as-a-Service platform that connects customers to domestic and cross-border schemes - UK Faster Payments, Bacs and CHAPS, SEPA Credit Transfer, SEPA Instant and SEPA Direct Debit, and US instant rails - alongside Confirmation of Payee / Verification of Payee name-checking, direct debit mandate management, scheme-addressable account identification, event notifications (webhooks), and full audit trails. Its public API is REST built on the json:api specification, documented at api-docs.form3.tech with a downloadable Swagger 2.0 definition, and authenticated with OAuth2 client-credentials plus HTTP Message Signatures request signing and, in some environments, mutual TLS. Form3 is API-native and developer-facing but is a regulated B2B rail rather than an open self-serve signup product; production access is contracted.
 
-The public API is REST built on the [json:api](https://jsonapi.org/) specification, documented at [api-docs.form3.tech](https://www.api-docs.form3.tech/) with a downloadable Swagger 2.0 definition (host `api.form3.tech`, basePath `/v1`, 163 paths). Authentication is OAuth2 client-credentials plus HTTP Message Signatures request signing, with mutual TLS supported in some environments. Form3 is API-native and developer-facing, but is a regulated B2B rail rather than an open self-serve signup product — production access is contracted.
+**Areas:** Payments · United Kingdom · Payment Processing · Account-to-Account · Real-Time Payments · Faster Payments · Bacs · SEPA · Direct Debit · Confirmation of Payee · Cross-Border · Banking as a Service
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/form3/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/form3/refs/heads/main/apis.yml)
+## Form3 on APIs.io
 
-## Tags
+Everything profiled for Form3 is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/form3/](https://apis.io/providers/form3/)** — or go straight to one of the APIs or properties below.
 
-- Payments
-- United Kingdom
-- Payment Processing
-- Account-to-Account
-- Real-Time Payments
-- Faster Payments
-- Bacs
-- SEPA
-- Direct Debit
-- Confirmation of Payee
-- Cross-Border
-- Banking-as-a-Service
-- Embedded Payments
+### APIs (28)
 
-## Timestamps
+- [Form3 Account Identification API](https://apis.io/apis/form3/form3-accountidentification-api/) — The AccountIdentification API from Form3 — 2 operation(s) for accountidentification.
+- [Form3 Accounts API](https://apis.io/apis/form3/form3-accounts-api/) — The Accounts API from Form3 — 3 operation(s) for accounts.
+- [Form3 ACE API](https://apis.io/apis/form3/form3-ace-api/) — The ACE API from Form3 — 2 operation(s) for ace.
+- [Form3 Audit API](https://apis.io/apis/form3/form3-audit-api/) — The Audit API from Form3 — 2 operation(s) for audit.
+- [Form3 Branches API](https://apis.io/apis/form3/form3-branches-api/) — The Branches API from Form3 — 2 operation(s) for branches.
+- [Form3 Branch Identification API](https://apis.io/apis/form3/form3-branchidentification-api/) — The BranchIdentification API from Form3 — 2 operation(s) for branchidentification.
+- [Form3 Claims API](https://apis.io/apis/form3/form3-claims-api/) — The Claims API from Form3 — 8 operation(s) for claims.
+- [Form3 Direct Debits Reads API](https://apis.io/apis/form3/form3-directdebitsreads-api/) — The DirectDebitsReads API from Form3 — 1 operation(s) for directdebitsreads.
+- [Form3 Mandates API](https://apis.io/apis/form3/form3-mandates-api/) — The Mandates API from Form3 — 9 operation(s) for mandates.
+- [Form3 Metrics API](https://apis.io/apis/form3/form3-metrics-api-api/) — The Metrics API API from Form3 — 3 operation(s) for metrics api.
+- [Form3 Name Verification API](https://apis.io/apis/form3/form3-name-verification-api-api/) — The Name Verification API API from Form3 — 3 operation(s) for name verification api.
+- [Form3 Oauth2 API](https://apis.io/apis/form3/form3-oauth2-api/) — The Oauth2 API from Form3 — 1 operation(s) for oauth2.
+- [Form3 Organisations API](https://apis.io/apis/form3/form3-organisations-api/) — The Organisations API from Form3 — 2 operation(s) for organisations.
+- [Form3 Payment Reads API](https://apis.io/apis/form3/form3-paymentreads-api/) — The PaymentReads API from Form3 — 31 operation(s) for paymentreads.
+- [Form3 Payment Writes API](https://apis.io/apis/form3/form3-paymentwrites-api/) — The PaymentWrites API from Form3 — 18 operation(s) for paymentwrites.
+- [Form3 Platformsecurityapi API](https://apis.io/apis/form3/form3-platformsecurityapi-api/) — The platformsecurityapi API from Form3 — 2 operation(s) for platformsecurityapi.
+- [Form3 Public Keys API](https://apis.io/apis/form3/form3-public-keys-api/) — The Public Keys API from Form3 — 4 operation(s) for public keys.
+- [Form3 Qualified Transactions API](https://apis.io/apis/form3/form3-qualifiedtransactions-api/) — The QualifiedTransactions API from Form3 — 2 operation(s) for qualifiedtransactions.
+- [Form3 Query API](https://apis.io/apis/form3/form3-query-api-api/) — The query_api API from Form3 — 10 operation(s) for query_api.
+- [Form3 Reports API](https://apis.io/apis/form3/form3-reports-api/) — The Reports API from Form3 — 4 operation(s) for reports.
+- [Form3 Roles API](https://apis.io/apis/form3/form3-roles-api/) — The Roles API from Form3 — 2 operation(s) for roles.
+- [Form3 Scheme File API](https://apis.io/apis/form3/form3-scheme-file-api-api/) — The Scheme File API API from Form3 — 6 operation(s) for scheme file api.
+- [Form3 Scheme Messages API](https://apis.io/apis/form3/form3-schememessages-api/) — The SchemeMessages API from Form3 — 3 operation(s) for schememessages.
+- [Form3 Subscriptions API](https://apis.io/apis/form3/form3-subscriptions-api/) — The Subscriptions API from Form3 — 2 operation(s) for subscriptions.
+- [Form3 Transaction File API](https://apis.io/apis/form3/form3-transaction-file-api-api/) — The Transaction File API API from Form3 — 7 operation(s) for transaction file api.
+- [Form3 Users API](https://apis.io/apis/form3/form3-users-api/) — The Users API from Form3 — 11 operation(s) for users.
+- [Form3 Account Validation API](https://apis.io/apis/form3/form3-account-validation-api/) — The Account Validation API from Form3 — 2 operation(s) for account validation.
+- [Form3 Direct Debits API](https://apis.io/apis/form3/form3-direct-debits-api/) — The Direct Debits API from Form3 — 26 operation(s) for direct debits.
 
-- **Created:** 2026-07-24
-- **Modified:** 2026-07-24
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Form3 Public API
+#### AsyncAPI (1)
 
-The unified Form3 Public API — a single REST API built on the json:api specification that connects banks and fintechs to domestic and cross-border payment schemes. Swagger 2.0, 163 documented paths.
+Event-driven and webhook contracts.
 
-- **Human URL:** [https://www.api-docs.form3.tech/](https://www.api-docs.form3.tech/)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
-- [API Reference](https://api-docs.form3.tech/api.html)
-- [Getting Started](https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction)
+- [Form3 Notifications Webhooks](https://apis.io/asyncapis/form3/form3-notifications-webhooks/)
 
-### Form3 Payments API
+#### MCP servers (1)
 
-Send and receive account-to-account payments across UK Faster Payments, Bacs, CHAPS, SEPA and US instant rails, and handle exceptions (rejections, returns, reversals, recalls).
+Model Context Protocol servers that expose the API to agents.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment](https://www.api-docs.form3.tech/api/tutorials/getting-started/send-a-payment)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [form3](https://apis.io/servers/form3/form3/)
 
-### Form3 Direct Debits & Mandates API
+#### Agentic access (1)
 
-Originate and receive Bacs and SEPA direct debits, manage mandates, and process indemnity claims.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/bacs/direct-debit-instructions-for-originators](https://www.api-docs.form3.tech/api/tutorials/bacs/direct-debit-instructions-for-originators)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [Form3 Agentic Access](https://apis.io/agentic-access/form3/form3-agentic-access/)
 
-### Form3 Account Identification & Verification API
+#### Collections (2)
 
-Generate scheme-addressable account numbers, validate UK sort code / account number pairs, and run Confirmation of Payee / Verification of Payee name-checking.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial](https://www.api-docs.form3.tech/api/tutorials/confirmation-of-payee/cop-tutorial)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [Form3 Public API](https://apis.io/collections/form3/open-form3-payments/)
+- [Form3 Public API](https://apis.io/collections/form3/postman-form3-payments/)
 
-### Form3 Files API
+#### Overlays (1)
 
-Submit and receive bulk payment instructions and scheme messages as files (Transaction File / Scheme File).
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file](https://www.api-docs.form3.tech/api/tutorials/bacs/send-transactions-in-a-file)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [Form3 Payments Overlay](https://apis.io/overlays/form3/form3-payments-overlay/)
 
-### Form3 Event Notifications API
+#### Security (4)
 
-Subscribe to and receive signed event notifications (webhooks) for payment and platform lifecycle events, and verify them.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications](https://www.api-docs.form3.tech/api/tutorials/event-notifications/subscriptions-for-event-notifications)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [Form3 Authentication](https://apis.io/security/form3/form3-authentication/)
+- [Form3 Domain Security](https://apis.io/security/form3/form3-domain-security/)
+- [Form3 Trust Center](https://apis.io/security/form3/form3-trust-center/)
+- [Form3 Vulnerability Disclosure](https://apis.io/security/form3/form3-vulnerability-disclosure/)
 
-### Form3 Security & Access API
+#### OAuth scopes (1)
 
-Manage users, roles, access-control entries and public keys under a flexible security and approval model, and read audit trails and platform metrics.
+The permissions the API asks for.
 
-- **Human URL:** [https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user](https://www.api-docs.form3.tech/api/tutorials/security/create-a-read-only-user)
-- **Base URL:** `https://api.form3.tech/v1`
-- [OpenAPI](openapi/form3-payments.yml)
+- [Form3 Scopes](https://apis.io/scopes/form3/form3-scopes/)
 
-## Common Properties
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.form3.tech/)
-- [Developer Portal](https://www.api-docs.form3.tech/)
-- [API Reference](https://api-docs.form3.tech/api.html)
-- [Getting Started](https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction)
-- [GitHub Organization](https://github.com/form3tech-oss)
-- [Postman](https://documenter.getpostman.com/view/5561717/TWDTNzaD)
-- [Status Page](https://status.form3.tech/)
+- [Documentation](https://www.api-docs.form3.tech/)
+- [Getting started](https://www.api-docs.form3.tech/api/tutorials/getting-started/introduction)
+- [API reference](https://api-docs.form3.tech/api.html)
+- [Changelog](https://www.api-docs.form3.tech/changelog)
 - [Blog](https://www.form3.tech/news)
-- [LinkedIn](https://www.linkedin.com/company/form3)
-- [Terms of Service](https://www.form3.tech/legal/terms-and-conditions)
-- [Privacy Policy](https://www.form3.tech/legal/data-privacy-statement)
+- [Compliance](https://trust.form3.tech/)
+- [Terms of service](https://www.form3.tech/legal/terms-and-conditions)
+- [Privacy policy](https://www.form3.tech/legal/data-privacy-statement)
+- [GitHub](https://github.com/form3tech-oss)
+- [Status](https://status.form3.tech/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 40.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 50.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 28.0 |
+| Access clarity | 36.8 |
+
+**Agent readiness 36.2** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | derived (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 41.1** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/form3/](https://apis.io/providers/form3/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Form3: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/form3/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
